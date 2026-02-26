@@ -130,8 +130,21 @@
     align-items: center; justify-content: center;
   }
   #popup-media.has-media { display: flex; }
-  #popup-media img { width: 100%; max-height: 260px; object-fit: cover; }
-  #popup-media video { width: 100%; max-height: 260px; object-fit: cover; }
+  #popup-media img { width: 100%; max-height: 280px; object-fit: cover; }
+  #popup-media video { width: 100%; max-height: 280px; object-fit: cover; }
+  #popup-media iframe { width: 100%; height: 280px; border: none; display: block; }
+  #popup-media .media-link-fallback {
+    width: 100%; padding: 18px 24px; background: var(--mid);
+    display: flex; align-items: center; gap: 14px; cursor: pointer;
+    text-decoration: none;
+  }
+  #popup-media .media-link-fallback .play-icon {
+    width: 48px; height: 48px; background: var(--white); border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 1.2rem; flex-shrink: 0;
+  }
+  #popup-media .media-link-fallback .play-text strong { color: var(--white); font-size: 0.92rem; display: block; }
+  #popup-media .media-link-fallback .play-text span { color: var(--muted); font-size: 0.78rem; }
 
   #popup-body { padding: 20px 26px; display: grid; grid-template-columns: 1fr auto; gap: 20px; align-items: start; }
   .popup-detail { display: flex; align-items: center; gap: 9px; margin-bottom: 9px; }
@@ -544,8 +557,8 @@
           <div class="fg"><label>Latitude</label><input id="f-lat" type="number" step="0.001" placeholder="39.530"></div>
           <div class="fg"><label>Longitude</label><input id="f-lng" type="number" step="0.001" placeholder="-119.813"></div>
           <div class="fg full"><label>Sign-Up URL</label><input id="f-url" placeholder="https://..."></div>
-          <div class="fg full"><label>Photo URL (optional)</label><input id="f-photo" placeholder="https://...image.jpg"></div>
-          <div class="fg full"><label>Video URL (optional)</label><input id="f-video" placeholder="https://...video.mp4"></div>
+          <div class="fg full"><label>Photo URL (optional)</label><input id="f-photo" placeholder="https://...image.jpg  — direct image link"></div>
+          <div class="fg full"><label>Video URL (optional)</label><input id="f-video" placeholder="YouTube, Vimeo, or direct .mp4 URL"></div>
           <div class="fg full"><label>Description</label><textarea id="f-desc" placeholder="Brief description of this group..."></textarea></div>
         </div>
         <div id="form-actions">
@@ -560,7 +573,7 @@
 <script>
 // ─── CONFIG ───────────────────────────────────────────────────────────────────
 const ADMIN_PW  = "church2024"; // Change this!
-const STORE_KEY = "ccrs_hfg_v2";
+const STORE_KEY = "ccrs_hfg_v3";
 const IDLE_MS   = 120000; // 2 minutes
 
 const CAT_COLORS = {
@@ -580,7 +593,7 @@ const DEFAULT_GROUPS = [
   { id:1, name:"Tuesday Men's Study",      category:"men",          day:"Tuesday",   time:"7:00 PM",  neighborhood:"South Reno",      leader:"Mike Johnson",       lat:39.480, lng:-119.795, url:"https://example.com/signup/1", photo:"", video:"", desc:"An encouraging group for men to grow in faith together through Bible study and prayer." },
   { id:2, name:"Wednesday Women's Group",  category:"women",        day:"Wednesday", time:"6:30 PM",  neighborhood:"Midtown Reno",     leader:"Sarah Williams",     lat:39.525, lng:-119.810, url:"https://example.com/signup/2", photo:"", video:"", desc:"Women connecting through life, faith, and honest conversation." },
   { id:3, name:"Couples Connect",          category:"couples",      day:"Friday",    time:"7:00 PM",  neighborhood:"Sparks",           leader:"Tom & Lisa Garcia",  lat:39.534, lng:-119.752, url:"https://example.com/signup/3", photo:"", video:"", desc:"Couples growing together in faith and community." },
-  { id:4, name:"Young Adults Life Group",  category:"young-adults", day:"Thursday",  time:"7:30 PM",  neighborhood:"University Area",  leader:"Alex Kim",           lat:39.544, lng:-119.815, url:"https://example.com/signup/4", photo:"", video:"", desc:"20s and 30s navigating life together in a welcoming community." },
+  { id:4, name:"Young Adults Life Group",  category:"young-adults", day:"Thursday",  time:"7:30 PM",  neighborhood:"University Area",  leader:"Alex Kim",           lat:39.544, lng:-119.815, url:"https://example.com/signup/4", photo:"https://images.squarespace-cdn.com/content/v1/6755ef58cd0a2b47a5640fbd/e7c20834-6fbd-4694-865c-c18dd99c9d5b/TP2_4066.jpg?format=1500w", video:"https://subspla.sh/mntnw5m", desc:"20s and 30s navigating life together in a welcoming community." },
   { id:5, name:"North Reno Mixed Group",   category:"mixed",        day:"Monday",    time:"6:00 PM",  neighborhood:"North Reno",       leader:"David & Ann Moore",  lat:39.571, lng:-119.804, url:"https://example.com/signup/5", photo:"", video:"", desc:"An open group welcoming everyone to grow in faith and friendship." },
   { id:6, name:"Golden Years Fellowship",  category:"seniors",      day:"Tuesday",   time:"10:00 AM", neighborhood:"SW Reno",          leader:"Pastor Ron Adams",   lat:39.490, lng:-119.850, url:"https://example.com/signup/6", photo:"", video:"", desc:"A warm community for seniors to share life and study scripture." },
   { id:7, name:"Damonte Ranch Men",        category:"men",          day:"Saturday",  time:"8:00 AM",  neighborhood:"Damonte Ranch",    leader:"Chris Parker",       lat:39.459, lng:-119.765, url:"https://example.com/signup/7", photo:"", video:"", desc:"Early morning accountability and Bible study for men in South Reno." },
@@ -680,12 +693,51 @@ function openPopup(g) {
   const mediaEl = document.getElementById('popup-media');
   mediaEl.innerHTML = '';
   mediaEl.classList.remove('has-media');
+
+  function getYouTubeId(url) {
+    const m = url.match(/(?:youtube\.com\/(?:watch\?v=|embed\/)|youtu\.be\/)([a-zA-Z0-9_-]{11})/);
+    return m ? m[1] : null;
+  }
+  function getVimeoId(url) {
+    const m = url.match(/vimeo\.com\/(\d+)/);
+    return m ? m[1] : null;
+  }
+  function isDirectVideo(url) {
+    return /\.(mp4|webm|ogg|mov)(\?|$)/i.test(url);
+  }
+
   if (g.video) {
-    mediaEl.innerHTML = `<video src="${g.video}" autoplay muted loop playsinline></video>`;
-    mediaEl.classList.add('has-media');
+    const ytId = getYouTubeId(g.video);
+    const vmId = getVimeoId(g.video);
+    if (ytId) {
+      mediaEl.innerHTML = `<iframe src="https://www.youtube.com/embed/${ytId}?autoplay=1&mute=1&loop=1&playlist=${ytId}&controls=0" allow="autoplay; encrypted-media" allowfullscreen></iframe>`;
+      mediaEl.classList.add('has-media');
+    } else if (vmId) {
+      mediaEl.innerHTML = `<iframe src="https://player.vimeo.com/video/${vmId}?autoplay=1&muted=1&loop=1&controls=0" allow="autoplay; fullscreen" allowfullscreen></iframe>`;
+      mediaEl.classList.add('has-media');
+    } else if (isDirectVideo(g.video)) {
+      mediaEl.innerHTML = `<video src="${g.video}" autoplay muted loop playsinline></video>`;
+      mediaEl.classList.add('has-media');
+    } else {
+      // Unrecognized video URL — show a tap-to-watch card
+      mediaEl.innerHTML = `<a class="media-link-fallback" href="${g.video}" target="_blank">
+        <div class="play-icon">▶</div>
+        <div class="play-text"><strong>Watch Group Video</strong><span>Tap to open in browser</span></div>
+      </a>`;
+      mediaEl.classList.add('has-media');
+    }
   } else if (g.photo) {
-    mediaEl.innerHTML = `<img src="${g.photo}" alt="${g.name}">`;
-    mediaEl.classList.add('has-media');
+    const img = new Image();
+    img.onload = () => {
+      mediaEl.innerHTML = `<img src="${g.photo}" alt="${g.name}">`;
+      mediaEl.classList.add('has-media');
+    };
+    img.onerror = () => {
+      // CORS block — show as background via CSS instead
+      mediaEl.style.cssText = `background:url('${g.photo}') center/cover no-repeat; min-height:220px;`;
+      mediaEl.classList.add('has-media');
+    };
+    img.src = g.photo;
   }
 
   // QR
