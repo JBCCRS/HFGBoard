@@ -2,145 +2,28 @@ name: Sync Planning Center Groups
 
 on:
 schedule:
-- cron: “0 * * * *”   # runs every hour
-workflow_dispatch:        # allows manual trigger from GitHub Actions tab
+- cron: “0 * * * *”
+workflow_dispatch:
 
 jobs:
 sync:
 runs-on: ubuntu-latest
+steps:
+- name: Checkout repo
+uses: actions/checkout@v4
 
 ```
-steps:
-  - name: Checkout repo
-    uses: actions/checkout@v4
-
-  - name: Fetch groups from Planning Center and write groups.json
+  - name: Run sync script
     env:
       PC_APP_ID: ${{ secrets.PC_APP_ID }}
       PC_SECRET: ${{ secrets.PC_SECRET }}
-      HFG_GROUP_TYPE_ID: "203011"   # Your Home Fellowship group type ID
+    run: node .github/scripts/sync-groups.js
+
+  - name: Commit groups.json
     run: |
-      node - <<'EOF'
-      const https = require('https');
-
-      const APP_ID  = process.env.PC_APP_ID;
-      const SECRET  = process.env.PC_SECRET;
-      const HFG_TYPE = process.env.HFG_GROUP_TYPE_ID;
-      const auth    = Buffer.from(`${APP_ID}:${SECRET}`).toString('base64');
-
-      // Small random offset: 0.005–0.012 degrees (~500m–1.2km)
-      function offsetCoord(val) {
-        const magnitude = 0.005 + Math.random() * 0.007;
-        const direction = Math.random() < 0.5 ? 1 : -1;
-        return parseFloat((parseFloat(val) + magnitude * direction).toFixed(6));
-      }
-
-      function get(path) {
-        return new Promise((resolve, reject) => {
-          const options = {
-            hostname: 'api.planningcenteronline.com',
-            path,
-            headers: {
-              'Authorization': `Basic ${auth}`,
-              'Accept': 'application/json'
-            }
-          };
-          https.get(options, (res) => {
-            let data = '';
-            res.on('data', chunk => data += chunk);
-            res.on('end', () => resolve(JSON.parse(data)));
-          }).on('error', reject);
-        });
-      }
-
-      async function fetchAllGroups() {
-        let allGroups = [];
-        let url = '/groups/v2/groups?per_page=100';
-        while (url) {
-          const res = await get(url);
-          allGroups = allGroups.concat(res.data);
-          url = res.links?.next
-            ? res.links.next.replace('https://api.planningcenteronline.com', '')
-            : null;
-        }
-        return allGroups;
-      }
-
-      async function fetchLocation(locationId) {
-        try {
-          const res = await get(`/groups/v2/locations/${locationId}`);
-          return res.data?.attributes || null;
-        } catch (e) {
-          return null;
-        }
-      }
-
-      async function main() {
-        console.log('Fetching all groups from Planning Center...');
-        const allGroups = await fetchAllGroups();
-        console.log(`Total groups found: ${allGroups.length}`);
-
-        // Filter to only listed Home Fellowship Groups
-        const hfgGroups = allGroups.filter(g =>
-          g.attributes.listed === true &&
-          g.relationships?.group_type?.data?.id === HFG_TYPE
-        );
-        console.log(`Home Fellowship Groups found: ${hfgGroups.length}`);
-
-        const output = [];
-
-        for (const g of hfgGroups) {
-          const attr = g.attributes;
-          const locationId = g.relationships?.location?.data?.id;
-
-          let lat = null;
-          let lng = null;
-
-          if (locationId) {
-            const loc = await fetchLocation(locationId);
-            if (loc?.latitude && loc?.longitude) {
-              // Apply privacy offset to exact coordinates
-              lat = offsetCoord(loc.latitude);
-              lng = offsetCoord(loc.longitude);
-              console.log(`  ${attr.name}: location found, offset applied`);
-            }
-          }
-
-          // Fall back to Reno city center if no location set
-          if (!lat || !lng) {
-            lat = offsetCoord(39.5296);
-            lng = offsetCoord(-119.8138);
-            console.log(`  ${attr.name}: no location, using Reno center`);
-          }
-
-          output.push({
-            id:          g.id,
-            name:        attr.name,
-            description: attr.description_as_plain_text || '',
-            schedule:    attr.schedule || '',
-            photo:       attr.header_image?.medium || '',
-            url:         attr.public_church_center_web_url || attr.contact_email
-                           ? `mailto:${attr.contact_email}`
-                           : `https://groups.planningcenteronline.com/groups/${g.id}`,
-            lat,
-            lng,
-            synced_at:   new Date().toISOString()
-          });
-        }
-
-        const fs = require('fs');
-        fs.writeFileSync('groups.json', JSON.stringify({ groups: output, synced_at: new Date().toISOString() }, null, 2));
-        console.log(`\nWrote ${output.length} groups to groups.json`);
-      }
-
-      main().catch(e => { console.error(e); process.exit(1); });
-      EOF
-
-  - name: Commit and push groups.json
-    run: |
-      git config user.name  "GitHub Actions"
+      git config user.name "GitHub Actions"
       git config user.email "actions@github.com"
       git add groups.json
-      git diff --cached --quiet || git commit -m "sync: update groups from Planning Center [$(date -u '+%Y-%m-%d %H:%M')] UTC"
+      git diff --cached --quiet || git commit -m "sync: update groups from Planning Center"
       git push
 ```
