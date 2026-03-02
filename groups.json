@@ -1,0 +1,203 @@
+{
+  "groups": [
+    {
+      "id": "1822131",
+      "name": "Home Fellowship Baker & Stewart",
+      "description": "",
+      "schedule": "Meets weekly on Sundays from 3:30-5pm",
+      "photo": "https://groups-production.s3.amazonaws.com/uploads/group/header_image/1822131/medium_2025-08-14_08-31-34.png",
+      "url": "https://ccrs.churchcenter.com/groups/small-groups/home-fellowship-baker-stewart",
+      "lat": 39.523097,
+      "lng": -119.822757,
+      "synced_at": "2026-03-02T17:21:58.841Z"
+    },
+    {
+      "id": "1822148",
+      "name": "Home Fellowship Ortiz",
+      "description": "",
+      "schedule": "Meets weekly on Fridays from 6:30-8:30pm",
+      "photo": "https://groups-production.s3.amazonaws.com/uploads/group/header_image/1822148/medium_2025-08-14_08-31-34.png",
+      "url": "https://ccrs.churchcenter.com/groups/small-groups/home-fellowship-ortiz",
+      "lat": 39.534856,
+      "lng": -119.819973,
+      "synced_at": "2026-03-02T17:21:58.844Z"
+    },
+    {
+      "id": "1837775",
+      "name": "Home Fellowship Volpp & Baker",
+      "description": "",
+      "schedule": "Meets weekly on Thursdays from 7-8:30pm",
+      "photo": "https://groups-production.s3.amazonaws.com/uploads/group/header_image/1837775/medium_2025-08-14_08-31-34.png",
+      "url": "https://ccrs.churchcenter.com/groups/small-groups/home-fellowship-volpp-baker",
+      "lat": 39.421835,
+      "lng": -119.773179,
+      "synced_at": "2026-03-02T17:21:58.928Z"
+    },
+    {
+      "id": "1854037",
+      "name": "Home Fellowship-Stieg",
+      "description": "This fellowship meets at the home of David and Susan Stieg, we hope to see you here!",
+      "schedule": "Meets weekly on Mondays from 6:30-8:30pm",
+      "photo": "https://groups-production.s3.amazonaws.com/uploads/group/header_image/1854037/medium_2025-08-14_08-31-34.png",
+      "url": "https://ccrs.churchcenter.com/groups/small-groups/home-fellowship-stieg",
+      "lat": 39.566162,
+      "lng": -119.729957,
+      "synced_at": "2026-03-02T17:21:59.019Z"
+    },
+    {
+      "id": "2124228",
+      "name": "Home Fellowship Latimer and Ballew",
+      "description": "This group meets at the home of Greg and Nancy Latimer in the Arrowcreek region on Monday nights at 6:15. Informal snacks and beverages are provided and we will be teaching through 1st and 2nd Timothy and Titus. Group is open to singles and couples, we do not offer any child care.\n\nWe hope to see you here!",
+      "schedule": "Meets weekly on Mondays from 6:15-8:15pm",
+      "photo": "https://groups-production.s3.amazonaws.com/uploads/group/header_image/2124228/medium_image.png",
+      "url": "https://ccrs.churchcenter.com/groups/small-groups/home-fellowship-latimer-and-ballew",
+      "lat": 39.417475,
+      "lng": -119.802379,
+      "synced_at": "2026-03-02T17:21:59.105Z"
+    },
+    {
+      "id": "2470054",
+      "name": "Home Fellowship Pixton and Luitwieler",
+      "description": "",
+      "schedule": "Meets weekly on Sundays from 3-5pm",
+      "photo": "https://groups-production.s3.amazonaws.com/uploads/group/header_image/2470054/medium_2025-08-14_08-31-34.png",
+      "url": "https://ccrs.churchcenter.com/groups/small-groups/home-fellowship-pixton-and-luitwieler",
+      "lat": 39.42784,
+      "lng": -119.727888,
+      "synced_at": "2026-03-02T17:21:59.185Z"
+    },
+    {
+      "id": "2470127",
+      "name": "Home Fellowship Chimits",
+      "description": "",
+      "schedule": "Meets weekly on Thursdays from 7-8:30pm",
+      "photo": "https://groups-production.s3.amazonaws.com/uploads/group/header_image/2470127/medium_2025-08-14_08-31-34.png",
+      "url": "https://ccrs.churchcenter.com/groups/small-groups/home-fellowship-chimits",
+      "lat": 39.41779,
+      "lng": -119.772377,
+      "synced_at": "2026-03-02T17:21:59.269Z"
+    },
+    {
+      "id": "2470164",
+      "name": "Home Fellowship Majalca & Homen",
+      "description": "",
+      "schedule": "Meets weekly on Sundays from 4-6pm",
+      "photo": "https://groups-production.s3.amazonaws.com/uploads/group/header_image/2470164/medium_2025-08-14_08-31-34.png",
+      "url": "https://ccrs.churchcenter.com/groups/small-groups/home-fellowship-majalca-homen",
+      "lat": 39.568756,
+      "lng": -119.743614,
+      "synced_at": "2026-03-02T17:21:59.348Z"
+    },
+    {
+      "id": "2470416",
+      "name": "Home Fellowship Eisenbarth & Woods/Greene",
+      "description": "",
+      "schedule": "Meets weekly on Fridays from 6-9pm",
+      "photo": "https://groups-production.s3.amazonaws.com/uploads/group/header_image/2470416/medium_2025-08-14_08-31-34.png",
+      "url": "https://ccrs.churchcenter.com/groups/small-groups/home-fellowship-eisenbarth-woods-greene",
+      "lat": 39.681787,
+      "lng": -119.959415,
+      "synced_at": "2026-03-02T17:21:59.427Z"
+    },
+    {
+      "id": "2493243",
+      "name": "Home Fellowship Mitchell",
+      "description": "",
+      "schedule": "",
+      "photo": "https://groups-production.s3.amazonaws.com/uploads/group/header_image/2493243/medium_2025-08-14_08-31-34.png",
+      "url": "https://ccrs.churchcenter.com/groups/small-groups/home-fellowship-mitchell",
+      "lat": 39.523801,
+      "lng": -119.82381,
+      "synced_at": "2026-03-02T17:21:59.427Z"
+    },
+    {
+      "id": "2562756",
+      "name": "Home Fellowship Abraham",
+      "description": "",
+      "schedule": "",
+      "photo": "https://groups-production.s3.amazonaws.com/uploads/group/header_image/2562756/medium_2025-08-14_08-31-34.png",
+      "url": "https://ccrs.churchcenter.com/groups/small-groups/home-fellowship-abraham",
+      "lat": 39.519011,
+      "lng": -119.80554,
+      "synced_at": "2026-03-02T17:21:59.427Z"
+    },
+    {
+      "id": "2766592",
+      "name": "Home Fellowship - Alvarez and Greene",
+      "description": "This small group meets on Sunday's at the Home of Mike and Naomi Alvarez, we hope to see you here.",
+      "schedule": "Meets weekly on Sundays from 4-6pm",
+      "photo": "https://groups-production.s3.amazonaws.com/uploads/group/header_image/2766592/medium_2025-08-14_08-31-34.png",
+      "url": "https://ccrs.churchcenter.com/groups/small-groups/home-fellowship-alvarez-and-greene",
+      "lat": 39.591861,
+      "lng": -119.722037,
+      "synced_at": "2026-03-02T17:21:59.513Z"
+    },
+    {
+      "id": "2774789",
+      "name": "Home Fellowship - Hall and Ruvalcaba",
+      "description": "Join us for worship in prayer & song along with the study of God's Word. We plan on breaking bread together over weekly potlucks. All ages are welcome, but please note that childcare is not provided.",
+      "schedule": "Meets weekly on Sundays from 5-7pm",
+      "photo": "https://groups-production.s3.amazonaws.com/uploads/group/header_image/2774789/medium_2025-08-14_08-31-34.png",
+      "url": "https://ccrs.churchcenter.com/groups/small-groups/home-fellowship-hall-and-ruvalcaba",
+      "lat": 39.482542,
+      "lng": -119.744891,
+      "synced_at": "2026-03-02T17:21:59.594Z"
+    },
+    {
+      "id": "2774820",
+      "name": "Home Fellowship - Cummings",
+      "description": "This small group meets on Sunday's at the Home of Don and Kim Cummings, we hope to see you here.",
+      "schedule": "Meets weekly on Sundays from 4-5:30pm",
+      "photo": "https://groups-production.s3.amazonaws.com/uploads/group/header_image/2774820/medium_2025-08-14_08-31-34.png",
+      "url": "https://ccrs.churchcenter.com/groups/small-groups/home-fellowship-cummings",
+      "lat": 39.397261,
+      "lng": -119.724778,
+      "synced_at": "2026-03-02T17:21:59.693Z"
+    },
+    {
+      "id": "2774845",
+      "name": "Home Fellowship - Henry",
+      "description": "This small group meets on Sunday's starting September 11th at the Home of Tim and Jessica Henry in Washoe Valley, we'll be studying the book Calvary Distinctive's by Pastor Chuck Smith we hope to see you here.",
+      "schedule": "Meets weekly on Thursdays from 6-8pm",
+      "photo": "https://groups-production.s3.amazonaws.com/uploads/group/header_image/2774845/medium_2025-08-14_08-31-34.png",
+      "url": "https://ccrs.churchcenter.com/groups/small-groups/home-fellowship-henry",
+      "lat": 39.295404,
+      "lng": -119.784108,
+      "synced_at": "2026-03-02T17:21:59.771Z"
+    },
+    {
+      "id": "2774871",
+      "name": "Home Fellowship - Mendoza & Hart",
+      "description": "This home fellowship meets at the home of Jose and Brenda Mendoza in the Highland Ranch areas. We meet Tuesday nights at 7PM, starting September 9th\n\nWe will be teaching through 1st & 2nd Timothy and Titus, all ages are welcome and we are kid friendly!\n\nWe hope to see you here.",
+      "schedule": "Meets weekly on Tuesdays from 7-8:30pm",
+      "photo": "https://groups-production.s3.amazonaws.com/uploads/group/header_image/2774871/medium_2025-08-14_08-31-34.png",
+      "url": "https://ccrs.churchcenter.com/groups/small-groups/home-fellowship-mendoza-hart",
+      "lat": 39.607651,
+      "lng": -119.752109,
+      "synced_at": "2026-03-02T17:21:59.848Z"
+    },
+    {
+      "id": "2776693",
+      "name": "Home Fellowship - Guerra",
+      "description": "",
+      "schedule": "",
+      "photo": "https://groups-production.s3.amazonaws.com/uploads/group/header_image/2776693/medium_2025-08-14_08-31-34.png",
+      "url": "https://ccrs.churchcenter.com/groups/small-groups/home-fellowship-guerra",
+      "lat": 39.537596,
+      "lng": -119.824537,
+      "synced_at": "2026-03-02T17:21:59.848Z"
+    },
+    {
+      "id": "2776702",
+      "name": "Home Fellowship - Woods & Rodriguez",
+      "description": "This group is for The Bridge. It serves those ages 30-45 who are single or dating. We look forward to meeting you.",
+      "schedule": "Meets weekly on Sundays from 4:30-6:30pm",
+      "photo": "https://groups-production.s3.amazonaws.com/uploads/group/header_image/2776702/medium_2025-08-14_08-31-34.png",
+      "url": "https://ccrs.churchcenter.com/groups/small-groups/home-fellowship-woods-rodriguez",
+      "lat": 39.572276,
+      "lng": -119.764326,
+      "synced_at": "2026-03-02T17:22:00.009Z"
+    }
+  ],
+  "synced_at": "2026-03-02T17:22:00.009Z"
+}
