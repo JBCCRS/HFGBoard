@@ -1,28 +1,26 @@
 name: Sync Planning Center Groups
 
 on:
-schedule:
-- cron: “0 * * * *”
-workflow_dispatch:
+  schedule:
+    - cron: "0 * * * *"
+  workflow_dispatch:
 
 jobs:
-sync:
-runs-on: ubuntu-latest
-steps:
-- uses: actions/checkout@v4
+  sync:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
 
-```
-  - name: Sync groups
-    run: node .github/scripts/sync-groups.js
-    env:
-      PC_APP_ID: ${{ secrets.PC_APP_ID }}
-      PC_SECRET: ${{ secrets.PC_SECRET }}
+      - name: Sync groups
+        run: node .github/scripts/sync-groups.js
+        env:
+          PC_APP_ID: ${{ secrets.PC_APP_ID }}
+          PC_SECRET: ${{ secrets.PC_SECRET }}
 
-  - name: Commit groups.json
-    run: |
-      git config user.name "GitHub Actions"
-      git config user.email "actions@github.com"
-      git add groups.json
-      git diff --cached --quiet || git commit -m "sync: update groups from Planning Center"
-      git push
-```
+      - name: Commit groups.json
+        run: |
+          git config user.name "GitHub Actions"
+          git config user.email "actions@github.com"
+          git add groups.json
+          git diff --cached --quiet || git commit -m "sync: update groups from Planning Center"
+          git push
