@@ -9,15 +9,14 @@ jobs:
 sync:
 runs-on: ubuntu-latest
 steps:
-- name: Checkout repo
-uses: actions/checkout@v4
+- uses: actions/checkout@v4
 
 ```
-  - name: Run sync script
+  - name: Sync groups
+    run: node .github/scripts/sync-groups.js
     env:
       PC_APP_ID: ${{ secrets.PC_APP_ID }}
       PC_SECRET: ${{ secrets.PC_SECRET }}
-    run: node .github/scripts/sync-groups.js
 
   - name: Commit groups.json
     run: |
