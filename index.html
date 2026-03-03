@@ -493,8 +493,11 @@ function normalizePCGroup(g) {
     enrollment_open: (() => {
       const v = g.enrollment_open;
       if (typeof v === 'boolean') return v;
-      if (v === 'true' || v === 'open' || v === 'Open') return true;
-      if (v === 'false' || v === 'closed' || v === 'Closed') return false;
+      if (v === 'true'  || v === 'open'  || v === 'Open')  return true;
+      if (v === 'false' || v === 'closed'|| v === 'Closed') return false;
+      // Also handle the raw PC status string in case data comes directly from API
+      if (v === 'open')   return true;
+      if (v === 'closed') return false;
       return null;
     })(),
     tags:            Array.isArray(g.tags) ? g.tags : [],
