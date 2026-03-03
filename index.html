@@ -211,15 +211,15 @@
   /* ── BOTTOM BUTTONS ── */
   #bottom-right {
     position: fixed; bottom: 20px; right: 20px; z-index: 1000;
-    display: flex; flex-direction: column; gap: 10px; align-items: flex-end;
+    display: flex; flex-direction: column; gap: 10px; align-items: stretch; width: 260px;
   }
   .float-btn {
     border: none; border-radius: 12px;
-    padding: 14px 22px;
+    padding: 14px 22px; width: 100%;
     font-family: 'DM Sans', sans-serif; font-size: 0.88rem; font-weight: 700;
     cursor: pointer; transition: all 0.2s;
     box-shadow: 0 4px 20px rgba(0,0,0,0.3);
-    display: flex; align-items: center; gap: 8px;
+    display: flex; align-items: center; justify-content: center; gap: 8px;
   }
   .float-btn .icon { font-size: 1rem; }
   #host-btn { background: var(--white); color: var(--black); }
@@ -502,8 +502,6 @@
 </div>
 
 <!-- BOTTOM RIGHT BUTTONS -->
-<div id="bottom-right">
-
 <!-- LEGEND -->
 <div id="legend">
   <h4>Day of Week</h4>
@@ -518,6 +516,8 @@
   <div class="legend-enrollment"><div class="enroll-dot" style="background:var(--green)"></div><span class="legend-label" style="font-size:0.75rem">Open enrollment</span></div>
   <div class="legend-enrollment"><div class="enroll-dot" style="background:var(--red)"></div><span class="legend-label" style="font-size:0.75rem">Closed enrollment</span></div>
 </div>
+
+<div id="bottom-right">
   <button class="float-btn" id="facilitate-btn" onclick="openFacilitateModal()">
     <span class="icon">✋</span> Interested in Facilitating?
   </button>
@@ -594,7 +594,7 @@
     <div id="host-qr-mode">
       <div id="host-qr-sublabel">Reach Our Team</div>
       <div id="host-qr-wrap"></div>
-      <div id="host-qr-emails">josh@calvarychapelreno.org &amp; dustin@calvarychapelreno.org</div>
+      <div id="host-qr-emails"><a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="5a303529321a393b362c3b282339323b2a3f36283f34357435283d">[email&#160;protected]</a> &amp; <a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="1f7b6a6c6b76715f7c7e73697e6d667c777e6f7a736d7a717031706d78">[email&#160;protected]</a></div>
     </div>
 
     <!-- Form mode -->
@@ -750,7 +750,7 @@
   </div>
 </div>
 
-<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
 // ─── CONFIG ───────────────────────────────────────────────────────────────────
 const ADMIN_PW    = "church2024";
 const STORE_KEY   = "ccrs_hfg_v5";
@@ -817,7 +817,13 @@ function normalizePCGroup(g) {
     leader:          g.leader || extractLeaderFromName(g.name || ''),
     leader_name:     g.leader_name || '',
     initials:        g.initials || '',
-    enrollment_open: (typeof g.enrollment_open === 'boolean') ? g.enrollment_open : null,
+    enrollment_open: (() => {
+      const v = g.enrollment_open;
+      if (typeof v === 'boolean') return v;
+      if (v === 'true' || v === 'open' || v === 'Open') return true;
+      if (v === 'false' || v === 'closed' || v === 'Closed') return false;
+      return null;
+    })(),
     tags:            Array.isArray(g.tags) ? g.tags : [],
     schedule:        g.schedule || '',
     neighborhood:    '',
@@ -970,7 +976,7 @@ function renderSyncBadge() {
 function markerIcon(group) {
   const day = parseDayFromSchedule(group.schedule);
   const cfg = DAY_CONFIG[day] || DAY_CONFIG.unknown;
-  const abbr = group.initials || cfg.abbr;
+  const abbr = cfg.abbr;
   const col  = cfg.color;
   const ringClass = group.enrollment_open === true ? 'open' : group.enrollment_open === false ? 'closed' : '';
   const ringHtml = ringClass ? `<div class="enroll-ring ${ringClass}"></div>` : '';
@@ -1350,21 +1356,4 @@ function deleteGroup(id) {
     const overrides = getLocalOverrides();
     overrides.__useOverride = true;
     groups = groups.filter(g => String(g.id) !== String(id));
-    overrides.__groups = groups;
-    saveLocalOverrides(overrides);
-    updateSourceUI(false);
-  } else {
-    groups = groups.filter(g => String(g.id) !== String(id));
-    const overrides = getLocalOverrides();
-    overrides.__groups = groups;
-    saveLocalOverrides(overrides);
-  }
-  renderMarkers();
-  renderGroupList();
-}
-
-initData();
-resetIdleTimer();
-</script>
-</body>
-</html>
+    overrides.
