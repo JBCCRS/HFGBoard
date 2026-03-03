@@ -1,5 +1,6 @@
 const https = require('https');
 const fs    = require('fs');
+const path  = require('path');
 
 const APP_ID   = process.env.PC_APP_ID;
 const SECRET   = process.env.PC_SECRET;
@@ -25,14 +26,18 @@ function get(path) {
     }, (res) => {
       let data = '';
       res.on('data', chunk => data += chunk);
-      res.on('end', () => resolve(JSON.parse(data)));
+      res.on('end', () => {
+        try { resolve(JSON.parse(data)); }
+        catch(e) { reject(new Error('JSON parse error: ' + data.substring(0,200))); }
+      });
     }).on('error', reject);
   });
 }
 
 async function fetchAllGroups() {
   let allGroups = [];
-  let path = '/groups/v2/groups?per_page=100';
+  // Include enrollment so we get enrollment_open field
+  let path = '/groups/v2/groups?per_page=100&include=enrollment';
   while (path) {
     const res = await get(path);
     allGroups = allGroups.concat(res.data);
@@ -52,24 +57,29 @@ async function fetchLocation(locationId) {
   }
 }
 
-// Fetch the leader(s) of a group via the memberships endpoint
-async function fetchLeader(groupId) {
+// Fetch tags for a group — returns array of tag name strings
+async function fetchTags(groupId) {
   try {
-    const res = await get(`/groups/v2/groups/${groupId}/memberships?filter=leader&per_page=5`);
-    if (!res.data || res.data.length === 0) return '';
-    const leaders = res.data
-      .filter(m => m.attributes && m.attributes.first_name)
-      .map(m => `${m.attributes.first_name} ${m.attributes.last_name || ''}`.trim());
-    return leaders.join(' & ');
+    const res = await get(`/groups/v2/groups/${groupId}/tags?per_page=25`);
+    if (!res.data || res.data.length === 0) return [];
+    return res.data
+      .filter(t => t.attributes && t.attributes.name)
+      .map(t => t.attributes.name.trim());
   } catch (e) {
-    return '';
+    return [];
   }
 }
 
-// Extract leader surname(s) from group name as fallback
-// e.g. "Home Fellowship Baker & Stewart" -> "Baker & Stewart"
-function extractLeaderFromName(groupName) {
-  return groupName.replace(/^Home Fellowship[-\s]*/i, '').trim();
+// Load the manually-maintained group-leaders.json file
+function loadLeaders() {
+  const leadersPath = path.join(__dirname, 'group-leaders.json');
+  try {
+    const raw = fs.readFileSync(leadersPath, 'utf8');
+    return JSON.parse(raw);
+  } catch (e) {
+    console.warn('  Warning: could not load group-leaders.json -', e.message);
+    return {};
+  }
 }
 
 async function main() {
@@ -86,6 +96,9 @@ async function main() {
   );
   console.log(`Home Fellowship Groups: ${hfgGroups.length}`);
 
+  const leaders = loadLeaders();
+  console.log(`Leader records loaded: ${Object.keys(leaders).filter(k => !k.startsWith('_')).length}`);
+
   const output = [];
 
   for (const g of hfgGroups) {
@@ -94,8 +107,7 @@ async function main() {
                        g.relationships.location.data &&
                        g.relationships.location.data.id;
 
-    let lat = null;
-    let lng = null;
+    let lat = null, lng = null;
 
     if (locationId) {
       const loc = await fetchLocation(locationId);
@@ -112,46 +124,48 @@ async function main() {
       console.log(`  ${attr.name}: no location, using Reno center`);
     }
 
-    // Try memberships endpoint first, fall back to extracting from group name
-    let leader = await fetchLeader(g.id);
-    if (!leader) {
-      leader = extractLeaderFromName(attr.name);
-      console.log(`  ${attr.name}: using name-extracted leader "${leader}"`);
-    } else {
-      console.log(`  ${attr.name}: leader "${leader}"`);
-    }
+    // Fetch tags (teaching style: sermon discussion, bible study, book study, etc.)
+    const tags = await fetchTags(g.id);
+    if (tags.length) console.log(`  ${attr.name}: tags = [${tags.join(', ')}]`);
 
-    let url = `https://groups.planningcenteronline.com/groups/${g.id}`;
-    if (attr.public_church_center_web_url) {
-      url = attr.public_church_center_web_url;
-    } else if (attr.contact_email) {
-      url = `mailto:${attr.contact_email}`;
+    // Enrollment open/closed — populated when ?include=enrollment is used
+    let enrollmentOpen = null;
+    if (typeof attr.enrollment_open === 'boolean') {
+      enrollmentOpen = attr.enrollment_open;
     }
+    console.log(`  ${attr.name}: enrollment_open = ${enrollmentOpen}`);
+
+    // Build sign-up URL
+    let url = `https://groups.planningcenteronline.com/groups/${g.id}`;
+    if (attr.public_church_center_web_url) url = attr.public_church_center_web_url;
+    else if (attr.contact_email) url = `mailto:${attr.contact_email}`;
+
+    // Leader from group-leaders.json only — never from PC API
+    const leaderRecord = leaders[String(g.id)] || null;
 
     output.push({
-      id:          g.id,
-      name:        attr.name,
-      leader,
-      description: attr.description_as_plain_text || '',
-      schedule:    attr.schedule || '',
-      photo:       attr.header_image && attr.header_image.medium ? attr.header_image.medium : '',
+      id:              g.id,
+      name:            attr.name,
+      leader_name:     leaderRecord ? leaderRecord.leader_name : '',
+      initials:        leaderRecord ? leaderRecord.initials    : 'HF',
+      enrollment_open: enrollmentOpen,
+      tags,
+      description:     attr.description_as_plain_text || '',
+      schedule:        attr.schedule || '',
+      photo:           attr.header_image && attr.header_image.medium ? attr.header_image.medium : '',
       url,
       lat,
       lng,
-      synced_at:   new Date().toISOString()
+      synced_at:       new Date().toISOString()
     });
   }
 
-  const result = {
-    groups:    output,
-    synced_at: new Date().toISOString()
-  };
-
+  const result = { groups: output, synced_at: new Date().toISOString() };
   fs.writeFileSync('groups.json', JSON.stringify(result, null, 2));
   console.log(`\nWrote ${output.length} groups to groups.json`);
+  output.forEach(g => {
+    console.log(`  ${g.name}: leader="${g.leader_name}" initials="${g.initials}" open=${g.enrollment_open} tags=[${g.tags.join(', ')}]`);
+  });
 }
 
-main().catch(e => {
-  console.error('Sync failed:', e);
-  process.exit(1);
-});
+main().catch(e => { console.error('Sync failed:', e); process.exit(1); });
