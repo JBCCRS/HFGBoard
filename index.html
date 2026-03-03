@@ -40,24 +40,17 @@
   #header-center { text-align: center; }
   #header-center h1 {
     font-family: 'Playfair Display', serif;
-    font-size: 1.4rem; font-weight: 700; color: var(--white);
-    letter-spacing: 0.5px;
+    font-size: 1.4rem; font-weight: 700; color: var(--white); letter-spacing: 0.5px;
   }
-  #header-center .sub {
-    font-size: 0.7rem; color: var(--muted); letter-spacing: 2px; text-transform: uppercase; margin-top: 2px;
-  }
+  #header-center .sub { font-size: 0.7rem; color: var(--muted); letter-spacing: 2px; text-transform: uppercase; margin-top: 2px; }
   #header-right { display: flex; align-items: center; gap: 12px; }
   #group-count {
     background: var(--mid); color: var(--light);
     font-size: 0.78rem; font-weight: 600;
     padding: 6px 14px; border-radius: 20px;
-    border: 1px solid var(--border);
-    letter-spacing: 0.5px;
+    border: 1px solid var(--border); letter-spacing: 0.5px;
   }
-  #sync-badge {
-    font-size: 0.68rem; color: var(--muted); letter-spacing: 0.5px;
-    display: none;
-  }
+  #sync-badge { font-size: 0.68rem; color: var(--muted); display: none; }
   #sync-badge.visible { display: block; }
   .admin-btn {
     background: transparent; border: 1px solid var(--border);
@@ -69,13 +62,32 @@
 
   /* ── MAP ── */
   #map { position: fixed; top: 70px; left: 0; right: 0; bottom: 0; z-index: 1; }
-  .leaflet-container { background: #1a1a1a !important; }
+
+  /* Hide Leaflet branding */
+  .leaflet-control-attribution { display: none !important; }
+  .leaflet-bottom.leaflet-right .leaflet-control-attribution { display: none !important; }
+
+  /* ── LOADING ── */
+  #loading-overlay {
+    position: fixed; top: 70px; left: 0; right: 0; bottom: 0;
+    background: rgba(255,255,255,0.6); z-index: 500;
+    display: flex; align-items: center; justify-content: center;
+  }
+  #loading-overlay.hidden { display: none; }
+  .loader-box { text-align: center; }
+  .loader-spinner {
+    width: 36px; height: 36px; border: 3px solid #ddd;
+    border-top-color: #333; border-radius: 50%;
+    animation: spin 0.8s linear infinite; margin: 0 auto 12px;
+  }
+  @keyframes spin { to { transform: rotate(360deg); } }
+  .loader-box p { font-size: 0.88rem; color: #666; }
 
   /* ── MARKERS ── */
   .hfg-marker {
     border-radius: 50%;
-    border: 2.5px solid rgba(255,255,255,0.8);
-    box-shadow: 0 3px 14px rgba(0,0,0,0.6);
+    border: 2.5px solid rgba(255,255,255,0.9);
+    box-shadow: 0 3px 14px rgba(0,0,0,0.35);
     cursor: pointer;
     display: flex; align-items: center; justify-content: center;
     font-weight: 700; font-size: 11px; color: white;
@@ -83,88 +95,77 @@
   }
   .hfg-marker:hover { transform: scale(1.25); }
 
-  /* ── LOADING ── */
-  #loading-overlay {
-    position: fixed; top: 70px; left: 0; right: 0; bottom: 0;
-    background: rgba(0,0,0,0.7); z-index: 500;
-    display: flex; align-items: center; justify-content: center;
-    backdrop-filter: blur(4px);
+  /* Leaflet tooltip for group name on hover */
+  .leaflet-tooltip.group-tooltip {
+    background: var(--dark);
+    border: 1px solid var(--border);
+    color: var(--white);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.82rem;
+    font-weight: 600;
+    padding: 6px 12px;
+    border-radius: 8px;
+    box-shadow: 0 4px 16px rgba(0,0,0,0.4);
+    white-space: nowrap;
+    pointer-events: none;
   }
-  #loading-overlay.hidden { display: none; }
-  .loader-box {
-    text-align: center; color: var(--light);
-  }
-  .loader-spinner {
-    width: 36px; height: 36px; border: 3px solid var(--border);
-    border-top-color: var(--white); border-radius: 50%;
-    animation: spin 0.8s linear infinite; margin: 0 auto 12px;
-  }
-  @keyframes spin { to { transform: rotate(360deg); } }
-  .loader-box p { font-size: 0.88rem; color: var(--muted); }
+  .leaflet-tooltip.group-tooltip::before { display: none; }
 
   /* ── POPUP CARD ── */
   #popup-overlay {
     position: fixed; top: 0; left: 0; right: 0; bottom: 0;
-    background: rgba(0,0,0,0.75); z-index: 2000;
+    background: rgba(0,0,0,0.6); z-index: 2000;
     display: none; align-items: center; justify-content: center;
     backdrop-filter: blur(6px);
   }
   #popup-overlay.show { display: flex; animation: fadeIn 0.2s ease; }
   @keyframes fadeIn { from { opacity:0; } to { opacity:1; } }
-
   #popup-card {
     background: var(--dark);
     border: 1px solid var(--border);
     border-radius: 18px;
-    width: 680px; max-width: 92vw;
-    max-height: 85vh;
-    overflow-y: auto;
+    width: 680px; max-width: 92vw; max-height: 85vh; overflow-y: auto;
     box-shadow: 0 30px 80px rgba(0,0,0,0.8);
     animation: slideUp 0.3s cubic-bezier(0.16,1,0.3,1);
   }
   @keyframes slideUp { from { transform:translateY(30px); opacity:0; } to { transform:translateY(0); opacity:1; } }
-
   #popup-header {
-    background: var(--black);
-    border-bottom: 1px solid var(--border);
-    padding: 22px 26px 18px;
-    position: relative;
-    border-radius: 18px 18px 0 0;
+    background: var(--black); border-bottom: 1px solid var(--border);
+    padding: 22px 26px 18px; position: relative; border-radius: 18px 18px 0 0;
   }
-  #popup-category { font-size: 0.68rem; font-weight: 600; letter-spacing: 2.5px; text-transform: uppercase; color: var(--muted); margin-bottom: 5px; }
   #popup-name { font-family: 'Playfair Display', serif; font-size: 1.6rem; font-weight: 700; color: var(--white); line-height: 1.2; }
   #popup-close {
     position: absolute; top: 14px; right: 14px;
     background: var(--mid); border: 1px solid var(--border);
     color: var(--light); width: 34px; height: 34px;
     border-radius: 50%; font-size: 16px; cursor: pointer;
-    display: flex; align-items: center; justify-content: center;
-    transition: background 0.15s;
+    display: flex; align-items: center; justify-content: center; transition: background 0.15s;
   }
   #popup-close:hover { background: var(--border); }
-
-  /* Media area */
   #popup-media {
     width: 100%; background: var(--black);
     border-bottom: 1px solid var(--border);
-    display: none;
-    max-height: 260px; overflow: hidden;
+    display: none; max-height: 260px; overflow: hidden;
     align-items: center; justify-content: center;
   }
   #popup-media.has-media { display: flex; }
   #popup-media img { width: 100%; max-height: 260px; object-fit: cover; }
   #popup-media video { width: 100%; max-height: 260px; object-fit: cover; }
-
   #popup-body { padding: 20px 26px; display: grid; grid-template-columns: 1fr auto; gap: 20px; align-items: start; }
   .popup-detail { display: flex; align-items: center; gap: 9px; margin-bottom: 9px; }
   .popup-detail .icon { font-size: 0.95rem; width: 20px; text-align: center; }
   .popup-detail span { font-size: 0.92rem; color: var(--light); }
   #popup-description { font-size: 0.88rem; color: var(--muted); line-height: 1.65; margin-top: 12px; }
-
+  #popup-privacy {
+    font-size: 0.75rem; color: var(--muted); margin-top: 14px;
+    padding: 8px 12px; background: rgba(255,255,255,0.04);
+    border: 1px solid var(--border); border-radius: 7px;
+    line-height: 1.5;
+  }
+  #popup-privacy .icon { margin-right: 5px; }
   #qr-section { text-align: center; flex-shrink: 0; }
   #qr-canvas { border: 2px solid var(--border); border-radius: 10px; padding: 8px; background: white; display: inline-block; }
   #qr-label { font-size: 0.68rem; font-weight: 600; color: var(--muted); letter-spacing: 1.5px; text-transform: uppercase; margin-top: 8px; }
-
   #popup-footer { padding: 0 26px 22px; display: flex; gap: 10px; }
   .popup-btn {
     flex: 1; padding: 13px 18px; border-radius: 9px;
@@ -176,71 +177,40 @@
   .popup-btn.secondary { background: transparent; border-color: var(--border); color: var(--light); }
   .popup-btn.secondary:hover { background: var(--mid); }
 
-  /* ── LEGEND ── */
-  #legend {
-    position: fixed; bottom: 20px; left: 20px; z-index: 1000;
-    background: rgba(0,0,0,0.88);
-    border: 1px solid var(--border);
-    border-radius: 12px; padding: 14px 18px;
-    backdrop-filter: blur(10px);
-  }
-  #legend h4 { font-size: 0.65rem; letter-spacing: 2px; text-transform: uppercase; color: var(--muted); margin-bottom: 10px; }
-  .legend-item { display: flex; align-items: center; gap: 8px; margin-bottom: 6px; }
-  .legend-dot { width: 9px; height: 9px; border-radius: 50%; border: 1.5px solid rgba(255,255,255,0.3); }
-  .legend-label { font-size: 0.78rem; color: var(--light); }
-
-  /* ── HOST A GROUP button ── */
-  #host-btn {
+  /* ── BOTTOM BUTTONS ── */
+  #bottom-right {
     position: fixed; bottom: 20px; right: 20px; z-index: 1000;
-    background: var(--white); color: var(--black);
+    display: flex; flex-direction: column; gap: 10px; align-items: flex-end;
+  }
+  .float-btn {
     border: none; border-radius: 12px;
     padding: 14px 22px;
     font-family: 'DM Sans', sans-serif; font-size: 0.88rem; font-weight: 700;
     cursor: pointer; transition: all 0.2s;
-    box-shadow: 0 4px 20px rgba(0,0,0,0.5);
+    box-shadow: 0 4px 20px rgba(0,0,0,0.3);
     display: flex; align-items: center; gap: 8px;
   }
-  #host-btn:hover { background: var(--light); transform: translateY(-2px); box-shadow: 0 8px 28px rgba(0,0,0,0.6); }
-  #host-btn .icon { font-size: 1rem; }
+  .float-btn .icon { font-size: 1rem; }
+  #host-btn { background: var(--white); color: var(--black); }
+  #host-btn:hover { background: var(--light); transform: translateY(-2px); box-shadow: 0 8px 28px rgba(0,0,0,0.4); }
+  #facilitate-btn { background: var(--gold); color: var(--black); }
+  #facilitate-btn:hover { background: var(--gold-light); transform: translateY(-2px); box-shadow: 0 8px 28px rgba(201,168,76,0.4); }
 
-  /* ── TOUCH HINT ── */
-  .touch-hint {
-    position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%); z-index: 1000;
-    background: rgba(0,0,0,0.75); border: 1px solid var(--border);
-    border-radius: 10px; padding: 8px 16px;
-    color: var(--muted); font-size: 0.75rem; text-align: center;
-    backdrop-filter: blur(10px);
-    pointer-events: none;
-    animation: hintFade 6s ease forwards;
-  }
-  @keyframes hintFade { 0%{opacity:1} 70%{opacity:1} 100%{opacity:0} }
-
-  /* ── IDLE RESET indicator ── */
-  #idle-bar {
-    position: fixed; bottom: 0; left: 0; right: 0; height: 3px; z-index: 999;
-    background: var(--border);
-    display: none;
-  }
-  #idle-bar-fill {
-    height: 100%; background: var(--white);
-    transition: width 0.5s linear;
-    width: 100%;
-  }
+  /* ── IDLE RESET ── */
+  #idle-bar { position: fixed; bottom: 0; left: 0; right: 0; height: 3px; z-index: 999; background: var(--border); display: none; }
+  #idle-bar-fill { height: 100%; background: var(--white); transition: width 0.5s linear; width: 100%; }
 
   /* ── HOST MODAL ── */
   #host-overlay {
     position: fixed; top:0; left:0; right:0; bottom:0;
     background: rgba(0,0,0,0.82); z-index: 2500;
-    display: none; align-items: center; justify-content: center;
-    backdrop-filter: blur(8px);
+    display: none; align-items: center; justify-content: center; backdrop-filter: blur(8px);
   }
   #host-overlay.show { display: flex; animation: fadeIn 0.2s ease; }
   #host-modal {
     background: var(--dark); border: 1px solid var(--border);
-    border-radius: 18px; width: 700px; max-width: 92vw;
-    max-height: 88vh; overflow-y: auto;
-    box-shadow: 0 30px 80px rgba(0,0,0,0.8);
-    animation: slideUp 0.3s cubic-bezier(0.16,1,0.3,1);
+    border-radius: 18px; width: 700px; max-width: 92vw; max-height: 88vh; overflow-y: auto;
+    box-shadow: 0 30px 80px rgba(0,0,0,0.8); animation: slideUp 0.3s cubic-bezier(0.16,1,0.3,1);
   }
   #host-modal-header {
     background: var(--black); border-bottom: 1px solid var(--border);
@@ -255,10 +225,7 @@
     font-size:16px; cursor:pointer; display:flex; align-items:center; justify-content:center;
   }
   #host-close:hover { background:var(--border); }
-  #host-map-container {
-    height: 300px; border-bottom: 1px solid var(--border);
-    position: relative;
-  }
+  #host-map-container { height: 300px; border-bottom: 1px solid var(--border); position: relative; }
   #host-map { width:100%; height:100%; }
   #host-map-hint {
     position:absolute; top:10px; left:50%; transform:translateX(-50%);
@@ -274,8 +241,7 @@
   .hf-group input, .hf-group select, .hf-group textarea {
     padding:10px 13px; border:1px solid var(--border); border-radius:8px;
     background:var(--mid); color:var(--white);
-    font-family:'DM Sans',sans-serif; font-size:0.9rem;
-    transition:border-color 0.2s;
+    font-family:'DM Sans',sans-serif; font-size:0.9rem; transition:border-color 0.2s;
   }
   .hf-group input:focus, .hf-group select:focus, .hf-group textarea:focus { outline:none; border-color:var(--white); }
   .hf-group input::placeholder { color:var(--muted); }
@@ -283,8 +249,7 @@
   .hf-group textarea { resize:vertical; min-height:68px; }
   #host-coords-display {
     background:var(--mid); border:1px solid var(--border);
-    border-radius:8px; padding:9px 13px;
-    font-size:0.8rem; color:var(--muted); margin-bottom:14px;
+    border-radius:8px; padding:9px 13px; font-size:0.8rem; color:var(--muted); margin-bottom:14px;
   }
   #host-coords-display span { color:var(--light); font-weight:600; }
   #host-submit {
@@ -293,20 +258,50 @@
     font-size:0.95rem; font-weight:700; cursor:pointer; transition:background 0.2s;
   }
   #host-submit:hover { background:var(--light); }
-  #host-success {
-    text-align:center; padding:30px 26px;
-    display:none;
-  }
+  #host-success { text-align:center; padding:30px 26px; display:none; }
   #host-success .check { font-size:3rem; margin-bottom:12px; }
   #host-success h3 { font-family:'Playfair Display',serif; color:var(--white); font-size:1.4rem; margin-bottom:8px; }
   #host-success p { color:var(--muted); font-size:0.9rem; line-height:1.6; }
+
+  /* ── FACILITATE MODAL ── */
+  #facilitate-overlay {
+    position: fixed; top:0; left:0; right:0; bottom:0;
+    background: rgba(0,0,0,0.82); z-index: 2500;
+    display: none; align-items: center; justify-content: center; backdrop-filter: blur(8px);
+  }
+  #facilitate-overlay.show { display: flex; animation: fadeIn 0.2s ease; }
+  #facilitate-modal {
+    background: var(--dark); border: 1px solid var(--border);
+    border-radius: 18px; width: 460px; max-width: 92vw;
+    box-shadow: 0 30px 80px rgba(0,0,0,0.8); animation: slideUp 0.3s cubic-bezier(0.16,1,0.3,1);
+    overflow: hidden;
+  }
+  #facilitate-modal-header {
+    background: var(--black); border-bottom: 1px solid var(--border);
+    padding: 22px 26px 18px; position: relative;
+  }
+  #facilitate-modal-header h2 { font-family:'Playfair Display',serif; font-size:1.4rem; color:var(--white); }
+  #facilitate-modal-header p { font-size:0.85rem; color:var(--muted); margin-top:5px; line-height:1.5; }
+  #facilitate-close {
+    position:absolute; top:14px; right:14px;
+    background:var(--mid); border:1px solid var(--border);
+    color:var(--light); width:34px; height:34px; border-radius:50%;
+    font-size:16px; cursor:pointer; display:flex; align-items:center; justify-content:center;
+  }
+  #facilitate-close:hover { background:var(--border); }
+  #facilitate-body { padding: 28px 26px; text-align: center; }
+  #facilitate-qr {
+    display: inline-block; border: 2px solid var(--border); border-radius: 12px;
+    padding: 12px; background: white; margin-bottom: 16px;
+  }
+  #facilitate-label { font-size: 0.75rem; color: var(--muted); letter-spacing: 1.5px; text-transform: uppercase; margin-bottom: 8px; }
+  #facilitate-emails { font-size: 0.82rem; color: var(--light); }
 
   /* ── ADMIN PASSWORD ── */
   #pw-overlay {
     position:fixed; top:0; left:0; right:0; bottom:0;
     background:rgba(0,0,0,0.9); z-index:4000;
-    display:none; align-items:center; justify-content:center;
-    backdrop-filter:blur(8px);
+    display:none; align-items:center; justify-content:center; backdrop-filter:blur(8px);
   }
   #pw-overlay.show { display:flex; }
   #pw-box {
@@ -338,9 +333,8 @@
   #admin-overlay.show { display:flex; }
   #admin-panel {
     background:var(--dark); border:1px solid var(--border);
-    border-radius:18px; width:950px; max-width:95vw;
-    margin:auto; overflow:hidden;
-    box-shadow:0 40px 100px rgba(0,0,0,0.8);
+    border-radius:18px; width:980px; max-width:95vw;
+    margin:auto; overflow:hidden; box-shadow:0 40px 100px rgba(0,0,0,0.8);
   }
   #admin-panel-hdr {
     background:var(--black); border-bottom:1px solid var(--border);
@@ -352,22 +346,29 @@
   #admin-close { background:var(--mid); border:1px solid var(--border); color:var(--light); width:34px; height:34px; border-radius:50%; font-size:16px; cursor:pointer; display:flex; align-items:center; justify-content:center; }
   #admin-close:hover { background:var(--border); }
   #admin-content { padding:24px 28px; }
-  #admin-content h3 { font-family:'Playfair Display',serif; font-size:1.05rem; color:var(--white); margin-bottom:14px; }
 
   /* Source toggle */
   #source-toggle {
     background: var(--mid); border: 1px solid var(--border);
     border-radius: 10px; padding: 14px 18px; margin-bottom: 20px;
-    display: flex; align-items: center; justify-content: space-between;
+    display: flex; align-items: center; justify-content: space-between; gap: 16px;
   }
-  #source-toggle p { font-size: 0.83rem; color: var(--muted); }
-  #source-toggle strong { color: var(--light); }
+  #source-toggle p { font-size: 0.83rem; color: var(--muted); margin-top: 3px; }
+  #source-toggle strong { color: var(--light); font-size: 0.9rem; }
   .toggle-btn {
     padding: 8px 16px; border-radius: 7px; font-size: 0.8rem; font-weight: 600;
     cursor: pointer; border: 1px solid var(--border); background: var(--dark2); color: var(--light);
-    font-family: 'DM Sans', sans-serif; transition: all 0.2s;
+    font-family: 'DM Sans', sans-serif; transition: all 0.2s; flex-shrink: 0;
   }
   .toggle-btn:hover { border-color: var(--white); color: var(--white); }
+
+  /* Override notice */
+  #override-notice {
+    background: rgba(201,168,76,0.1); border: 1px solid rgba(201,168,76,0.3);
+    border-radius: 9px; padding: 10px 14px; margin-bottom: 16px;
+    font-size: 0.8rem; color: var(--gold-light); line-height: 1.5; display: none;
+  }
+  #override-notice.visible { display: block; }
 
   #group-list { list-style:none; margin-bottom:20px; }
   .gli {
@@ -378,10 +379,7 @@
   .gli strong { font-size:0.92rem; color:var(--white); }
   .gli span { font-size:0.78rem; color:var(--muted); display:block; margin-top:2px; }
   .gli-btns { display:flex; gap:8px; flex-shrink:0; }
-  .gli-btn {
-    padding:6px 13px; border-radius:6px; font-size:0.78rem; font-weight:600;
-    border:none; cursor:pointer; transition:all 0.15s;
-  }
+  .gli-btn { padding:6px 13px; border-radius:6px; font-size:0.78rem; font-weight:600; border:none; cursor:pointer; transition:all 0.15s; }
   .gli-btn.edit { background:var(--dark2); color:var(--white); border:1px solid var(--border); }
   .gli-btn.edit:hover { border-color:var(--white); }
   .gli-btn.del { background:transparent; color:#e74c3c; border:1px solid #4a1a1a; }
@@ -393,16 +391,18 @@
   .fg { display:flex; flex-direction:column; gap:6px; }
   .fg.full { grid-column:1/-1; }
   .fg label { font-size:0.7rem; font-weight:600; letter-spacing:1px; text-transform:uppercase; color:var(--muted); }
+  .fg .field-note { font-size:0.68rem; color:#666; margin-top:-2px; }
+  .fg .field-note.sync-field { color: rgba(201,168,76,0.7); }
   .fg input, .fg select, .fg textarea {
     padding:10px 12px; border:1px solid var(--border); border-radius:7px;
     background:var(--dark2); color:var(--white);
-    font-family:'DM Sans',sans-serif; font-size:0.88rem;
-    transition:border-color 0.2s;
+    font-family:'DM Sans',sans-serif; font-size:0.88rem; transition:border-color 0.2s;
   }
   .fg input:focus, .fg select:focus, .fg textarea:focus { outline:none; border-color:var(--white); }
   .fg input::placeholder { color:var(--muted); }
   .fg select option { background:var(--dark2); }
   .fg textarea { resize:vertical; min-height:68px; }
+  .fg input.sync-locked { border-color: rgba(201,168,76,0.3); }
   #form-actions { margin-top:14px; display:flex; gap:10px; }
   .form-btn { padding:11px 22px; border-radius:8px; font-family:'DM Sans',sans-serif; font-size:0.88rem; font-weight:600; cursor:pointer; border:none; transition:all 0.2s; }
   .form-btn.save { background:var(--white); color:var(--black); }
@@ -414,12 +414,9 @@
 
   /* host interest marker */
   .host-interest-marker {
-    background: rgba(255,255,255,0.15);
-    border: 2px dashed rgba(255,255,255,0.6);
-    border-radius: 50%;
-    width: 32px; height: 32px;
-    display: flex; align-items: center; justify-content: center;
-    font-size: 14px;
+    background: rgba(255,255,255,0.15); border: 2px dashed rgba(255,255,255,0.6);
+    border-radius: 50%; width: 32px; height: 32px;
+    display: flex; align-items: center; justify-content: center; font-size: 14px;
     animation: pulse 2s infinite;
   }
   @keyframes pulse { 0%,100%{box-shadow:0 0 0 0 rgba(255,255,255,0.3)} 50%{box-shadow:0 0 0 10px rgba(255,255,255,0)} }
@@ -454,21 +451,15 @@
   </div>
 </div>
 
-<!-- LEGEND -->
-<div id="legend">
-  <h4>Group Type</h4>
-  <div class="legend-item"><div class="legend-dot" style="background:#4A90D9"></div><div class="legend-label">Men</div></div>
-  <div class="legend-item"><div class="legend-dot" style="background:#C06BC0"></div><div class="legend-label">Women</div></div>
-  <div class="legend-item"><div class="legend-dot" style="background:#4AB870"></div><div class="legend-label">Couples</div></div>
-  <div class="legend-item"><div class="legend-dot" style="background:#D4A030"></div><div class="legend-label">Young Adults</div></div>
-  <div class="legend-item"><div class="legend-dot" style="background:#888888"></div><div class="legend-label">Mixed</div></div>
-  <div class="legend-item"><div class="legend-dot" style="background:#9B6DD4"></div><div class="legend-label">Seniors</div></div>
+<!-- BOTTOM RIGHT BUTTONS -->
+<div id="bottom-right">
+  <button class="float-btn" id="facilitate-btn" onclick="openFacilitateModal()">
+    <span class="icon">✋</span> Interested in Facilitating?
+  </button>
+  <button class="float-btn" id="host-btn" onclick="openHostModal()">
+    <span class="icon">📍</span> Interested in Hosting?
+  </button>
 </div>
-
-<!-- HOST A GROUP -->
-<button id="host-btn" onclick="openHostModal()">
-  <span class="icon">📍</span> Interested in Hosting?
-</button>
 
 <!-- Idle reset bar -->
 <div id="idle-bar"><div id="idle-bar-fill"></div></div>
@@ -477,7 +468,6 @@
 <div id="popup-overlay" onclick="closePopup(event)">
   <div id="popup-card">
     <div id="popup-header">
-      <div id="popup-category"></div>
       <div id="popup-name"></div>
       <button id="popup-close" onclick="closePopup()">✕</button>
     </div>
@@ -485,9 +475,11 @@
     <div id="popup-body">
       <div id="popup-left">
         <div class="popup-detail"><span class="icon">📅</span><span id="popup-schedule"></span></div>
-        <div class="popup-detail" id="popup-neighborhood-row"><span class="icon">📍</span><span id="popup-neighborhood"></span></div>
         <div class="popup-detail" id="popup-leader-row"><span class="icon">👤</span><span id="popup-leader"></span></div>
         <div id="popup-description"></div>
+        <div id="popup-privacy">
+          <span class="icon">🔒</span>This is a generalized pin on the map — the actual address is hidden for privacy.
+        </div>
       </div>
       <div id="qr-section">
         <div id="qr-canvas"></div>
@@ -497,6 +489,22 @@
     <div id="popup-footer">
       <button class="popup-btn secondary" onclick="closePopup()">Close</button>
       <button class="popup-btn primary" id="popup-signup-btn">Sign Up →</button>
+    </div>
+  </div>
+</div>
+
+<!-- ── FACILITATE MODAL ── -->
+<div id="facilitate-overlay" onclick="closeFacilitateIfOutside(event)">
+  <div id="facilitate-modal">
+    <div id="facilitate-modal-header">
+      <h2>Interested in Facilitating?</h2>
+      <p>Scan the QR code below to send us an email — we'd love to connect with you about leading a Home Fellowship Group.</p>
+      <button id="facilitate-close" onclick="closeFacilitateModal()">✕</button>
+    </div>
+    <div id="facilitate-body">
+      <div id="facilitate-label">Reach Our Team</div>
+      <div id="facilitate-qr"></div>
+      <div id="facilitate-emails">josh@calvarychapelreno.org &amp; dustin@calvarychapelreno.org</div>
     </div>
   </div>
 </div>
@@ -574,32 +582,67 @@
         </div>
         <button class="toggle-btn" id="override-btn" onclick="toggleOverride()">Use Local Overrides</button>
       </div>
+      <div id="override-notice">
+        ⚠️ You are in <strong>Local Override mode</strong>. Changes are saved in this browser only and will not sync back to Planning Center.
+        Fields marked with 🔄 come from Planning Center and will be overwritten the next time you switch back to PC data.
+        Fields like Video URL, Photo URL, and Neighborhood are <strong>local-only</strong> and are preserved even when switching to PC data.
+      </div>
       <h3>Current Groups</h3>
       <ul id="group-list"></ul>
       <button class="form-btn new" onclick="openNewForm()">+ Add New Group</button>
       <div id="group-form" style="display:none">
         <h3 id="form-title">New Group</h3>
         <div class="form-grid">
-          <div class="fg"><label>Group Name</label><input id="f-name" placeholder="e.g. Tuesday Men's HFG"></div>
-          <div class="fg"><label>Category</label>
-            <select id="f-category">
-              <option value="men">Men</option>
-              <option value="women">Women</option>
-              <option value="couples">Couples</option>
-              <option value="young-adults">Young Adults</option>
-              <option value="mixed">Mixed</option>
-              <option value="seniors">Seniors</option>
-            </select>
+          <div class="fg full">
+            <label>Group Name <span style="color:var(--gold);font-size:0.65rem;">🔄 synced from PC</span></label>
+            <input id="f-name" placeholder="e.g. Home Fellowship Smith">
+            <span class="field-note sync-field">Overwritten on next PC sync</span>
           </div>
-          <div class="fg full"><label>Schedule (e.g. "Tuesdays at 7:00 PM")</label><input id="f-schedule" placeholder="e.g. Tuesdays at 7:00 PM"></div>
-          <div class="fg"><label>Neighborhood</label><input id="f-neighborhood" placeholder="e.g. South Reno"></div>
-          <div class="fg"><label>Leader</label><input id="f-leader" placeholder="e.g. John & Mary Smith"></div>
-          <div class="fg"><label>Latitude</label><input id="f-lat" type="number" step="0.001" placeholder="39.530"></div>
-          <div class="fg"><label>Longitude</label><input id="f-lng" type="number" step="0.001" placeholder="-119.813"></div>
-          <div class="fg full"><label>Sign-Up URL</label><input id="f-url" placeholder="https://..."></div>
-          <div class="fg full"><label>Photo URL (optional)</label><input id="f-photo" placeholder="https://...image.jpg"></div>
-          <div class="fg full"><label>Video URL (optional)</label><input id="f-video" placeholder="https://...video.mp4"></div>
-          <div class="fg full"><label>Description</label><textarea id="f-desc" placeholder="Brief description of this group..."></textarea></div>
+          <div class="fg">
+            <label>Leader Name <span style="color:var(--gold);font-size:0.65rem;">🔄 synced from PC</span></label>
+            <input id="f-leader" placeholder="e.g. John & Mary Smith">
+            <span class="field-note sync-field">Pulled from PC memberships — overwritten on sync</span>
+          </div>
+          <div class="fg">
+            <label>Schedule <span style="color:var(--gold);font-size:0.65rem;">🔄 synced from PC</span></label>
+            <input id="f-schedule" placeholder="e.g. Tuesdays at 7:00 PM">
+            <span class="field-note sync-field">Overwritten on next PC sync</span>
+          </div>
+          <div class="fg">
+            <label>Neighborhood</label>
+            <input id="f-neighborhood" placeholder="e.g. South Reno">
+            <span class="field-note">✅ Local only — never overwritten by sync</span>
+          </div>
+          <div class="fg">
+            <label>Latitude <span style="color:var(--gold);font-size:0.65rem;">🔄 synced from PC</span></label>
+            <input id="f-lat" type="number" step="0.001" placeholder="39.530">
+            <span class="field-note sync-field">Offset from PC location — overwritten on sync</span>
+          </div>
+          <div class="fg">
+            <label>Longitude <span style="color:var(--gold);font-size:0.65rem;">🔄 synced from PC</span></label>
+            <input id="f-lng" type="number" step="0.001" placeholder="-119.813">
+            <span class="field-note sync-field">Offset from PC location — overwritten on sync</span>
+          </div>
+          <div class="fg full">
+            <label>Sign-Up URL <span style="color:var(--gold);font-size:0.65rem;">🔄 synced from PC</span></label>
+            <input id="f-url" placeholder="https://...">
+            <span class="field-note sync-field">Church Center URL — overwritten on sync</span>
+          </div>
+          <div class="fg full">
+            <label>Photo URL <span style="color:var(--gold);font-size:0.65rem;">🔄 synced from PC</span></label>
+            <input id="f-photo" placeholder="https://...image.jpg">
+            <span class="field-note sync-field">Header image from PC — overwritten on sync</span>
+          </div>
+          <div class="fg full">
+            <label>Video URL</label>
+            <input id="f-video" placeholder="https://...video.mp4 or YouTube link">
+            <span class="field-note">✅ Local only — never overwritten by sync</span>
+          </div>
+          <div class="fg full">
+            <label>Description <span style="color:var(--gold);font-size:0.65rem;">🔄 synced from PC</span></label>
+            <textarea id="f-desc" placeholder="Brief description of this group..."></textarea>
+            <span class="field-note sync-field">Overwritten on next PC sync</span>
+          </div>
         </div>
         <div id="form-actions">
           <button class="form-btn save" onclick="saveGroup()">Save Group</button>
@@ -612,63 +655,48 @@
 
 <script>
 // ─── CONFIG ───────────────────────────────────────────────────────────────────
-const ADMIN_PW       = "church2024"; // Change this!
-const STORE_KEY      = "ccrs_hfg_v3";
-const IDLE_MS        = 120000; // 2 minutes
-const GROUPS_JSON    = "groups.json"; // Path to Planning Center sync output
+const ADMIN_PW    = "church2024";
+const STORE_KEY   = "ccrs_hfg_v4";
+const IDLE_MS     = 120000; // 2 minutes
+const GROUPS_JSON = "groups.json";
 
-const CAT_COLORS = {
-  'men':          '#4A90D9',
-  'women':        '#C06BC0',
-  'couples':      '#4AB870',
-  'young-adults': '#D4A030',
-  'mixed':        '#888888',
-  'seniors':      '#9B6DD4'
-};
-const CAT_LABELS = {
-  'men':'Men','women':'Women','couples':'Couples',
-  'young-adults':'Young Adults','mixed':'Mixed','seniors':'Seniors'
-};
+// Marker color — single gold color for all HFGs (no category distinction)
+const MARKER_COLOR = '#C9A84C';
 
 // ─── STATE ────────────────────────────────────────────────────────────────────
-let groups       = [];
-let pcGroups     = [];   // raw from Planning Center sync
-let syncedAt     = null;
-let useOverride  = false; // when true, use localStorage groups instead of PC data
-let editingId    = null;
-let markers      = {};
-let idleTimer    = null;
-let idleBarTimer = null;
-let hostMap      = null;
-let hostMarker   = null;
-let hostLat      = null;
-let hostLng      = null;
+let groups      = [];
+let pcGroups    = [];
+let syncedAt    = null;
+let useOverride = false;
+let editingId   = null;
+let markers     = {};
+let idleTimer = null, idleBarTimer = null;
+let hostMap = null, hostMarker = null, hostLat = null, hostLng = null;
+
+// ─── LOCAL OVERRIDE FIELDS ───────────────────────────────────────────────────
+// These fields are NEVER overwritten when switching back to PC data.
+// They are merged onto top of the PC record if a matching id exists.
+const LOCAL_ONLY_FIELDS = ['video', 'neighborhood', '_localOverrides'];
 
 // ─── MAP ──────────────────────────────────────────────────────────────────────
 const DEFAULT_CENTER = [39.5296, -119.8138];
 const DEFAULT_ZOOM   = 12;
 
-const map = L.map('map', { center: DEFAULT_CENTER, zoom: DEFAULT_ZOOM, zoomControl: false });
-L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png', {
-  attribution: '© OpenStreetMap © CartoDB', maxZoom: 18
+const map = L.map('map', { center: DEFAULT_CENTER, zoom: DEFAULT_ZOOM, zoomControl: false, attributionControl: false });
+L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png', {
+  maxZoom: 18
 }).addTo(map);
 L.control.zoom({ position: 'topright' }).addTo(map);
 map.on('click move zoom', resetIdleTimer);
 
-// ─── DATA LOADING ─────────────────────────────────────────────────────────────
-/**
- * Normalize a Planning Center group record to our internal format.
- * PC gives us: id, name, description, schedule, photo, url, lat, lng, synced_at
- * We add: category (best-guess from name), neighborhood (blank), leader (blank), video ('')
- */
+// ─── DATA ─────────────────────────────────────────────────────────────────────
 function normalizePCGroup(g) {
   return {
     id:           g.id,
     name:         g.name || 'Unnamed Group',
-    category:     guessCategoryFromName(g.name),
+    leader:       g.leader || extractLeaderFromName(g.name || ''),
     schedule:     g.schedule || '',
     neighborhood: '',
-    leader:       '',
     url:          g.url || '#',
     photo:        g.photo || '',
     video:        '',
@@ -679,15 +707,17 @@ function normalizePCGroup(g) {
   };
 }
 
-function guessCategoryFromName(name) {
-  if (!name) return 'mixed';
-  const n = name.toLowerCase();
-  if (n.includes('men') && !n.includes('women')) return 'men';
-  if (n.includes('women') || n.includes('ladies')) return 'women';
-  if (n.includes('couple')) return 'couples';
-  if (n.includes('young adult') || n.includes('college') || n.includes('youth')) return 'young-adults';
-  if (n.includes('senior') || n.includes('golden')) return 'seniors';
-  return 'mixed';
+function extractLeaderFromName(groupName) {
+  return groupName.replace(/^Home Fellowship[-\s]*/i, '').trim();
+}
+
+function makeMarkerInitials(leaderName) {
+  if (!leaderName) return 'HF';
+  // Remove titles, split on spaces/ampersands
+  const parts = leaderName.replace(/&/g, ' ').split(/\\s+/).filter(p => p.length > 1);
+  if (parts.length >= 2) return (parts[0][0] + parts[1][0]).toUpperCase();
+  if (parts.length === 1) return parts[0].substring(0, 2).charAt(0).toUpperCase() + parts[0].substring(0, 2).charAt(1).toLowerCase();
+  return 'HF';
 }
 
 async function loadFromPlanningCenter() {
@@ -695,8 +725,8 @@ async function loadFromPlanningCenter() {
     const resp = await fetch(GROUPS_JSON + '?v=' + Date.now());
     if (!resp.ok) throw new Error('groups.json not found');
     const json = await resp.json();
-    pcGroups  = (json.groups || []).map(normalizePCGroup);
-    syncedAt  = json.synced_at || null;
+    pcGroups = (json.groups || []).map(normalizePCGroup);
+    syncedAt = json.synced_at || null;
     return true;
   } catch (e) {
     console.warn('Could not load groups.json:', e.message);
@@ -704,25 +734,45 @@ async function loadFromPlanningCenter() {
   }
 }
 
-function loadOverrideGroups() {
-  const s = localStorage.getItem(STORE_KEY);
-  return s ? JSON.parse(s) : [];
+function getLocalOverrides() {
+  try { return JSON.parse(localStorage.getItem(STORE_KEY) || '{}'); } catch(e) { return {}; }
 }
-function saveOverrideGroups(arr) { localStorage.setItem(STORE_KEY, JSON.stringify(arr)); }
+
+function saveLocalOverrides(obj) {
+  localStorage.setItem(STORE_KEY, JSON.stringify(obj));
+}
+
+// Merge local-only fields on top of PC data
+function mergeLocalOntoPC(pcList) {
+  const overrides = getLocalOverrides();
+  return pcList.map(g => {
+    const local = overrides[String(g.id)] || {};
+    return { ...g, ...local };
+  });
+}
 
 async function initData() {
   const pcOk = await loadFromPlanningCenter();
-  const overrides = loadOverrideGroups();
+  const overrides = getLocalOverrides();
+  const hasLocalGroups = overrides.__groups && overrides.__groups.length > 0;
+
+  // Check if user was previously in override mode
+  useOverride = overrides.__useOverride === true;
 
   if (pcOk && pcGroups.length > 0 && !useOverride) {
-    groups = pcGroups;
+    // PC data available — merge any local-only field overrides
+    groups = mergeLocalOntoPC(pcGroups);
     updateSourceUI(true);
-  } else if (overrides.length > 0) {
-    groups = overrides;
+  } else if (hasLocalGroups) {
+    groups = overrides.__groups;
     useOverride = true;
     updateSourceUI(false);
+  } else if (pcOk && pcGroups.length > 0) {
+    // Had useOverride=true but no local groups — fall back to PC
+    useOverride = false;
+    groups = mergeLocalOntoPC(pcGroups);
+    updateSourceUI(true);
   } else {
-    // No data at all — show empty state
     groups = [];
     updateSourceUI(pcOk);
   }
@@ -730,35 +780,48 @@ async function initData() {
   document.getElementById('loading-overlay').classList.add('hidden');
   renderMarkers();
   renderSyncBadge();
+  buildFacilitateQR();
 }
 
 function updateSourceUI(isPCSource) {
   const lbl  = document.getElementById('source-label');
   const desc = document.getElementById('source-desc');
   const btn  = document.getElementById('override-btn');
+  const notice = document.getElementById('override-notice');
 
   if (isPCSource && !useOverride) {
     lbl.textContent  = 'Data source: Planning Center (live sync)';
-    desc.textContent = syncedAt ? `Last synced: ${new Date(syncedAt).toLocaleString()}` : '';
+    desc.textContent = syncedAt ? `Last synced: ${new Date(syncedAt).toLocaleString()}` : 'Sync time unknown';
     btn.textContent  = 'Switch to Local Overrides';
+    notice.classList.remove('visible');
     document.getElementById('admin-sync-info').textContent = syncedAt
-      ? `PC sync: ${new Date(syncedAt).toLocaleString()}` : '';
+      ? `Synced: ${new Date(syncedAt).toLocaleString()}` : '';
   } else {
-    lbl.textContent  = 'Data source: Local Overrides (manual)';
-    desc.textContent = 'Changes are saved in this browser. Planning Center data ignored.';
+    lbl.textContent  = 'Data source: Local Overrides';
+    desc.textContent = 'Manual changes stored in this browser. Planning Center data is not used.';
     btn.textContent  = 'Use Planning Center Data';
+    notice.classList.add('visible');
+    document.getElementById('admin-sync-info').textContent = '';
   }
 }
 
 function toggleOverride() {
   useOverride = !useOverride;
+  const overrides = getLocalOverrides();
+
   if (useOverride) {
-    const overrides = loadOverrideGroups();
-    groups = overrides.length > 0 ? overrides : [...pcGroups];
-    if (groups.length === 0) groups = [];
-    saveOverrideGroups(groups);
+    // Switch to local — start with current PC data as the base if no local groups saved
+    const base = overrides.__groups && overrides.__groups.length > 0
+      ? overrides.__groups : [...pcGroups];
+    groups = base.length > 0 ? base : [];
+    overrides.__groups = groups;
+    overrides.__useOverride = true;
+    saveLocalOverrides(overrides);
   } else {
-    groups = pcGroups.length > 0 ? pcGroups : loadOverrideGroups();
+    // Switch back to PC — merge any field-level local overrides
+    overrides.__useOverride = false;
+    saveLocalOverrides(overrides);
+    groups = mergeLocalOntoPC(pcGroups);
   }
   updateSourceUI(!useOverride);
   renderMarkers();
@@ -769,8 +832,7 @@ function toggleOverride() {
 function renderSyncBadge() {
   const badge = document.getElementById('sync-badge');
   if (syncedAt && !useOverride) {
-    const d = new Date(syncedAt);
-    badge.textContent = `Synced ${d.toLocaleDateString()}`;
+    badge.textContent = `Synced ${new Date(syncedAt).toLocaleDateString()}`;
     badge.classList.add('visible');
   } else {
     badge.classList.remove('visible');
@@ -779,12 +841,11 @@ function renderSyncBadge() {
 
 // ─── MARKERS ──────────────────────────────────────────────────────────────────
 function markerIcon(group) {
-  const c = CAT_COLORS[group.category] || '#888';
-  const letter = CAT_LABELS[group.category]?.charAt(0) || '?';
+  const initials = makeMarkerInitials(group.leader || extractLeaderFromName(group.name));
   return L.divIcon({
     className: '',
-    html: `<div class="hfg-marker" style="background:${c};width:34px;height:34px;">${letter}</div>`,
-    iconSize: [34, 34], iconAnchor: [17, 17]
+    html: `<div class="hfg-marker" style="background:${MARKER_COLOR};width:38px;height:38px;">${initials}</div>`,
+    iconSize: [38, 38], iconAnchor: [19, 19]
   });
 }
 
@@ -794,25 +855,31 @@ function renderMarkers() {
   groups.forEach(g => {
     if (!g.lat || !g.lng) return;
     const m = L.marker([g.lat, g.lng], { icon: markerIcon(g) }).addTo(map);
+
+    // Hover tooltip with group name
+    m.bindTooltip(g.name, {
+      className: 'group-tooltip',
+      direction: 'top',
+      offset: [0, -22],
+      permanent: false
+    });
+
     m.on('click', () => { resetIdleTimer(); openPopup(g); });
     markers[g.id] = m;
   });
   document.getElementById('group-count').textContent = `${groups.length} Group${groups.length !== 1 ? 's' : ''}`;
 }
 
-// ─── IDLE RESET ───────────────────────────────────────────────────────────────
+// ─── IDLE ─────────────────────────────────────────────────────────────────────
 function resetIdleTimer() {
   clearTimeout(idleTimer);
   clearInterval(idleBarTimer);
   document.getElementById('idle-bar').style.display = 'none';
   document.getElementById('idle-bar-fill').style.width = '100%';
-
   idleTimer = setTimeout(() => {
-    closePopup();
-    closeHostModal();
+    closePopup(); closeHostModal(); closeFacilitateModal();
     map.flyTo(DEFAULT_CENTER, DEFAULT_ZOOM, { duration: 1.5 });
   }, IDLE_MS);
-
   setTimeout(() => {
     document.getElementById('idle-bar').style.display = 'block';
     let pct = 100;
@@ -826,32 +893,24 @@ function resetIdleTimer() {
 
 // ─── POPUP ────────────────────────────────────────────────────────────────────
 function openPopup(g) {
-  const catLabel = CAT_LABELS[g.category] || 'Home Fellowship';
-  document.getElementById('popup-category').textContent = catLabel + ' Group';
-  document.getElementById('popup-name').textContent     = g.name;
+  document.getElementById('popup-name').textContent = g.name;
 
-  // Schedule: prefer schedule string, fallback to day+time if present
-  const scheduleEl = document.getElementById('popup-schedule');
-  scheduleEl.textContent = g.schedule || (g.day && g.time ? `${g.day}s at ${g.time}` : 'See sign-up for details');
+  const schedEl = document.getElementById('popup-schedule');
+  schedEl.textContent = g.schedule || 'See sign-up for schedule details';
 
-  // Neighborhood
-  const nbRow = document.getElementById('popup-neighborhood-row');
-  const nbEl  = document.getElementById('popup-neighborhood');
-  if (g.neighborhood) { nbEl.textContent = g.neighborhood; nbRow.style.display = 'flex'; }
-  else { nbRow.style.display = 'none'; }
-
-  // Leader
   const ldrRow = document.getElementById('popup-leader-row');
   const ldrEl  = document.getElementById('popup-leader');
-  if (g.leader) { ldrEl.textContent = 'Led by ' + g.leader; ldrRow.style.display = 'flex'; }
-  else { ldrRow.style.display = 'none'; }
+  if (g.leader) {
+    ldrEl.textContent = 'Led by ' + g.leader;
+    ldrRow.style.display = 'flex';
+  } else {
+    ldrRow.style.display = 'none';
+  }
 
   document.getElementById('popup-description').textContent = g.desc || '';
 
-  // Media
   const mediaEl = document.getElementById('popup-media');
-  mediaEl.innerHTML = '';
-  mediaEl.classList.remove('has-media');
+  mediaEl.innerHTML = ''; mediaEl.classList.remove('has-media');
   if (g.video) {
     mediaEl.innerHTML = `<video src="${g.video}" autoplay muted loop playsinline></video>`;
     mediaEl.classList.add('has-media');
@@ -860,7 +919,6 @@ function openPopup(g) {
     mediaEl.classList.add('has-media');
   }
 
-  // QR
   const qrDiv = document.getElementById('qr-canvas');
   qrDiv.innerHTML = '';
   new QRCode(qrDiv, { text: g.url || location.href, width: 120, height: 120, colorDark: '#000', colorLight: '#fff', correctLevel: QRCode.CorrectLevel.H });
@@ -875,6 +933,21 @@ function closePopup(e) {
   }
 }
 
+// ─── FACILITATE MODAL ─────────────────────────────────────────────────────────
+function buildFacilitateQR() {
+  const mailto = 'mailto:josh@calvarychapelreno.org,dustin@calvarychapelreno.org?subject=Interested%20in%20Facilitating%20a%20Home%20Fellowship%20Group&body=Hi%20Josh%20and%20Dustin%2C%0A%0AI%20am%20interested%20in%20facilitating%20a%20Home%20Fellowship%20Group.%0A%0AName%3A%20%0APhone%3A%20%0A%0AThanks!';
+  const qrDiv = document.getElementById('facilitate-qr');
+  qrDiv.innerHTML = '';
+  new QRCode(qrDiv, { text: mailto, width: 180, height: 180, colorDark: '#000', colorLight: '#fff', correctLevel: QRCode.CorrectLevel.M });
+}
+
+function openFacilitateModal() {
+  resetIdleTimer();
+  document.getElementById('facilitate-overlay').classList.add('show');
+}
+function closeFacilitateModal() { document.getElementById('facilitate-overlay').classList.remove('show'); }
+function closeFacilitateIfOutside(e) { if (e.target === document.getElementById('facilitate-overlay')) closeFacilitateModal(); }
+
 // ─── HOST MODAL ───────────────────────────────────────────────────────────────
 function openHostModal() {
   resetIdleTimer();
@@ -882,27 +955,21 @@ function openHostModal() {
   document.getElementById('host-success').style.display = 'none';
   document.getElementById('host-form').style.display = 'block';
   document.getElementById('host-submit').style.display = 'block';
-
   setTimeout(() => {
     if (!hostMap) {
-      hostMap = L.map('host-map', { center: DEFAULT_CENTER, zoom: 11, zoomControl: true });
-      L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png', {
-        attribution: '© OpenStreetMap © CartoDB', maxZoom: 18
-      }).addTo(hostMap);
+      hostMap = L.map('host-map', { center: DEFAULT_CENTER, zoom: 11, zoomControl: true, attributionControl: false });
+      L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png', { maxZoom: 18 }).addTo(hostMap);
       hostMap.on('click', (e) => {
-        hostLat = e.latlng.lat.toFixed(5);
-        hostLng = e.latlng.lng.toFixed(5);
+        hostLat = e.latlng.lat.toFixed(5); hostLng = e.latlng.lng.toFixed(5);
         if (hostMarker) hostMap.removeLayer(hostMarker);
         hostMarker = L.marker([hostLat, hostLng], {
           icon: L.divIcon({ className: '', html: '<div class="host-interest-marker">📍</div>', iconSize:[32,32], iconAnchor:[16,16] })
         }).addTo(hostMap);
         document.getElementById('host-coords-display').innerHTML =
-          `📍 Selected area: <span>Lat ${hostLat}, Lng ${hostLng}</span> &nbsp;—&nbsp; Great choice!`;
+          `📍 Selected: <span>Lat ${hostLat}, Lng ${hostLng}</span> — Great choice!`;
         document.getElementById('host-map-hint').textContent = '✅ Location pinned! Move it anytime.';
       });
-    } else {
-      hostMap.invalidateSize();
-    }
+    } else { hostMap.invalidateSize(); }
   }, 100);
 }
 
@@ -916,20 +983,12 @@ function closeHostModal() {
   document.getElementById('hf-day').value = '';
 }
 
-function closeHostIfOutside(e) {
-  if (e.target === document.getElementById('host-overlay')) closeHostModal();
-}
+function closeHostIfOutside(e) { if (e.target === document.getElementById('host-overlay')) closeHostModal(); }
 
 function submitHostInterest() {
   const name = document.getElementById('hf-name').value.trim();
   if (!name) { alert('Please enter your name.'); return; }
-  console.log('Host interest:', {
-    name, contact: document.getElementById('hf-contact').value,
-    area: document.getElementById('hf-area').value,
-    day: document.getElementById('hf-day').value,
-    notes: document.getElementById('hf-notes').value,
-    lat: hostLat, lng: hostLng
-  });
+  console.log('Host interest:', { name, contact: document.getElementById('hf-contact').value, area: document.getElementById('hf-area').value, day: document.getElementById('hf-day').value, notes: document.getElementById('hf-notes').value, lat: hostLat, lng: hostLng });
   document.getElementById('host-form').style.display = 'none';
   document.getElementById('host-submit').style.display = 'none';
   document.getElementById('host-success').style.display = 'block';
@@ -945,12 +1004,8 @@ function openPW() {
 }
 function closePW() { document.getElementById('pw-overlay').classList.remove('show'); }
 function checkPW() {
-  if (document.getElementById('pw-input').value === ADMIN_PW) {
-    closePW(); openAdmin();
-  } else {
-    document.getElementById('pw-error').style.display = 'block';
-    document.getElementById('pw-input').value = '';
-  }
+  if (document.getElementById('pw-input').value === ADMIN_PW) { closePW(); openAdmin(); }
+  else { document.getElementById('pw-error').style.display = 'block'; document.getElementById('pw-input').value = ''; }
 }
 
 // ─── ADMIN ────────────────────────────────────────────────────────────────────
@@ -961,17 +1016,16 @@ function renderGroupList() {
   const ul = document.getElementById('group-list');
   ul.innerHTML = '';
   if (!groups.length) {
-    ul.innerHTML = '<li style="color:var(--muted);padding:10px 0;font-size:0.88rem">No groups yet. Either groups.json has not been synced, or switch to Local Overrides to add groups manually.</li>';
+    ul.innerHTML = '<li style="color:var(--muted);padding:10px 0;font-size:0.88rem">No groups loaded. Check that groups.json exists, or switch to Local Overrides to add groups manually.</li>';
     return;
   }
   groups.forEach(g => {
     const li = document.createElement('li');
     li.className = 'gli';
-    const schedLine = g.schedule || (g.day && g.time ? `${g.day}s at ${g.time}` : '');
     li.innerHTML = `
       <div>
         <strong>${g.name}</strong>
-        <span>${CAT_LABELS[g.category] || 'Group'}${schedLine ? ' · ' + schedLine : ''}${g.neighborhood ? ' · ' + g.neighborhood : ''}</span>
+        <span>${g.leader ? 'Led by ' + g.leader + ' · ' : ''}${g.schedule || ''}${g.neighborhood ? ' · ' + g.neighborhood : ''}</span>
       </div>
       <div class="gli-btns">
         <button class="gli-btn edit" onclick="openEditForm('${g.id}')">Edit</button>
@@ -993,13 +1047,12 @@ function openEditForm(id) {
   if (!g) return;
   editingId = String(id);
   document.getElementById('form-title').textContent = 'Edit Group';
-  document.getElementById('f-name').value         = g.name;
-  document.getElementById('f-category').value     = g.category || 'mixed';
-  document.getElementById('f-schedule').value     = g.schedule || (g.day && g.time ? `${g.day}s at ${g.time}` : '');
-  document.getElementById('f-neighborhood').value = g.neighborhood || '';
+  document.getElementById('f-name').value         = g.name || '';
   document.getElementById('f-leader').value       = g.leader || '';
-  document.getElementById('f-lat').value          = g.lat;
-  document.getElementById('f-lng').value          = g.lng;
+  document.getElementById('f-schedule').value     = g.schedule || '';
+  document.getElementById('f-neighborhood').value = g.neighborhood || '';
+  document.getElementById('f-lat').value          = g.lat || '';
+  document.getElementById('f-lng').value          = g.lng || '';
   document.getElementById('f-url').value          = g.url || '';
   document.getElementById('f-photo').value        = g.photo || '';
   document.getElementById('f-video').value        = g.video || '';
@@ -1009,21 +1062,14 @@ function openEditForm(id) {
 }
 
 function clearForm() {
-  ['f-name','f-schedule','f-neighborhood','f-leader','f-lat','f-lng','f-url','f-photo','f-video','f-desc'].forEach(id => document.getElementById(id).value = '');
-  document.getElementById('f-category').value = 'mixed';
+  ['f-name','f-leader','f-schedule','f-neighborhood','f-lat','f-lng','f-url','f-photo','f-video','f-desc']
+    .forEach(id => document.getElementById(id).value = '');
 }
 
 function cancelForm() { document.getElementById('group-form').style.display = 'none'; editingId = null; }
 
 function saveGroup() {
-  // Ensure we're in override mode when making edits
-  if (!useOverride) {
-    if (!confirm('Editing will switch you to Local Override mode. Planning Center sync data will still be available but not shown until you switch back. Continue?')) return;
-    useOverride = true;
-    if (groups === pcGroups) groups = [...pcGroups];
-    updateSourceUI(false);
-  }
-
+  // If in PC mode, editing saves to local overrides AND stores locally for field-level persistence
   const name = document.getElementById('f-name').value.trim();
   const lat  = parseFloat(document.getElementById('f-lat').value);
   const lng  = parseFloat(document.getElementById('f-lng').value);
@@ -1031,25 +1077,42 @@ function saveGroup() {
 
   const data = {
     name, lat, lng,
-    category:     document.getElementById('f-category').value,
+    leader:       document.getElementById('f-leader').value,
     schedule:     document.getElementById('f-schedule').value,
     neighborhood: document.getElementById('f-neighborhood').value,
-    leader:       document.getElementById('f-leader').value,
     url:          document.getElementById('f-url').value || '#',
     photo:        document.getElementById('f-photo').value,
     video:        document.getElementById('f-video').value,
     desc:         document.getElementById('f-desc').value
   };
 
-  if (editingId !== null) {
-    const i = groups.findIndex(x => String(x.id) === String(editingId));
-    groups[i] = { ...groups[i], ...data };
+  if (!useOverride) {
+    // In PC mode: save local-only fields as field-level overrides keyed by group id
+    if (editingId) {
+      const overrides = getLocalOverrides();
+      overrides[String(editingId)] = {
+        video:        data.video,
+        neighborhood: data.neighborhood
+      };
+      saveLocalOverrides(overrides);
+      // Re-merge onto displayed groups
+      const idx = groups.findIndex(x => String(x.id) === String(editingId));
+      if (idx !== -1) groups[idx] = { ...groups[idx], ...data };
+    }
   } else {
-    const newId = groups.length ? Math.max(...groups.map(g => Number(g.id) || 0)) + 1 : 1;
-    groups.push({ id: newId, ...data });
+    // Full override mode
+    const overrides = getLocalOverrides();
+    if (editingId !== null) {
+      const i = groups.findIndex(x => String(x.id) === String(editingId));
+      if (i !== -1) groups[i] = { ...groups[i], ...data };
+    } else {
+      const newId = groups.length ? Math.max(...groups.map(g => Number(g.id) || 0)) + 1 : 1;
+      groups.push({ id: newId, ...data });
+    }
+    overrides.__groups = groups;
+    saveLocalOverrides(overrides);
   }
 
-  saveOverrideGroups(groups);
   renderMarkers();
   renderGroupList();
   cancelForm();
@@ -1058,14 +1121,21 @@ function saveGroup() {
 function deleteGroup(id) {
   if (!confirm('Delete this group?')) return;
   if (!useOverride) {
+    if (!confirm('Deleting a group will switch you to Local Override mode. Continue?')) return;
     useOverride = true;
-    if (groups === pcGroups) groups = [...pcGroups];
+    const overrides = getLocalOverrides();
+    overrides.__useOverride = true;
+    groups = groups.filter(g => String(g.id) !== String(id));
+    overrides.__groups = groups;
+    saveLocalOverrides(overrides);
     updateSourceUI(false);
+  } else {
+    groups = groups.filter(g => String(g.id) !== String(id));
+    const overrides = getLocalOverrides();
+    overrides.__groups = groups;
+    saveLocalOverrides(overrides);
   }
-  groups = groups.filter(g => String(g.id) !== String(id));
-  saveOverrideGroups(groups);
-  renderMarkers();
-  renderGroupList();
+  renderMarkers(); renderGroupList();
 }
 
 // ─── INIT ─────────────────────────────────────────────────────────────────────
