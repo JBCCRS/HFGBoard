@@ -22,6 +22,11 @@
     --gold: #C9A84C;
     --gold-light: #E8C97A;
     --red: #c0392b;
+    --green: #27ae60;
+    /* Day colors */
+    --sun:#e74c3c; --mon:#e67e22; --tue:#f1c40f;
+    --wed:#2ecc71; --thu:#3498db; --fri:#9b59b6; --sat:#1abc9c;
+    --unk:#888888;
   }
   * { margin: 0; padding: 0; box-sizing: border-box; }
   html, body { width: 100%; height: 100%; font-family: 'DM Sans', sans-serif; background: var(--black); overflow: hidden; }
@@ -95,6 +100,24 @@
   }
   .hfg-marker:hover { transform: scale(1.25); }
 
+  /* Enrollment ring on marker */
+  .hfg-marker-wrap{position:relative;width:42px;height:42px;display:flex;align-items:center;justify-content:center;}
+  .enroll-ring{position:absolute;top:0;left:0;width:42px;height:42px;border-radius:50%;border:3px solid transparent;pointer-events:none;}
+  .enroll-ring.open{border-color:var(--green);}
+  .enroll-ring.closed{border-color:var(--red);}
+
+  /* Legend */
+  #legend{position:fixed;bottom:20px;left:20px;z-index:1000;background:rgba(0,0,0,0.82);border:1px solid var(--border);border-radius:12px;padding:14px 18px;backdrop-filter:blur(8px);}
+  #legend h4{font-size:0.68rem;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--muted);margin-bottom:10px;}
+  .legend-row{display:flex;align-items:center;gap:9px;margin-bottom:7px;}
+  .legend-row:last-child{margin-bottom:0;}
+  .legend-dot{width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:9px;font-weight:700;color:white;flex-shrink:0;border:2px solid rgba(255,255,255,0.3);}
+  .legend-label{font-size:0.8rem;color:var(--light);}
+  .legend-divider{height:1px;background:var(--border);margin:8px 0;}
+  .legend-enrollment{display:flex;align-items:center;gap:7px;margin-bottom:5px;}
+  .legend-enrollment:last-child{margin-bottom:0;}
+  .enroll-dot{width:10px;height:10px;border-radius:50%;flex-shrink:0;}
+
   /* Leaflet tooltip for group name on hover */
   .leaflet-tooltip.group-tooltip {
     background: var(--dark);
@@ -130,16 +153,24 @@
   }
   @keyframes slideUp { from { transform:translateY(30px); opacity:0; } to { transform:translateY(0); opacity:1; } }
   #popup-header {
-    background: var(--black); border-bottom: 1px solid var(--border);
-    padding: 22px 26px 18px; position: relative; border-radius: 18px 18px 0 0;
+    border-bottom: 1px solid var(--border);
+    padding: 0; position: relative; border-radius: 18px 18px 0 0; overflow: hidden;
   }
+  #popup-header-band{padding:18px 26px 14px;display:flex;align-items:flex-start;justify-content:space-between;gap:12px;background:var(--black);}
+  #popup-header-left{flex:1;}
   #popup-name { font-family: 'Playfair Display', serif; font-size: 1.6rem; font-weight: 700; color: var(--white); line-height: 1.2; }
+  #popup-day-label{font-size:0.72rem;font-weight:700;letter-spacing:1px;text-transform:uppercase;margin-top:5px;opacity:0.9;}
+  #popup-enrollment-banner{padding:10px 26px;font-size:0.85rem;font-weight:700;letter-spacing:0.3px;display:flex;align-items:center;gap:8px;}
+  .banner-open{background:rgba(39,174,96,0.18);color:#2ecc71;border-top:1px solid rgba(39,174,96,0.25);}
+  .banner-closed{background:rgba(231,76,60,0.18);color:#ff6b6b;border-top:1px solid rgba(231,76,60,0.25);}
+  .banner-unknown{background:rgba(255,255,255,0.05);color:var(--muted);border-top:1px solid var(--border);}
+  #popup-tags{margin-top:10px;display:flex;flex-wrap:wrap;gap:6px;}
+  .tag-chip{padding:3px 10px;background:rgba(201,168,76,0.12);border:1px solid rgba(201,168,76,0.25);border-radius:20px;font-size:0.72rem;font-weight:600;color:var(--gold-light);letter-spacing:0.3px;}
   #popup-close {
-    position: absolute; top: 14px; right: 14px;
-    background: var(--mid); border: 1px solid var(--border);
-    color: var(--light); width: 34px; height: 34px;
+    background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.2);
+    color: var(--white); width: 34px; height: 34px;
     border-radius: 50%; font-size: 16px; cursor: pointer;
-    display: flex; align-items: center; justify-content: center; transition: background 0.15s;
+    display: flex; align-items: center; justify-content: center; flex-shrink:0; transition: background 0.15s;
   }
   #popup-close:hover { background: var(--border); }
   #popup-media {
@@ -297,6 +328,24 @@
   #facilitate-label { font-size: 0.75rem; color: var(--muted); letter-spacing: 1.5px; text-transform: uppercase; margin-bottom: 8px; }
   #facilitate-emails { font-size: 0.82rem; color: var(--light); }
 
+  /* Host mode toggle (in admin) */
+  #host-mode-bar{background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.25);border-radius:9px;padding:12px 16px;margin-bottom:16px;display:flex;align-items:center;justify-content:space-between;gap:12px;}
+  #host-mode-bar p{font-size:0.8rem;color:var(--muted);margin-top:2px;}
+  #host-mode-bar strong{font-size:0.88rem;color:var(--gold-light);}
+
+  /* QR-only host mode */
+  #host-qr-mode{padding:28px 26px;text-align:center;display:none;}
+  #host-qr-wrap{display:inline-block;border:2px solid var(--border);border-radius:12px;padding:12px;background:white;margin-bottom:16px;}
+  #host-qr-sublabel{font-size:0.75rem;color:var(--muted);letter-spacing:1.5px;text-transform:uppercase;margin-bottom:10px;}
+  #host-qr-emails{font-size:0.82rem;color:var(--light);}
+
+  /* Enrollment styles in admin list */
+  .gli-info strong{font-size:0.92rem;color:var(--white);}
+  .gli-info span{font-size:0.78rem;color:var(--muted);display:block;margin-top:2px;}
+  .gli-enrollment{font-size:0.72rem;font-weight:700;padding:2px 8px;border-radius:12px;margin-top:4px;display:inline-block;}
+  .gli-open{background:rgba(39,174,96,0.15);color:var(--green);}
+  .gli-closed{background:rgba(231,76,60,0.15);color:var(--red);}
+
   /* ── ADMIN PASSWORD ── */
   #pw-overlay {
     position:fixed; top:0; left:0; right:0; bottom:0;
@@ -393,6 +442,7 @@
   .fg label { font-size:0.7rem; font-weight:600; letter-spacing:1px; text-transform:uppercase; color:var(--muted); }
   .fg .field-note { font-size:0.68rem; color:#666; margin-top:-2px; }
   .fg .field-note.sync-field { color: rgba(201,168,76,0.7); }
+  .fg .field-note.local-field { color: rgba(46,204,113,0.7); }
   .fg input, .fg select, .fg textarea {
     padding:10px 12px; border:1px solid var(--border); border-radius:7px;
     background:var(--dark2); color:var(--white);
@@ -453,6 +503,21 @@
 
 <!-- BOTTOM RIGHT BUTTONS -->
 <div id="bottom-right">
+
+<!-- LEGEND -->
+<div id="legend">
+  <h4>Day of Week</h4>
+  <div class="legend-row"><div class="legend-dot" style="background:var(--sun)">Su</div><span class="legend-label">Sunday</span></div>
+  <div class="legend-row"><div class="legend-dot" style="background:var(--mon)">Mo</div><span class="legend-label">Monday</span></div>
+  <div class="legend-row"><div class="legend-dot" style="background:var(--tue)">Tu</div><span class="legend-label">Tuesday</span></div>
+  <div class="legend-row"><div class="legend-dot" style="background:var(--wed)">We</div><span class="legend-label">Wednesday</span></div>
+  <div class="legend-row"><div class="legend-dot" style="background:var(--thu)">Th</div><span class="legend-label">Thursday</span></div>
+  <div class="legend-row"><div class="legend-dot" style="background:var(--fri)">Fr</div><span class="legend-label">Friday</span></div>
+  <div class="legend-row"><div class="legend-dot" style="background:var(--sat)">Sa</div><span class="legend-label">Saturday</span></div>
+  <div class="legend-divider"></div>
+  <div class="legend-enrollment"><div class="enroll-dot" style="background:var(--green)"></div><span class="legend-label" style="font-size:0.75rem">Open enrollment</span></div>
+  <div class="legend-enrollment"><div class="enroll-dot" style="background:var(--red)"></div><span class="legend-label" style="font-size:0.75rem">Closed enrollment</span></div>
+</div>
   <button class="float-btn" id="facilitate-btn" onclick="openFacilitateModal()">
     <span class="icon">✋</span> Interested in Facilitating?
   </button>
@@ -468,14 +533,21 @@
 <div id="popup-overlay" onclick="closePopup(event)">
   <div id="popup-card">
     <div id="popup-header">
-      <div id="popup-name"></div>
-      <button id="popup-close" onclick="closePopup()">✕</button>
+      <div id="popup-header-band">
+        <div id="popup-header-left">
+          <div id="popup-name"></div>
+          <div id="popup-day-label"></div>
+        </div>
+        <button id="popup-close" onclick="closePopup()">✕</button>
+      </div>
+      <div id="popup-enrollment-banner"></div>
     </div>
     <div id="popup-media"></div>
     <div id="popup-body">
       <div id="popup-left">
         <div class="popup-detail"><span class="icon">📅</span><span id="popup-schedule"></span></div>
         <div class="popup-detail" id="popup-leader-row"><span class="icon">👤</span><span id="popup-leader"></span></div>
+        <div id="popup-tags"></div>
         <div id="popup-description"></div>
         <div id="popup-privacy">
           <span class="icon">🔒</span>This is a generalized pin on the map — the actual address is hidden for privacy.
@@ -504,7 +576,7 @@
     <div id="facilitate-body">
       <div id="facilitate-label">Reach Our Team</div>
       <div id="facilitate-qr"></div>
-      <div id="facilitate-emails">josh@calvarychapelreno.org &amp; dustin@calvarychapelreno.org</div>
+      <div id="facilitate-emails"><a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="86ece9f5eec6e5e7eaf0e7f4ffe5eee7f6e3eaf4e3e8e9a8e9f4e1">[email&#160;protected]</a> &amp; <a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="fa9e8f898e9394ba999b968c9b888399929b8a9f96889f9495d495889d">[email&#160;protected]</a></div>
     </div>
   </div>
 </div>
@@ -514,9 +586,19 @@
   <div id="host-modal">
     <div id="host-modal-header">
       <h2>Interested in Hosting a Group?</h2>
-      <p>Tap your approximate neighborhood on the map below, then fill out the form.</p>
+      <p id="host-modal-subtext">Tap your approximate neighborhood on the map below, then fill out the form.</p>
       <button id="host-close" onclick="closeHostModal()">✕</button>
     </div>
+
+    <!-- QR-only mode -->
+    <div id="host-qr-mode">
+      <div id="host-qr-sublabel">Reach Our Team</div>
+      <div id="host-qr-wrap"></div>
+      <div id="host-qr-emails">josh@calvarychapelreno.org &amp; dustin@calvarychapelreno.org</div>
+    </div>
+
+    <!-- Form mode -->
+    <div id="host-form-mode">
     <div id="host-map-container">
       <div id="host-map"></div>
       <div id="host-map-hint">👆 Tap your neighborhood to pin your area</div>
@@ -543,6 +625,7 @@
         </div>
       </div>
       <button id="host-submit" onclick="submitHostInterest()">Submit Interest →</button>
+    </div>
     </div>
     <div id="host-success">
       <div class="check">✅</div>
@@ -575,6 +658,15 @@
       </div>
     </div>
     <div id="admin-content">
+      <!-- Host mode toggle -->
+      <div id="host-mode-bar">
+        <div>
+          <strong id="host-mode-label">Hosting Button: Form Mode</strong>
+          <p id="host-mode-desc">Shows map + full form when visitor taps "Interested in Hosting?"</p>
+        </div>
+        <button class="toggle-btn" id="host-mode-btn" onclick="toggleHostMode()">Switch to QR Mode</button>
+      </div>
+
       <div id="source-toggle">
         <div>
           <strong id="source-label">Data source: Loading…</strong>
@@ -599,9 +691,14 @@
             <span class="field-note sync-field">Overwritten on next PC sync</span>
           </div>
           <div class="fg">
-            <label>Leader Name <span style="color:var(--gold);font-size:0.65rem;">🔄 synced from PC</span></label>
+            <label>Leader Name <span style="color:var(--green);font-size:0.65rem;">✅ local</span></label>
             <input id="f-leader" placeholder="e.g. John & Mary Smith">
-            <span class="field-note sync-field">Pulled from PC memberships — overwritten on sync</span>
+            <span class="field-note local-field">From group-leaders.json</span>
+          </div>
+          <div class="fg">
+            <label>Initials (marker) <span style="color:var(--green);font-size:0.65rem;">✅ local</span></label>
+            <input id="f-initials" placeholder="e.g. JM" maxlength="3">
+            <span class="field-note local-field">Shown on map marker</span>
           </div>
           <div class="fg">
             <label>Schedule <span style="color:var(--gold);font-size:0.65rem;">🔄 synced from PC</span></label>
@@ -653,21 +750,44 @@
   </div>
 </div>
 
-<script>
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
 // ─── CONFIG ───────────────────────────────────────────────────────────────────
 const ADMIN_PW    = "church2024";
-const STORE_KEY   = "ccrs_hfg_v4";
+const STORE_KEY   = "ccrs_hfg_v5";
 const IDLE_MS     = 120000; // 2 minutes
 const GROUPS_JSON = "groups.json";
 
-// Marker color — single gold color for all HFGs (no category distinction)
-const MARKER_COLOR = '#C9A84C';
+// Day-of-week config: color and abbreviation shown on marker
+const DAY_CONFIG = {
+  sunday:    { color:'#e74c3c', abbr:'Su', label:'Sunday' },
+  monday:    { color:'#e67e22', abbr:'Mo', label:'Monday' },
+  tuesday:   { color:'#d4ac0d', abbr:'Tu', label:'Tuesday' },
+  wednesday: { color:'#27ae60', abbr:'We', label:'Wednesday' },
+  thursday:  { color:'#2980b9', abbr:'Th', label:'Thursday' },
+  friday:    { color:'#8e44ad', abbr:'Fr', label:'Friday' },
+  saturday:  { color:'#16a085', abbr:'Sa', label:'Saturday' },
+  unknown:   { color:'#666666', abbr:'HF', label:'Unknown' }
+};
+
+function parseDayFromSchedule(schedule) {
+  if (!schedule) return 'unknown';
+  const s = schedule.toLowerCase();
+  if (s.includes('sunday'))    return 'sunday';
+  if (s.includes('monday'))    return 'monday';
+  if (s.includes('tuesday'))   return 'tuesday';
+  if (s.includes('wednesday')) return 'wednesday';
+  if (s.includes('thursday'))  return 'thursday';
+  if (s.includes('friday'))    return 'friday';
+  if (s.includes('saturday'))  return 'saturday';
+  return 'unknown';
+}
 
 // ─── STATE ────────────────────────────────────────────────────────────────────
 let groups      = [];
 let pcGroups    = [];
 let syncedAt    = null;
 let useOverride = false;
+let hostQRMode  = false;
 let editingId   = null;
 let markers     = {};
 let idleTimer = null, idleBarTimer = null;
@@ -692,18 +812,22 @@ map.on('click move zoom', resetIdleTimer);
 // ─── DATA ─────────────────────────────────────────────────────────────────────
 function normalizePCGroup(g) {
   return {
-    id:           g.id,
-    name:         g.name || 'Unnamed Group',
-    leader:       g.leader || extractLeaderFromName(g.name || ''),
-    schedule:     g.schedule || '',
-    neighborhood: '',
-    url:          g.url || '#',
-    photo:        g.photo || '',
-    video:        '',
-    desc:         g.description || '',
-    lat:          g.lat,
-    lng:          g.lng,
-    _fromPC:      true
+    id:              g.id,
+    name:            g.name || 'Unnamed Group',
+    leader:          g.leader || extractLeaderFromName(g.name || ''),
+    leader_name:     g.leader_name || '',
+    initials:        g.initials || '',
+    enrollment_open: (typeof g.enrollment_open === 'boolean') ? g.enrollment_open : null,
+    tags:            Array.isArray(g.tags) ? g.tags : [],
+    schedule:        g.schedule || '',
+    neighborhood:    '',
+    url:             g.url || '#',
+    photo:           g.photo || '',
+    video:           '',
+    desc:            g.description || '',
+    lat:             g.lat,
+    lng:             g.lng,
+    _fromPC:         true
   };
 }
 
@@ -758,6 +882,7 @@ async function initData() {
 
   // Check if user was previously in override mode
   useOverride = overrides.__useOverride === true;
+  hostQRMode  = overrides.__hostQRMode  === true;
 
   if (pcOk && pcGroups.length > 0 && !useOverride) {
     // PC data available — merge any local-only field overrides
@@ -778,9 +903,11 @@ async function initData() {
   }
 
   document.getElementById('loading-overlay').classList.add('hidden');
+  updateHostModeUI();
   renderMarkers();
   renderSyncBadge();
   buildFacilitateQR();
+  buildHostQR();
 }
 
 function updateSourceUI(isPCSource) {
@@ -841,11 +968,16 @@ function renderSyncBadge() {
 
 // ─── MARKERS ──────────────────────────────────────────────────────────────────
 function markerIcon(group) {
-  const initials = makeMarkerInitials(group.leader || extractLeaderFromName(group.name));
+  const day = parseDayFromSchedule(group.schedule);
+  const cfg = DAY_CONFIG[day] || DAY_CONFIG.unknown;
+  const abbr = group.initials || cfg.abbr;
+  const col  = cfg.color;
+  const ringClass = group.enrollment_open === true ? 'open' : group.enrollment_open === false ? 'closed' : '';
+  const ringHtml = ringClass ? `<div class="enroll-ring ${ringClass}"></div>` : '';
   return L.divIcon({
     className: '',
-    html: `<div class="hfg-marker" style="background:${MARKER_COLOR};width:38px;height:38px;">${initials}</div>`,
-    iconSize: [38, 38], iconAnchor: [19, 19]
+    html: `<div class="hfg-marker-wrap">${ringHtml}<div class="hfg-marker" style="background:${col};width:38px;height:38px;">${abbr}</div></div>`,
+    iconSize: [42,42], iconAnchor: [21,21]
   });
 }
 
@@ -895,17 +1027,50 @@ function resetIdleTimer() {
 function openPopup(g) {
   document.getElementById('popup-name').textContent = g.name;
 
+  // Day label with color
+  const day = parseDayFromSchedule(g.schedule);
+  const cfg = DAY_CONFIG[day] || DAY_CONFIG.unknown;
+  const dayEl = document.getElementById('popup-day-label');
+  dayEl.textContent = cfg.label + 's';
+  dayEl.style.color = cfg.color;
+
+  // Color the header band subtly
+  document.getElementById('popup-header-band').style.background =
+    `linear-gradient(135deg, ${cfg.color}22 0%, transparent 60%)`;
+
+  // Enrollment banner
+  const banner = document.getElementById('popup-enrollment-banner');
+  if (g.enrollment_open === true) {
+    banner.innerHTML = '✅ Open for Enrollment — new members welcome!';
+    banner.className = 'banner-open';
+  } else if (g.enrollment_open === false) {
+    banner.innerHTML = '🔒 Enrollment Currently Closed';
+    banner.className = 'banner-closed';
+  } else {
+    banner.innerHTML = 'ℹ️ Contact us for enrollment information';
+    banner.className = 'banner-unknown';
+  }
+
   const schedEl = document.getElementById('popup-schedule');
   schedEl.textContent = g.schedule || 'See sign-up for schedule details';
 
   const ldrRow = document.getElementById('popup-leader-row');
   const ldrEl  = document.getElementById('popup-leader');
-  if (g.leader) {
-    ldrEl.textContent = 'Led by ' + g.leader;
+  const leaderDisplay = g.leader_name || g.leader;
+  if (leaderDisplay) {
+    ldrEl.textContent = 'Led by ' + leaderDisplay;
     ldrRow.style.display = 'flex';
   } else {
     ldrRow.style.display = 'none';
   }
+
+  const tagsEl = document.getElementById('popup-tags');
+  tagsEl.innerHTML = '';
+  (g.tags || []).forEach(t => {
+    const chip = document.createElement('span');
+    chip.className = 'tag-chip'; chip.textContent = t;
+    tagsEl.appendChild(chip);
+  });
 
   document.getElementById('popup-description').textContent = g.desc || '';
 
@@ -948,15 +1113,59 @@ function openFacilitateModal() {
 function closeFacilitateModal() { document.getElementById('facilitate-overlay').classList.remove('show'); }
 function closeFacilitateIfOutside(e) { if (e.target === document.getElementById('facilitate-overlay')) closeFacilitateModal(); }
 
+// ─── HOST MODE ────────────────────────────────────────────────────────────────
+function toggleHostMode() {
+  hostQRMode = !hostQRMode;
+  const overrides = getLocalOverrides();
+  overrides.__hostQRMode = hostQRMode;
+  saveLocalOverrides(overrides);
+  updateHostModeUI();
+}
+
+function updateHostModeUI() {
+  const lbl  = document.getElementById('host-mode-label');
+  const desc = document.getElementById('host-mode-desc');
+  const btn  = document.getElementById('host-mode-btn');
+  if (hostQRMode) {
+    lbl.textContent  = 'Hosting Button: QR Code Mode';
+    desc.textContent = 'Shows a scannable QR code email — ideal for lobby kiosk use.';
+    btn.textContent  = 'Switch to Form Mode';
+  } else {
+    lbl.textContent  = 'Hosting Button: Form Mode';
+    desc.textContent = 'Shows map + full form — ideal for desktop/phone browsing.';
+    btn.textContent  = 'Switch to QR Mode';
+  }
+}
+
+function buildHostQR() {
+  const mailto = 'mailto:josh@calvarychapelreno.org,dustin@calvarychapelreno.org' +
+    '?subject=Interested%20in%20Hosting%20a%20Home%20Fellowship%20Group' +
+    '&body=Hi%20Josh%20and%20Dustin%2C%0A%0AI%20am%20interested%20in%20hosting%20a%20Home%20Fellowship%20Group.%20Here%20are%20my%20details%3A%0A%0AName%3A%20%0APhone%20%2F%20Email%3A%20%0ANeighborhood%20%2F%20Area%3A%20%0ABest%20Day%3A%20%0AApproximate%20Group%20Size%3A%20%0AType%20of%20Study%3A%20%0A%0AAnything%20else%3A%20%0A%0AThanks!';
+  const qrDiv = document.getElementById('host-qr-wrap');
+  qrDiv.innerHTML = '';
+  new QRCode(qrDiv, { text:mailto, width:180, height:180, colorDark:'#000', colorLight:'#fff', correctLevel:QRCode.CorrectLevel.M });
+}
+
 // ─── HOST MODAL ───────────────────────────────────────────────────────────────
 function openHostModal() {
   resetIdleTimer();
-  document.getElementById('host-overlay').classList.add('show');
+  const overlay = document.getElementById('host-overlay');
+  const qrMode  = document.getElementById('host-qr-mode');
+  const formMode = document.getElementById('host-form-mode');
+  const subtext  = document.getElementById('host-modal-subtext');
+
   document.getElementById('host-success').style.display = 'none';
-  document.getElementById('host-form').style.display = 'block';
-  document.getElementById('host-submit').style.display = 'block';
-  setTimeout(() => {
-    if (!hostMap) {
+
+  if (hostQRMode) {
+    qrMode.style.display   = 'block';
+    formMode.style.display = 'none';
+    subtext.textContent    = 'Scan the QR code below to send us an email — we\'d love to connect!';
+  } else {
+    qrMode.style.display   = 'none';
+    formMode.style.display = 'block';
+    subtext.textContent    = 'Tap your approximate neighborhood on the map, then fill out the form.';
+    setTimeout(() => {
+      if (!hostMap) {
       hostMap = L.map('host-map', { center: DEFAULT_CENTER, zoom: 11, zoomControl: true, attributionControl: false });
       L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png', { maxZoom: 18 }).addTo(hostMap);
       hostMap.on('click', (e) => {
@@ -971,6 +1180,8 @@ function openHostModal() {
       });
     } else { hostMap.invalidateSize(); }
   }, 100);
+  }
+  overlay.classList.add('show');
 }
 
 function closeHostModal() {
@@ -989,8 +1200,7 @@ function submitHostInterest() {
   const name = document.getElementById('hf-name').value.trim();
   if (!name) { alert('Please enter your name.'); return; }
   console.log('Host interest:', { name, contact: document.getElementById('hf-contact').value, area: document.getElementById('hf-area').value, day: document.getElementById('hf-day').value, notes: document.getElementById('hf-notes').value, lat: hostLat, lng: hostLng });
-  document.getElementById('host-form').style.display = 'none';
-  document.getElementById('host-submit').style.display = 'none';
+  document.getElementById('host-form-mode').style.display = 'none';
   document.getElementById('host-success').style.display = 'block';
   setTimeout(() => closeHostModal(), 4000);
 }
@@ -1022,10 +1232,19 @@ function renderGroupList() {
   groups.forEach(g => {
     const li = document.createElement('li');
     li.className = 'gli';
+    const day = parseDayFromSchedule(g.schedule);
+    const cfg = DAY_CONFIG[day] || DAY_CONFIG.unknown;
+    const leaderDisplay = g.leader_name || g.leader;
+    const enrollHtml = g.enrollment_open===true ? '<span class="gli-enrollment gli-open">Open</span>'
+      : g.enrollment_open===false ? '<span class="gli-enrollment gli-closed">Closed</span>' : '';
     li.innerHTML = `
-      <div>
+      <div class="gli-info">
         <strong>${g.name}</strong>
-        <span>${g.leader ? 'Led by ' + g.leader + ' · ' : ''}${g.schedule || ''}${g.neighborhood ? ' · ' + g.neighborhood : ''}</span>
+        <span style="display:flex;align-items:center;gap:6px">
+          <span style="display:inline-block;width:8px;height:8px;border-radius:50%;background:${cfg.color}"></span>
+          ${leaderDisplay ? 'Led by '+leaderDisplay+' · ':''} ${g.schedule||''} ${g.neighborhood?' · '+g.neighborhood:''}
+        </span>
+        ${enrollHtml}
       </div>
       <div class="gli-btns">
         <button class="gli-btn edit" onclick="openEditForm('${g.id}')">Edit</button>
@@ -1048,7 +1267,8 @@ function openEditForm(id) {
   editingId = String(id);
   document.getElementById('form-title').textContent = 'Edit Group';
   document.getElementById('f-name').value         = g.name || '';
-  document.getElementById('f-leader').value       = g.leader || '';
+  document.getElementById('f-leader').value       = g.leader_name || g.leader || '';
+  document.getElementById('f-initials').value     = g.initials || '';
   document.getElementById('f-schedule').value     = g.schedule || '';
   document.getElementById('f-neighborhood').value = g.neighborhood || '';
   document.getElementById('f-lat').value          = g.lat || '';
@@ -1062,7 +1282,7 @@ function openEditForm(id) {
 }
 
 function clearForm() {
-  ['f-name','f-leader','f-schedule','f-neighborhood','f-lat','f-lng','f-url','f-photo','f-video','f-desc']
+  ['f-name','f-leader','f-initials','f-schedule','f-neighborhood','f-lat','f-lng','f-url','f-photo','f-video','f-desc']
     .forEach(id => document.getElementById(id).value = '');
 }
 
@@ -1078,6 +1298,8 @@ function saveGroup() {
   const data = {
     name, lat, lng,
     leader:       document.getElementById('f-leader').value,
+    leader_name:  document.getElementById('f-leader').value,
+    initials:     document.getElementById('f-initials').value || '',
     schedule:     document.getElementById('f-schedule').value,
     neighborhood: document.getElementById('f-neighborhood').value,
     url:          document.getElementById('f-url').value || '#',
@@ -1092,7 +1314,9 @@ function saveGroup() {
       const overrides = getLocalOverrides();
       overrides[String(editingId)] = {
         video:        data.video,
-        neighborhood: data.neighborhood
+        neighborhood: data.neighborhood,
+        leader_name:  data.leader_name,
+        initials:     data.initials
       };
       saveLocalOverrides(overrides);
       // Re-merge onto displayed groups
@@ -1135,10 +1359,10 @@ function deleteGroup(id) {
     overrides.__groups = groups;
     saveLocalOverrides(overrides);
   }
-  renderMarkers(); renderGroupList();
+  renderMarkers();
+  renderGroupList();
 }
 
-// ─── INIT ─────────────────────────────────────────────────────────────────────
 initData();
 resetIdleTimer();
 </script>
