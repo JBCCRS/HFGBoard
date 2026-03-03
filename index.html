@@ -11,237 +11,243 @@
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
 <style>
   :root {
-    --black:    #000000;
-    --dark:     #111111;
-    --dark2:    #1a1a1a;
-    --mid:      #2a2a2a;
-    --border:   #333333;
-    --muted:    #888888;
-    --light:    #cccccc;
-    --white:    #ffffff;
-    --gold:     #C9A84C;
-    --gold-lt:  #E8C97A;
-    --green:    #2ecc71;
-    --red:      #e74c3c;
+    --black:   #000000; --dark:  #111111; --dark2: #1a1a1a;
+    --mid:     #2a2a2a; --border:#333333; --muted: #888888;
+    --light:   #cccccc; --white: #ffffff;
+    --gold:    #C9A84C; --gold-lt:#E8C97A;
+    --green:   #27ae60; --red:   #e74c3c;
+    /* Day colors */
+    --sun:#e74c3c; --mon:#e67e22; --tue:#f1c40f;
+    --wed:#2ecc71; --thu:#3498db; --fri:#9b59b6; --sat:#1abc9c;
+    --unk:#888888;
   }
-  * { margin:0; padding:0; box-sizing:border-box; }
-  html,body { width:100%; height:100%; font-family:'DM Sans',sans-serif; background:var(--black); overflow:hidden; }
+  *{margin:0;padding:0;box-sizing:border-box;}
+  html,body{width:100%;height:100%;font-family:'DM Sans',sans-serif;background:var(--black);overflow:hidden;}
 
   /* HEADER */
-  #header {
-    position:fixed; top:0; left:0; right:0; z-index:1000;
-    background:var(--black); border-bottom:1px solid var(--border);
-    padding:10px 28px; display:flex; align-items:center; justify-content:space-between; height:70px;
-  }
-  #logo-wrap { display:flex; align-items:center; height:44px; }
-  #logo-wrap img { height:44px; width:auto; object-fit:contain; }
-  #header-center { text-align:center; }
-  #header-center h1 { font-family:'Playfair Display',serif; font-size:1.4rem; font-weight:700; color:var(--white); letter-spacing:0.5px; }
-  #header-center .sub { font-size:0.7rem; color:var(--muted); letter-spacing:2px; text-transform:uppercase; margin-top:2px; }
-  #header-right { display:flex; align-items:center; gap:12px; }
-  #group-count { background:var(--mid); color:var(--light); font-size:0.78rem; font-weight:600; padding:6px 14px; border-radius:20px; border:1px solid var(--border); letter-spacing:0.5px; }
-  #sync-badge { font-size:0.68rem; color:var(--muted); display:none; }
-  #sync-badge.visible { display:block; }
-  .admin-btn { background:transparent; border:1px solid var(--border); color:var(--muted); padding:8px 16px; border-radius:7px; font-family:'DM Sans',sans-serif; font-size:0.82rem; cursor:pointer; transition:all 0.2s; }
-  .admin-btn:hover { border-color:var(--white); color:var(--white); }
+  #header{position:fixed;top:0;left:0;right:0;z-index:1000;background:var(--black);border-bottom:1px solid var(--border);padding:10px 28px;display:flex;align-items:center;justify-content:space-between;height:70px;}
+  #logo-wrap{display:flex;align-items:center;height:44px;}
+  #logo-wrap img{height:44px;width:auto;object-fit:contain;}
+  #header-center{text-align:center;}
+  #header-center h1{font-family:'Playfair Display',serif;font-size:1.4rem;font-weight:700;color:var(--white);letter-spacing:0.5px;}
+  #header-center .sub{font-size:0.7rem;color:var(--muted);letter-spacing:2px;text-transform:uppercase;margin-top:2px;}
+  #header-right{display:flex;align-items:center;gap:12px;}
+  #group-count{background:var(--mid);color:var(--light);font-size:0.78rem;font-weight:600;padding:6px 14px;border-radius:20px;border:1px solid var(--border);}
+  #sync-badge{font-size:0.68rem;color:var(--muted);display:none;}
+  #sync-badge.visible{display:block;}
+  .admin-btn{background:transparent;border:1px solid var(--border);color:var(--muted);padding:8px 16px;border-radius:7px;font-family:'DM Sans',sans-serif;font-size:0.82rem;cursor:pointer;transition:all 0.2s;}
+  .admin-btn:hover{border-color:var(--white);color:var(--white);}
 
   /* MAP */
-  #map { position:fixed; top:70px; left:0; right:0; bottom:0; z-index:1; }
-  .leaflet-control-attribution { display:none !important; }
+  #map{position:fixed;top:70px;left:0;right:0;bottom:0;z-index:1;}
+  .leaflet-control-attribution{display:none!important;}
+
+  /* LEGEND */
+  #legend{position:fixed;bottom:20px;left:20px;z-index:1000;background:rgba(0,0,0,0.82);border:1px solid var(--border);border-radius:12px;padding:14px 18px;backdrop-filter:blur(8px);}
+  #legend h4{font-size:0.68rem;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--muted);margin-bottom:10px;}
+  .legend-row{display:flex;align-items:center;gap:9px;margin-bottom:7px;}
+  .legend-row:last-child{margin-bottom:0;}
+  .legend-dot{width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:9px;font-weight:700;color:white;flex-shrink:0;border:2px solid rgba(255,255,255,0.3);}
+  .legend-label{font-size:0.8rem;color:var(--light);}
+  .legend-divider{height:1px;background:var(--border);margin:8px 0;}
+  .legend-enrollment{display:flex;align-items:center;gap:7px;margin-bottom:5px;}
+  .legend-enrollment:last-child{margin-bottom:0;}
+  .enroll-dot{width:10px;height:10px;border-radius:50%;flex-shrink:0;}
 
   /* LOADING */
-  #loading-overlay { position:fixed; top:70px; left:0; right:0; bottom:0; background:rgba(255,255,255,0.55); z-index:500; display:flex; align-items:center; justify-content:center; }
-  #loading-overlay.hidden { display:none; }
-  .loader-spinner { width:36px; height:36px; border:3px solid #ddd; border-top-color:#333; border-radius:50%; animation:spin 0.8s linear infinite; margin:0 auto 12px; }
-  @keyframes spin { to { transform:rotate(360deg); } }
-  .loader-box p { font-size:0.88rem; color:#666; text-align:center; }
+  #loading-overlay{position:fixed;top:70px;left:0;right:0;bottom:0;background:rgba(255,255,255,0.55);z-index:500;display:flex;align-items:center;justify-content:center;}
+  #loading-overlay.hidden{display:none;}
+  .loader-spinner{width:36px;height:36px;border:3px solid #ddd;border-top-color:#333;border-radius:50%;animation:spin 0.8s linear infinite;margin:0 auto 12px;}
+  @keyframes spin{to{transform:rotate(360deg);}}
+  .loader-box p{font-size:0.88rem;color:#666;text-align:center;}
 
   /* MARKERS */
-  .hfg-marker {
-    border-radius:50%; border:2.5px solid rgba(255,255,255,0.9);
-    box-shadow:0 3px 14px rgba(0,0,0,0.35); cursor:pointer;
-    display:flex; align-items:center; justify-content:center;
-    font-weight:700; font-size:11px; color:white; transition:transform 0.2s;
-    width:38px; height:38px;
-  }
-  .hfg-marker:hover { transform:scale(1.25); }
+  .hfg-marker{border-radius:50%;border:2.5px solid rgba(255,255,255,0.9);box-shadow:0 3px 14px rgba(0,0,0,0.4);cursor:pointer;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:10px;color:white;transition:transform 0.2s;width:38px;height:38px;letter-spacing:0;}
+  .hfg-marker:hover{transform:scale(1.25);}
+
+  /* Enrollment ring on marker */
+  .hfg-marker-wrap{position:relative;width:42px;height:42px;display:flex;align-items:center;justify-content:center;}
+  .enroll-ring{position:absolute;top:0;left:0;width:42px;height:42px;border-radius:50%;border:3px solid transparent;pointer-events:none;}
+  .enroll-ring.open{border-color:var(--green);}
+  .enroll-ring.closed{border-color:var(--red);}
 
   /* Tooltip */
-  .leaflet-tooltip.group-tooltip {
-    background:var(--dark); border:1px solid var(--border); color:var(--white);
-    font-family:'DM Sans',sans-serif; font-size:0.82rem; font-weight:600;
-    padding:6px 12px; border-radius:8px; box-shadow:0 4px 16px rgba(0,0,0,0.4);
-    white-space:nowrap; pointer-events:none;
-  }
-  .leaflet-tooltip.group-tooltip::before { display:none; }
+  .leaflet-tooltip.group-tooltip{background:var(--dark);border:1px solid var(--border);color:var(--white);font-family:'DM Sans',sans-serif;font-size:0.82rem;font-weight:600;padding:6px 12px;border-radius:8px;box-shadow:0 4px 16px rgba(0,0,0,0.4);white-space:nowrap;pointer-events:none;}
+  .leaflet-tooltip.group-tooltip::before{display:none;}
 
   /* POPUP */
-  #popup-overlay { position:fixed; top:0; left:0; right:0; bottom:0; background:rgba(0,0,0,0.6); z-index:2000; display:none; align-items:center; justify-content:center; backdrop-filter:blur(6px); }
-  #popup-overlay.show { display:flex; animation:fadeIn 0.2s ease; }
-  @keyframes fadeIn { from{opacity:0}to{opacity:1} }
-  #popup-card { background:var(--dark); border:1px solid var(--border); border-radius:18px; width:680px; max-width:92vw; max-height:85vh; overflow-y:auto; box-shadow:0 30px 80px rgba(0,0,0,0.8); animation:slideUp 0.3s cubic-bezier(0.16,1,0.3,1); }
-  @keyframes slideUp { from{transform:translateY(30px);opacity:0}to{transform:translateY(0);opacity:1} }
-  #popup-header { background:var(--black); border-bottom:1px solid var(--border); padding:22px 26px 18px; position:relative; border-radius:18px 18px 0 0; }
-  #popup-name { font-family:'Playfair Display',serif; font-size:1.6rem; font-weight:700; color:var(--white); line-height:1.2; }
-  #popup-enrollment-badge { display:inline-block; margin-top:6px; padding:3px 10px; border-radius:20px; font-size:0.72rem; font-weight:700; letter-spacing:0.5px; text-transform:uppercase; }
-  .badge-open { background:rgba(46,204,113,0.15); color:var(--green); border:1px solid rgba(46,204,113,0.3); }
-  .badge-closed { background:rgba(231,76,60,0.15); color:var(--red); border:1px solid rgba(231,76,60,0.3); }
-  .badge-unknown { background:rgba(255,255,255,0.08); color:var(--muted); border:1px solid var(--border); }
-  #popup-close { position:absolute; top:14px; right:14px; background:var(--mid); border:1px solid var(--border); color:var(--light); width:34px; height:34px; border-radius:50%; font-size:16px; cursor:pointer; display:flex; align-items:center; justify-content:center; transition:background 0.15s; }
-  #popup-close:hover { background:var(--border); }
-  #popup-media { width:100%; background:var(--black); border-bottom:1px solid var(--border); display:none; max-height:240px; overflow:hidden; align-items:center; justify-content:center; }
-  #popup-media.has-media { display:flex; }
-  #popup-media img { width:100%; max-height:240px; object-fit:cover; }
-  #popup-media video { width:100%; max-height:240px; object-fit:cover; }
-  #popup-body { padding:20px 26px; display:grid; grid-template-columns:1fr auto; gap:20px; align-items:start; }
-  .popup-detail { display:flex; align-items:flex-start; gap:9px; margin-bottom:9px; }
-  .popup-detail .icon { font-size:0.95rem; width:20px; text-align:center; flex-shrink:0; margin-top:1px; }
-  .popup-detail span { font-size:0.92rem; color:var(--light); line-height:1.4; }
-  #popup-tags { margin-top:10px; display:flex; flex-wrap:wrap; gap:6px; }
-  .tag-chip { padding:3px 10px; background:rgba(201,168,76,0.12); border:1px solid rgba(201,168,76,0.25); border-radius:20px; font-size:0.72rem; font-weight:600; color:var(--gold-lt); letter-spacing:0.3px; }
-  #popup-description { font-size:0.88rem; color:var(--muted); line-height:1.65; margin-top:12px; }
-  #popup-privacy { font-size:0.75rem; color:var(--muted); margin-top:14px; padding:8px 12px; background:rgba(255,255,255,0.04); border:1px solid var(--border); border-radius:7px; line-height:1.5; }
-  #qr-section { text-align:center; flex-shrink:0; }
-  #qr-canvas { border:2px solid var(--border); border-radius:10px; padding:8px; background:white; display:inline-block; }
-  #qr-label { font-size:0.68rem; font-weight:600; color:var(--muted); letter-spacing:1.5px; text-transform:uppercase; margin-top:8px; }
-  #popup-footer { padding:0 26px 22px; display:flex; gap:10px; }
-  .popup-btn { flex:1; padding:13px 18px; border-radius:9px; font-family:'DM Sans',sans-serif; font-size:0.88rem; font-weight:600; cursor:pointer; border:1px solid transparent; transition:all 0.2s; }
-  .popup-btn.primary { background:var(--white); color:var(--black); }
-  .popup-btn.primary:hover { background:var(--light); }
-  .popup-btn.secondary { background:transparent; border-color:var(--border); color:var(--light); }
-  .popup-btn.secondary:hover { background:var(--mid); }
+  #popup-overlay{position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,0.6);z-index:2000;display:none;align-items:center;justify-content:center;backdrop-filter:blur(6px);}
+  #popup-overlay.show{display:flex;animation:fadeIn 0.2s ease;}
+  @keyframes fadeIn{from{opacity:0}to{opacity:1}}
+  #popup-card{background:var(--dark);border:1px solid var(--border);border-radius:18px;width:680px;max-width:92vw;max-height:85vh;overflow-y:auto;box-shadow:0 30px 80px rgba(0,0,0,0.8);animation:slideUp 0.3s cubic-bezier(0.16,1,0.3,1);}
+  @keyframes slideUp{from{transform:translateY(30px);opacity:0}to{transform:translateY(0);opacity:1}}
+  #popup-header{border-bottom:1px solid var(--border);padding:0;position:relative;border-radius:18px 18px 0 0;overflow:hidden;}
+  #popup-header-band{padding:18px 26px 14px;display:flex;align-items:flex-start;justify-content:space-between;gap:12px;}
+  #popup-header-left{flex:1;}
+  #popup-name{font-family:'Playfair Display',serif;font-size:1.5rem;font-weight:700;color:var(--white);line-height:1.2;}
+  #popup-day-label{font-size:0.72rem;font-weight:700;letter-spacing:1px;text-transform:uppercase;margin-top:5px;opacity:0.9;}
+  #popup-enrollment-banner{padding:10px 26px;font-size:0.85rem;font-weight:700;letter-spacing:0.3px;display:flex;align-items:center;gap:8px;}
+  .banner-open{background:rgba(39,174,96,0.18);color:#2ecc71;border-top:1px solid rgba(39,174,96,0.25);}
+  .banner-closed{background:rgba(231,76,60,0.18);color:#ff6b6b;border-top:1px solid rgba(231,76,60,0.25);}
+  .banner-unknown{background:rgba(255,255,255,0.05);color:var(--muted);border-top:1px solid var(--border);}
+  #popup-close{background:rgba(255,255,255,0.1);border:1px solid rgba(255,255,255,0.2);color:var(--white);width:34px;height:34px;border-radius:50%;font-size:16px;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:background 0.15s;}
+  #popup-close:hover{background:rgba(255,255,255,0.2);}
+  #popup-media{width:100%;background:var(--black);border-bottom:1px solid var(--border);display:none;max-height:220px;overflow:hidden;align-items:center;justify-content:center;}
+  #popup-media.has-media{display:flex;}
+  #popup-media img{width:100%;max-height:220px;object-fit:cover;}
+  #popup-media video{width:100%;max-height:220px;object-fit:cover;}
+  #popup-body{padding:18px 26px;display:grid;grid-template-columns:1fr auto;gap:20px;align-items:start;}
+  .popup-detail{display:flex;align-items:flex-start;gap:9px;margin-bottom:9px;}
+  .popup-detail .icon{font-size:0.95rem;width:20px;text-align:center;flex-shrink:0;margin-top:1px;}
+  .popup-detail span{font-size:0.92rem;color:var(--light);line-height:1.4;}
+  #popup-tags{margin-top:10px;display:flex;flex-wrap:wrap;gap:6px;}
+  .tag-chip{padding:3px 10px;background:rgba(201,168,76,0.12);border:1px solid rgba(201,168,76,0.25);border-radius:20px;font-size:0.72rem;font-weight:600;color:var(--gold-lt);letter-spacing:0.3px;}
+  #popup-description{font-size:0.88rem;color:var(--muted);line-height:1.65;margin-top:12px;}
+  #popup-privacy{font-size:0.75rem;color:var(--muted);margin-top:14px;padding:8px 12px;background:rgba(255,255,255,0.04);border:1px solid var(--border);border-radius:7px;line-height:1.5;}
+  #qr-section{text-align:center;flex-shrink:0;}
+  #qr-canvas{border:2px solid var(--border);border-radius:10px;padding:8px;background:white;display:inline-block;}
+  #qr-label{font-size:0.68rem;font-weight:600;color:var(--muted);letter-spacing:1.5px;text-transform:uppercase;margin-top:8px;}
+  #popup-footer{padding:0 26px 22px;display:flex;gap:10px;}
+  .popup-btn{flex:1;padding:13px 18px;border-radius:9px;font-family:'DM Sans',sans-serif;font-size:0.88rem;font-weight:600;cursor:pointer;border:1px solid transparent;transition:all 0.2s;}
+  .popup-btn.primary{background:var(--white);color:var(--black);}
+  .popup-btn.primary:hover{background:var(--light);}
+  .popup-btn.secondary{background:transparent;border-color:var(--border);color:var(--light);}
+  .popup-btn.secondary:hover{background:var(--mid);}
 
-  /* BOTTOM BUTTONS — equal size */
-  #bottom-right { position:fixed; bottom:20px; right:20px; z-index:1000; display:flex; flex-direction:column; gap:10px; align-items:stretch; width:260px; }
-  .float-btn {
-    border:none; border-radius:12px; padding:15px 20px;
-    font-family:'DM Sans',sans-serif; font-size:0.88rem; font-weight:700;
-    cursor:pointer; transition:all 0.2s; box-shadow:0 4px 20px rgba(0,0,0,0.3);
-    display:flex; align-items:center; justify-content:center; gap:9px;
-    width:100%; text-align:center;
-  }
-  #facilitate-btn { background:var(--gold); color:var(--black); }
-  #facilitate-btn:hover { background:var(--gold-lt); transform:translateY(-2px); box-shadow:0 8px 28px rgba(201,168,76,0.4); }
-  #host-btn { background:var(--white); color:var(--black); }
-  #host-btn:hover { background:var(--light); transform:translateY(-2px); box-shadow:0 8px 28px rgba(0,0,0,0.4); }
+  /* BOTTOM BUTTONS */
+  #bottom-right{position:fixed;bottom:20px;right:20px;z-index:1000;display:flex;flex-direction:column;gap:10px;align-items:stretch;width:260px;}
+  .float-btn{border:none;border-radius:12px;padding:15px 20px;font-family:'DM Sans',sans-serif;font-size:0.88rem;font-weight:700;cursor:pointer;transition:all 0.2s;box-shadow:0 4px 20px rgba(0,0,0,0.3);display:flex;align-items:center;justify-content:center;gap:9px;width:100%;}
+  #facilitate-btn{background:var(--gold);color:var(--black);}
+  #facilitate-btn:hover{background:var(--gold-lt);transform:translateY(-2px);}
+  #host-btn{background:var(--white);color:var(--black);}
+  #host-btn:hover{background:var(--light);transform:translateY(-2px);}
 
-  /* IDLE BAR */
-  #idle-bar { position:fixed; bottom:0; left:0; right:0; height:3px; z-index:999; background:var(--border); display:none; }
-  #idle-bar-fill { height:100%; background:var(--white); transition:width 0.5s linear; width:100%; }
+  /* IDLE */
+  #idle-bar{position:fixed;bottom:0;left:0;right:0;height:3px;z-index:999;background:var(--border);display:none;}
+  #idle-bar-fill{height:100%;background:var(--white);transition:width 0.5s linear;width:100%;}
+
+  /* SHARED MODAL BASE */
+  .modal-overlay{position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,0.82);z-index:2500;display:none;align-items:center;justify-content:center;backdrop-filter:blur(8px);}
+  .modal-overlay.show{display:flex;animation:fadeIn 0.2s ease;}
+  .modal-box{background:var(--dark);border:1px solid var(--border);border-radius:18px;box-shadow:0 30px 80px rgba(0,0,0,0.8);animation:slideUp 0.3s cubic-bezier(0.16,1,0.3,1);overflow:hidden;}
+  .modal-header{background:var(--black);border-bottom:1px solid var(--border);padding:22px 26px 18px;position:relative;}
+  .modal-header h2{font-family:'Playfair Display',serif;font-size:1.4rem;color:var(--white);}
+  .modal-header p{font-size:0.85rem;color:var(--muted);margin-top:5px;line-height:1.5;}
+  .modal-close-btn{position:absolute;top:14px;right:14px;background:var(--mid);border:1px solid var(--border);color:var(--light);width:34px;height:34px;border-radius:50%;font-size:16px;cursor:pointer;display:flex;align-items:center;justify-content:center;}
+  .modal-close-btn:hover{background:var(--border);}
 
   /* FACILITATE MODAL */
-  #facilitate-overlay { position:fixed; top:0; left:0; right:0; bottom:0; background:rgba(0,0,0,0.82); z-index:2500; display:none; align-items:center; justify-content:center; backdrop-filter:blur(8px); }
-  #facilitate-overlay.show { display:flex; animation:fadeIn 0.2s ease; }
-  #facilitate-modal { background:var(--dark); border:1px solid var(--border); border-radius:18px; width:460px; max-width:92vw; box-shadow:0 30px 80px rgba(0,0,0,0.8); animation:slideUp 0.3s cubic-bezier(0.16,1,0.3,1); overflow:hidden; }
-  #facilitate-modal-header { background:var(--black); border-bottom:1px solid var(--border); padding:22px 26px 18px; position:relative; }
-  #facilitate-modal-header h2 { font-family:'Playfair Display',serif; font-size:1.4rem; color:var(--white); }
-  #facilitate-modal-header p { font-size:0.85rem; color:var(--muted); margin-top:5px; line-height:1.5; }
-  #facilitate-close { position:absolute; top:14px; right:14px; background:var(--mid); border:1px solid var(--border); color:var(--light); width:34px; height:34px; border-radius:50%; font-size:16px; cursor:pointer; display:flex; align-items:center; justify-content:center; }
-  #facilitate-close:hover { background:var(--border); }
-  #facilitate-body { padding:28px 26px; text-align:center; }
-  #facilitate-qr { display:inline-block; border:2px solid var(--border); border-radius:12px; padding:12px; background:white; margin-bottom:16px; }
-  #facilitate-label { font-size:0.75rem; color:var(--muted); letter-spacing:1.5px; text-transform:uppercase; margin-bottom:10px; }
-  #facilitate-emails { font-size:0.82rem; color:var(--light); }
+  #facilitate-modal{width:460px;max-width:92vw;}
+  #facilitate-body{padding:28px 26px;text-align:center;}
+  #facilitate-qr{display:inline-block;border:2px solid var(--border);border-radius:12px;padding:12px;background:white;margin-bottom:16px;}
+  #facilitate-sublabel{font-size:0.75rem;color:var(--muted);letter-spacing:1.5px;text-transform:uppercase;margin-bottom:10px;}
+  #facilitate-emails{font-size:0.82rem;color:var(--light);}
 
   /* HOST MODAL */
-  #host-overlay { position:fixed; top:0; left:0; right:0; bottom:0; background:rgba(0,0,0,0.82); z-index:2500; display:none; align-items:center; justify-content:center; backdrop-filter:blur(8px); }
-  #host-overlay.show { display:flex; animation:fadeIn 0.2s ease; }
-  #host-modal { background:var(--dark); border:1px solid var(--border); border-radius:18px; width:700px; max-width:92vw; max-height:88vh; overflow-y:auto; box-shadow:0 30px 80px rgba(0,0,0,0.8); animation:slideUp 0.3s cubic-bezier(0.16,1,0.3,1); }
-  #host-modal-header { background:var(--black); border-bottom:1px solid var(--border); padding:22px 26px 18px; position:relative; border-radius:18px 18px 0 0; }
-  #host-modal-header h2 { font-family:'Playfair Display',serif; font-size:1.5rem; color:var(--white); }
-  #host-modal-header p { font-size:0.85rem; color:var(--muted); margin-top:5px; }
-  #host-close { position:absolute; top:14px; right:14px; background:var(--mid); border:1px solid var(--border); color:var(--light); width:34px; height:34px; border-radius:50%; font-size:16px; cursor:pointer; display:flex; align-items:center; justify-content:center; }
-  #host-close:hover { background:var(--border); }
-  #host-map-container { height:300px; border-bottom:1px solid var(--border); position:relative; }
-  #host-map { width:100%; height:100%; }
-  #host-map-hint { position:absolute; top:10px; left:50%; transform:translateX(-50%); background:rgba(0,0,0,0.8); border:1px solid var(--border); color:var(--light); font-size:0.78rem; padding:7px 14px; border-radius:8px; pointer-events:none; white-space:nowrap; z-index:10; }
-  #host-form { padding:20px 26px 24px; }
-  .hf-row { display:grid; grid-template-columns:1fr 1fr; gap:14px; margin-bottom:14px; }
-  .hf-group { display:flex; flex-direction:column; gap:6px; }
-  .hf-group.full { grid-column:1/-1; }
-  .hf-group label { font-size:0.72rem; font-weight:600; letter-spacing:1px; text-transform:uppercase; color:var(--muted); }
-  .hf-group input,.hf-group select,.hf-group textarea { padding:10px 13px; border:1px solid var(--border); border-radius:8px; background:var(--mid); color:var(--white); font-family:'DM Sans',sans-serif; font-size:0.9rem; transition:border-color 0.2s; }
-  .hf-group input:focus,.hf-group select:focus,.hf-group textarea:focus { outline:none; border-color:var(--white); }
-  .hf-group input::placeholder { color:var(--muted); }
-  .hf-group select option { background:var(--dark2); }
-  .hf-group textarea { resize:vertical; min-height:68px; }
-  #host-coords-display { background:var(--mid); border:1px solid var(--border); border-radius:8px; padding:9px 13px; font-size:0.8rem; color:var(--muted); margin-bottom:14px; }
-  #host-coords-display span { color:var(--light); font-weight:600; }
-  #host-submit { width:100%; padding:14px; background:var(--white); color:var(--black); border:none; border-radius:9px; font-family:'DM Sans',sans-serif; font-size:0.95rem; font-weight:700; cursor:pointer; transition:background 0.2s; }
-  #host-submit:hover { background:var(--light); }
-  #host-success { text-align:center; padding:30px 26px; display:none; }
-  #host-success .check { font-size:3rem; margin-bottom:12px; }
-  #host-success h3 { font-family:'Playfair Display',serif; color:var(--white); font-size:1.4rem; margin-bottom:8px; }
-  #host-success p { color:var(--muted); font-size:0.9rem; line-height:1.6; }
+  #host-modal{width:700px;max-width:92vw;max-height:88vh;overflow-y:auto;}
+
+  /* Host mode toggle (in admin) */
+  #host-mode-bar{background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.25);border-radius:9px;padding:12px 16px;margin-bottom:16px;display:flex;align-items:center;justify-content:space-between;gap:12px;}
+  #host-mode-bar p{font-size:0.8rem;color:var(--muted);margin-top:2px;}
+  #host-mode-bar strong{font-size:0.88rem;color:var(--gold-lt);}
+
+  /* QR-only host mode */
+  #host-qr-mode{padding:28px 26px;text-align:center;display:none;}
+  #host-qr-wrap{display:inline-block;border:2px solid var(--border);border-radius:12px;padding:12px;background:white;margin-bottom:16px;}
+  #host-qr-sublabel{font-size:0.75rem;color:var(--muted);letter-spacing:1.5px;text-transform:uppercase;margin-bottom:10px;}
+  #host-qr-emails{font-size:0.82rem;color:var(--light);}
+
+  /* Host form mode */
+  #host-form-mode{display:block;}
+  #host-map-container{height:300px;border-bottom:1px solid var(--border);position:relative;}
+  #host-map{width:100%;height:100%;}
+  #host-map-hint{position:absolute;top:10px;left:50%;transform:translateX(-50%);background:rgba(0,0,0,0.8);border:1px solid var(--border);color:var(--light);font-size:0.78rem;padding:7px 14px;border-radius:8px;pointer-events:none;white-space:nowrap;z-index:10;}
+  #host-form{padding:20px 26px 24px;}
+  .hf-row{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:14px;}
+  .hf-group{display:flex;flex-direction:column;gap:6px;}
+  .hf-group.full{grid-column:1/-1;}
+  .hf-group label{font-size:0.72rem;font-weight:600;letter-spacing:1px;text-transform:uppercase;color:var(--muted);}
+  .hf-group input,.hf-group select,.hf-group textarea{padding:10px 13px;border:1px solid var(--border);border-radius:8px;background:var(--mid);color:var(--white);font-family:'DM Sans',sans-serif;font-size:0.9rem;transition:border-color 0.2s;}
+  .hf-group input:focus,.hf-group select:focus,.hf-group textarea:focus{outline:none;border-color:var(--white);}
+  .hf-group input::placeholder,.hf-group textarea::placeholder{color:var(--muted);}
+  .hf-group select option{background:var(--dark2);}
+  .hf-group textarea{resize:vertical;min-height:68px;}
+  #host-coords-display{background:var(--mid);border:1px solid var(--border);border-radius:8px;padding:9px 13px;font-size:0.8rem;color:var(--muted);margin-bottom:14px;}
+  #host-coords-display span{color:var(--light);font-weight:600;}
+  #host-submit{width:100%;padding:14px;background:var(--white);color:var(--black);border:none;border-radius:9px;font-family:'DM Sans',sans-serif;font-size:0.95rem;font-weight:700;cursor:pointer;}
+  #host-submit:hover{background:var(--light);}
+  #host-success{text-align:center;padding:30px 26px;display:none;}
+  #host-success .check{font-size:3rem;margin-bottom:12px;}
+  #host-success h3{font-family:'Playfair Display',serif;color:var(--white);font-size:1.4rem;margin-bottom:8px;}
+  #host-success p{color:var(--muted);font-size:0.9rem;line-height:1.6;}
 
   /* ADMIN PW */
-  #pw-overlay { position:fixed; top:0; left:0; right:0; bottom:0; background:rgba(0,0,0,0.9); z-index:4000; display:none; align-items:center; justify-content:center; backdrop-filter:blur(8px); }
-  #pw-overlay.show { display:flex; }
-  #pw-box { background:var(--dark); border:1px solid var(--border); border-radius:16px; padding:36px; width:340px; text-align:center; box-shadow:0 30px 80px rgba(0,0,0,0.7); }
-  #pw-box h3 { font-family:'Playfair Display',serif; color:var(--white); font-size:1.25rem; margin-bottom:6px; }
-  #pw-box p { color:var(--muted); font-size:0.83rem; margin-bottom:20px; }
-  #pw-input { width:100%; padding:12px 16px; border-radius:8px; border:1px solid var(--border); background:var(--mid); color:var(--white); font-family:'DM Sans',sans-serif; font-size:1rem; text-align:center; letter-spacing:4px; margin-bottom:12px; }
-  #pw-input:focus { outline:none; border-color:var(--white); }
-  #pw-error { color:#e74c3c; font-size:0.78rem; margin-bottom:10px; display:none; }
-  #pw-submit { width:100%; background:var(--white); color:var(--black); border:none; padding:12px; border-radius:8px; font-family:'DM Sans',sans-serif; font-size:0.92rem; font-weight:700; cursor:pointer; }
-  #pw-cancel { width:100%; background:transparent; color:var(--muted); border:none; padding:10px; font-family:'DM Sans',sans-serif; font-size:0.82rem; cursor:pointer; margin-top:6px; }
-  #pw-cancel:hover { color:var(--white); }
+  #pw-overlay{position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,0.9);z-index:4000;display:none;align-items:center;justify-content:center;backdrop-filter:blur(8px);}
+  #pw-overlay.show{display:flex;}
+  #pw-box{background:var(--dark);border:1px solid var(--border);border-radius:16px;padding:36px;width:340px;text-align:center;}
+  #pw-box h3{font-family:'Playfair Display',serif;color:var(--white);font-size:1.25rem;margin-bottom:6px;}
+  #pw-box p{color:var(--muted);font-size:0.83rem;margin-bottom:20px;}
+  #pw-input{width:100%;padding:12px 16px;border-radius:8px;border:1px solid var(--border);background:var(--mid);color:var(--white);font-family:'DM Sans',sans-serif;font-size:1rem;text-align:center;letter-spacing:4px;margin-bottom:12px;}
+  #pw-input:focus{outline:none;border-color:var(--white);}
+  #pw-error{color:#e74c3c;font-size:0.78rem;margin-bottom:10px;display:none;}
+  #pw-submit{width:100%;background:var(--white);color:var(--black);border:none;padding:12px;border-radius:8px;font-family:'DM Sans',sans-serif;font-size:0.92rem;font-weight:700;cursor:pointer;}
+  #pw-cancel{width:100%;background:transparent;color:var(--muted);border:none;padding:10px;font-family:'DM Sans',sans-serif;font-size:0.82rem;cursor:pointer;margin-top:6px;}
+  #pw-cancel:hover{color:var(--white);}
 
   /* ADMIN PANEL */
-  #admin-overlay { position:fixed; top:0; left:0; right:0; bottom:0; background:rgba(0,0,0,0.88); z-index:3000; display:none; align-items:flex-start; justify-content:center; overflow-y:auto; padding:20px; backdrop-filter:blur(8px); }
-  #admin-overlay.show { display:flex; }
-  #admin-panel { background:var(--dark); border:1px solid var(--border); border-radius:18px; width:980px; max-width:95vw; margin:auto; overflow:hidden; box-shadow:0 40px 100px rgba(0,0,0,0.8); }
-  #admin-panel-hdr { background:var(--black); border-bottom:1px solid var(--border); padding:20px 28px; display:flex; align-items:center; justify-content:space-between; }
-  #admin-panel-hdr h2 { font-family:'Playfair Display',serif; color:var(--white); font-size:1.35rem; }
-  #admin-panel-hdr-right { display:flex; align-items:center; gap:12px; }
-  #admin-sync-info { font-size:0.75rem; color:var(--muted); }
-  #admin-close { background:var(--mid); border:1px solid var(--border); color:var(--light); width:34px; height:34px; border-radius:50%; font-size:16px; cursor:pointer; display:flex; align-items:center; justify-content:center; }
-  #admin-close:hover { background:var(--border); }
-  #admin-content { padding:24px 28px; }
-  #source-toggle { background:var(--mid); border:1px solid var(--border); border-radius:10px; padding:14px 18px; margin-bottom:20px; display:flex; align-items:center; justify-content:space-between; gap:16px; }
-  #source-toggle p { font-size:0.83rem; color:var(--muted); margin-top:3px; }
-  #source-toggle strong { color:var(--light); font-size:0.9rem; }
-  .toggle-btn { padding:8px 16px; border-radius:7px; font-size:0.8rem; font-weight:600; cursor:pointer; border:1px solid var(--border); background:var(--dark2); color:var(--light); font-family:'DM Sans',sans-serif; transition:all 0.2s; flex-shrink:0; }
-  .toggle-btn:hover { border-color:var(--white); color:var(--white); }
-  #override-notice { background:rgba(201,168,76,0.1); border:1px solid rgba(201,168,76,0.3); border-radius:9px; padding:10px 14px; margin-bottom:16px; font-size:0.8rem; color:var(--gold-lt); line-height:1.5; display:none; }
-  #override-notice.visible { display:block; }
-  #group-list { list-style:none; margin-bottom:20px; }
-  .gli { background:var(--mid); border:1px solid var(--border); border-radius:9px; padding:13px 16px; margin-bottom:8px; display:flex; align-items:center; justify-content:space-between; }
-  .gli-info strong { font-size:0.92rem; color:var(--white); }
-  .gli-info span { font-size:0.78rem; color:var(--muted); display:block; margin-top:2px; }
-  .gli-enrollment { font-size:0.72rem; font-weight:700; padding:2px 8px; border-radius:12px; margin-top:4px; display:inline-block; }
-  .gli-open { background:rgba(46,204,113,0.15); color:var(--green); }
-  .gli-closed { background:rgba(231,76,60,0.15); color:var(--red); }
-  .gli-btns { display:flex; gap:8px; flex-shrink:0; }
-  .gli-btn { padding:6px 13px; border-radius:6px; font-size:0.78rem; font-weight:600; border:none; cursor:pointer; transition:all 0.15s; }
-  .gli-btn.edit { background:var(--dark2); color:var(--white); border:1px solid var(--border); }
-  .gli-btn.edit:hover { border-color:var(--white); }
-  .gli-btn.del { background:transparent; color:#e74c3c; border:1px solid #4a1a1a; }
-  .gli-btn.del:hover { background:#2a0a0a; }
-  #group-form { background:var(--mid); border:1px solid var(--border); border-radius:12px; padding:20px; }
-  #group-form h3 { font-family:'Playfair Display',serif; color:var(--white); font-size:1.02rem; margin-bottom:16px; }
-  .form-grid { display:grid; grid-template-columns:1fr 1fr; gap:12px; }
-  .fg { display:flex; flex-direction:column; gap:6px; }
-  .fg.full { grid-column:1/-1; }
-  .fg label { font-size:0.7rem; font-weight:600; letter-spacing:1px; text-transform:uppercase; color:var(--muted); }
-  .fg .field-note { font-size:0.68rem; color:#666; margin-top:-2px; }
-  .fg .field-note.sync-field { color:rgba(201,168,76,0.7); }
-  .fg .field-note.local-field { color:rgba(46,204,113,0.7); }
-  .fg input,.fg select,.fg textarea { padding:10px 12px; border:1px solid var(--border); border-radius:7px; background:var(--dark2); color:var(--white); font-family:'DM Sans',sans-serif; font-size:0.88rem; transition:border-color 0.2s; }
-  .fg input:focus,.fg select:focus,.fg textarea:focus { outline:none; border-color:var(--white); }
-  .fg input::placeholder { color:var(--muted); }
-  .fg select option { background:var(--dark2); }
-  .fg textarea { resize:vertical; min-height:68px; }
-  #form-actions { margin-top:14px; display:flex; gap:10px; }
-  .form-btn { padding:11px 22px; border-radius:8px; font-family:'DM Sans',sans-serif; font-size:0.88rem; font-weight:600; cursor:pointer; border:none; transition:all 0.2s; }
-  .form-btn.save { background:var(--white); color:var(--black); }
-  .form-btn.save:hover { background:var(--light); }
-  .form-btn.cancel { background:transparent; color:var(--muted); border:1px solid var(--border); }
-  .form-btn.cancel:hover { color:var(--white); }
-  .form-btn.new { background:var(--dark2); color:var(--white); border:1px solid var(--border); margin-bottom:14px; }
-  .form-btn.new:hover { border-color:var(--white); }
-  .host-interest-marker { background:rgba(255,255,255,0.15); border:2px dashed rgba(255,255,255,0.6); border-radius:50%; width:32px; height:32px; display:flex; align-items:center; justify-content:center; font-size:14px; animation:pulse 2s infinite; }
-  @keyframes pulse { 0%,100%{box-shadow:0 0 0 0 rgba(255,255,255,0.3)}50%{box-shadow:0 0 0 10px rgba(255,255,255,0)} }
+  #admin-overlay{position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,0.88);z-index:3000;display:none;align-items:flex-start;justify-content:center;overflow-y:auto;padding:20px;backdrop-filter:blur(8px);}
+  #admin-overlay.show{display:flex;}
+  #admin-panel{background:var(--dark);border:1px solid var(--border);border-radius:18px;width:980px;max-width:95vw;margin:auto;overflow:hidden;box-shadow:0 40px 100px rgba(0,0,0,0.8);}
+  #admin-panel-hdr{background:var(--black);border-bottom:1px solid var(--border);padding:20px 28px;display:flex;align-items:center;justify-content:space-between;}
+  #admin-panel-hdr h2{font-family:'Playfair Display',serif;color:var(--white);font-size:1.35rem;}
+  #admin-panel-hdr-right{display:flex;align-items:center;gap:12px;}
+  #admin-sync-info{font-size:0.75rem;color:var(--muted);}
+  #admin-close{background:var(--mid);border:1px solid var(--border);color:var(--light);width:34px;height:34px;border-radius:50%;font-size:16px;cursor:pointer;display:flex;align-items:center;justify-content:center;}
+  #admin-close:hover{background:var(--border);}
+  #admin-content{padding:24px 28px;}
+  #source-toggle{background:var(--mid);border:1px solid var(--border);border-radius:10px;padding:14px 18px;margin-bottom:16px;display:flex;align-items:center;justify-content:space-between;gap:16px;}
+  #source-toggle p{font-size:0.83rem;color:var(--muted);margin-top:3px;}
+  #source-toggle strong{color:var(--light);font-size:0.9rem;}
+  .toggle-btn{padding:8px 16px;border-radius:7px;font-size:0.8rem;font-weight:600;cursor:pointer;border:1px solid var(--border);background:var(--dark2);color:var(--light);font-family:'DM Sans',sans-serif;transition:all 0.2s;flex-shrink:0;}
+  .toggle-btn:hover{border-color:var(--white);color:var(--white);}
+  #override-notice{background:rgba(201,168,76,0.1);border:1px solid rgba(201,168,76,0.3);border-radius:9px;padding:10px 14px;margin-bottom:16px;font-size:0.8rem;color:var(--gold-lt);line-height:1.5;display:none;}
+  #override-notice.visible{display:block;}
+  #group-list{list-style:none;margin-bottom:20px;}
+  .gli{background:var(--mid);border:1px solid var(--border);border-radius:9px;padding:13px 16px;margin-bottom:8px;display:flex;align-items:center;justify-content:space-between;}
+  .gli-info strong{font-size:0.92rem;color:var(--white);}
+  .gli-info span{font-size:0.78rem;color:var(--muted);display:block;margin-top:2px;}
+  .gli-enrollment{font-size:0.72rem;font-weight:700;padding:2px 8px;border-radius:12px;margin-top:4px;display:inline-block;}
+  .gli-open{background:rgba(39,174,96,0.15);color:var(--green);}
+  .gli-closed{background:rgba(231,76,60,0.15);color:var(--red);}
+  .gli-btns{display:flex;gap:8px;flex-shrink:0;}
+  .gli-btn{padding:6px 13px;border-radius:6px;font-size:0.78rem;font-weight:600;border:none;cursor:pointer;transition:all 0.15s;}
+  .gli-btn.edit{background:var(--dark2);color:var(--white);border:1px solid var(--border);}
+  .gli-btn.edit:hover{border-color:var(--white);}
+  .gli-btn.del{background:transparent;color:#e74c3c;border:1px solid #4a1a1a;}
+  .gli-btn.del:hover{background:#2a0a0a;}
+  #group-form{background:var(--mid);border:1px solid var(--border);border-radius:12px;padding:20px;}
+  #group-form h3{font-family:'Playfair Display',serif;color:var(--white);font-size:1.02rem;margin-bottom:16px;}
+  .form-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
+  .fg{display:flex;flex-direction:column;gap:6px;}
+  .fg.full{grid-column:1/-1;}
+  .fg label{font-size:0.7rem;font-weight:600;letter-spacing:1px;text-transform:uppercase;color:var(--muted);}
+  .fg .field-note{font-size:0.68rem;color:#666;margin-top:-2px;}
+  .fg .field-note.sync-field{color:rgba(201,168,76,0.7);}
+  .fg .field-note.local-field{color:rgba(46,204,113,0.7);}
+  .fg input,.fg select,.fg textarea{padding:10px 12px;border:1px solid var(--border);border-radius:7px;background:var(--dark2);color:var(--white);font-family:'DM Sans',sans-serif;font-size:0.88rem;transition:border-color 0.2s;}
+  .fg input:focus,.fg select:focus,.fg textarea:focus{outline:none;border-color:var(--white);}
+  .fg input::placeholder{color:var(--muted);}
+  .fg select option{background:var(--dark2);}
+  .fg textarea{resize:vertical;min-height:68px;}
+  #form-actions{margin-top:14px;display:flex;gap:10px;}
+  .form-btn{padding:11px 22px;border-radius:8px;font-family:'DM Sans',sans-serif;font-size:0.88rem;font-weight:600;cursor:pointer;border:none;transition:all 0.2s;}
+  .form-btn.save{background:var(--white);color:var(--black);}
+  .form-btn.cancel{background:transparent;color:var(--muted);border:1px solid var(--border);}
+  .form-btn.cancel:hover{color:var(--white);}
+  .form-btn.new{background:var(--dark2);color:var(--white);border:1px solid var(--border);margin-bottom:14px;}
+  .form-btn.new:hover{border-color:var(--white);}
+  .host-interest-marker{background:rgba(255,255,255,0.15);border:2px dashed rgba(255,255,255,0.6);border-radius:50%;width:32px;height:32px;display:flex;align-items:center;justify-content:center;font-size:14px;animation:pulse 2s infinite;}
+  @keyframes pulse{0%,100%{box-shadow:0 0 0 0 rgba(255,255,255,0.3)}50%{box-shadow:0 0 0 10px rgba(255,255,255,0)}}
 </style>
 </head>
 <body>
@@ -260,18 +266,27 @@
 </div>
 
 <div id="map"></div>
+<div id="loading-overlay"><div class="loader-box"><div class="loader-spinner"></div><p>Loading groups…</p></div></div>
 
-<div id="loading-overlay">
-  <div class="loader-box"><div class="loader-spinner"></div><p>Loading groups…</p></div>
+<!-- LEGEND -->
+<div id="legend">
+  <h4>Day of Week</h4>
+  <div class="legend-row"><div class="legend-dot" style="background:var(--sun)">Su</div><span class="legend-label">Sunday</span></div>
+  <div class="legend-row"><div class="legend-dot" style="background:var(--mon)">Mo</div><span class="legend-label">Monday</span></div>
+  <div class="legend-row"><div class="legend-dot" style="background:var(--tue)">Tu</div><span class="legend-label">Tuesday</span></div>
+  <div class="legend-row"><div class="legend-dot" style="background:var(--wed)">We</div><span class="legend-label">Wednesday</span></div>
+  <div class="legend-row"><div class="legend-dot" style="background:var(--thu)">Th</div><span class="legend-label">Thursday</span></div>
+  <div class="legend-row"><div class="legend-dot" style="background:var(--fri)">Fr</div><span class="legend-label">Friday</span></div>
+  <div class="legend-row"><div class="legend-dot" style="background:var(--sat)">Sa</div><span class="legend-label">Saturday</span></div>
+  <div class="legend-divider"></div>
+  <div class="legend-enrollment"><div class="enroll-dot" style="background:var(--green)"></div><span class="legend-label" style="font-size:0.75rem">Open enrollment</span></div>
+  <div class="legend-enrollment"><div class="enroll-dot" style="background:var(--red)"></div><span class="legend-label" style="font-size:0.75rem">Closed enrollment</span></div>
 </div>
 
+<!-- BOTTOM BUTTONS -->
 <div id="bottom-right">
-  <button class="float-btn" id="facilitate-btn" onclick="openFacilitateModal()">
-    <span>✋</span> Interested in Facilitating?
-  </button>
-  <button class="float-btn" id="host-btn" onclick="openHostModal()">
-    <span>📍</span> Interested in Hosting?
-  </button>
+  <button class="float-btn" id="facilitate-btn" onclick="openFacilitateModal()">✋ Interested in Facilitating?</button>
+  <button class="float-btn" id="host-btn" onclick="openHostModal()">📍 Interested in Hosting?</button>
 </div>
 
 <div id="idle-bar"><div id="idle-bar-fill"></div></div>
@@ -280,9 +295,14 @@
 <div id="popup-overlay" onclick="closePopup(event)">
   <div id="popup-card">
     <div id="popup-header">
-      <div id="popup-name"></div>
-      <div id="popup-enrollment-badge"></div>
-      <button id="popup-close" onclick="closePopup()">✕</button>
+      <div id="popup-header-band">
+        <div id="popup-header-left">
+          <div id="popup-name"></div>
+          <div id="popup-day-label"></div>
+        </div>
+        <button id="popup-close" onclick="closePopup()">✕</button>
+      </div>
+      <div id="popup-enrollment-banner"></div>
     </div>
     <div id="popup-media"></div>
     <div id="popup-body">
@@ -306,56 +326,82 @@
 </div>
 
 <!-- FACILITATE MODAL -->
-<div id="facilitate-overlay" onclick="if(event.target===this)closeFacilitateModal()">
-  <div id="facilitate-modal">
-    <div id="facilitate-modal-header">
+<div id="facilitate-overlay" class="modal-overlay" onclick="if(event.target===this)closeFacilitateModal()">
+  <div class="modal-box" id="facilitate-modal">
+    <div class="modal-header">
       <h2>Interested in Facilitating?</h2>
       <p>Scan the QR code to reach our team — we'd love to connect with you about leading a Home Fellowship Group.</p>
-      <button id="facilitate-close" onclick="closeFacilitateModal()">✕</button>
+      <button class="modal-close-btn" onclick="closeFacilitateModal()">✕</button>
     </div>
     <div id="facilitate-body">
-      <div id="facilitate-label">Reach Our Team</div>
+      <div id="facilitate-sublabel">Reach Our Team</div>
       <div id="facilitate-qr"></div>
-      <div id="facilitate-emails"><a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="b0dadfc3d8f0d3d1dcc6d1c2c9d3d8d1c0d5dcc2d5dedf9edfc2d7">[email&#160;protected]</a> &amp; <a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="cda9b8beb9a4a38daeaca1bbacbfb4aea5acbda8a1bfa8a3a2e3a2bfaa">[email&#160;protected]</a></div>
+      <div id="facilitate-emails">josh@calvarychapelreno.org &amp; dustin@calvarychapelreno.org</div>
     </div>
   </div>
 </div>
 
 <!-- HOST MODAL -->
-<div id="host-overlay" onclick="if(event.target===this)closeHostModal()">
-  <div id="host-modal">
-    <div id="host-modal-header">
+<div id="host-overlay" class="modal-overlay" onclick="if(event.target===this)closeHostModal()">
+  <div class="modal-box" id="host-modal">
+    <div class="modal-header">
       <h2>Interested in Hosting a Group?</h2>
-      <p>Tap your approximate neighborhood on the map, then fill out the form.</p>
-      <button id="host-close" onclick="closeHostModal()">✕</button>
+      <p id="host-modal-subtext">Tap your approximate neighborhood on the map, then fill out the form.</p>
+      <button class="modal-close-btn" onclick="closeHostModal()">✕</button>
     </div>
-    <div id="host-map-container">
-      <div id="host-map"></div>
-      <div id="host-map-hint">👆 Tap your neighborhood to pin your area</div>
+
+    <!-- QR-only mode -->
+    <div id="host-qr-mode">
+      <div id="host-qr-sublabel">Reach Our Team</div>
+      <div id="host-qr-wrap"></div>
+      <div id="host-qr-emails">josh@calvarychapelreno.org &amp; dustin@calvarychapelreno.org</div>
     </div>
-    <div id="host-form">
-      <div id="host-coords-display">📍 No location selected yet — tap the map above</div>
-      <div class="hf-row">
-        <div class="hf-group"><label>Your Name</label><input id="hf-name" type="text" placeholder="First & Last"></div>
-        <div class="hf-group"><label>Phone / Email</label><input id="hf-contact" type="text" placeholder="How can we reach you?"></div>
+
+    <!-- Form mode -->
+    <div id="host-form-mode">
+      <div id="host-map-container">
+        <div id="host-map"></div>
+        <div id="host-map-hint">👆 Tap your neighborhood to pin your area</div>
       </div>
-      <div class="hf-row">
-        <div class="hf-group"><label>Neighborhood / Area</label><input id="hf-area" type="text" placeholder="e.g. South Reno, Sparks..."></div>
-        <div class="hf-group"><label>Best Day</label>
-          <select id="hf-day">
-            <option value="">-- Any --</option>
-            <option>Monday</option><option>Tuesday</option><option>Wednesday</option>
-            <option>Thursday</option><option>Friday</option><option>Saturday</option><option>Sunday</option>
-          </select>
+      <div id="host-form">
+        <div id="host-coords-display">📍 No location selected yet — tap the map above</div>
+        <div class="hf-row">
+          <div class="hf-group"><label>Your Name</label><input id="hf-name" type="text" placeholder="First & Last"></div>
+          <div class="hf-group"><label>Phone / Email</label><input id="hf-contact" type="text" placeholder="How can we reach you?"></div>
         </div>
-      </div>
-      <div class="hf-row">
-        <div class="hf-group full"><label>Anything you'd like us to know?</label>
-          <textarea id="hf-notes" placeholder="Group type preference, size, etc."></textarea>
+        <div class="hf-row">
+          <div class="hf-group"><label>Neighborhood / Area</label><input id="hf-area" type="text" placeholder="e.g. South Reno, Sparks..."></div>
+          <div class="hf-group"><label>Best Day</label>
+            <select id="hf-day">
+              <option value="">-- Any --</option>
+              <option>Monday</option><option>Tuesday</option><option>Wednesday</option>
+              <option>Thursday</option><option>Friday</option><option>Saturday</option><option>Sunday</option>
+            </select>
+          </div>
         </div>
+        <div class="hf-row">
+          <div class="hf-group"><label>Approximate Group Size</label>
+            <select id="hf-size">
+              <option value="">-- Any --</option>
+              <option>Small (4–8 people)</option><option>Medium (8–15 people)</option><option>Large (15+ people)</option>
+            </select>
+          </div>
+          <div class="hf-group"><label>Type of Study</label>
+            <select id="hf-study">
+              <option value="">-- Any --</option>
+              <option>Sermon Discussion</option><option>Bible Study</option><option>Book Study</option>
+            </select>
+          </div>
+        </div>
+        <div class="hf-row">
+          <div class="hf-group full"><label>Anything else you'd like us to know?</label>
+            <textarea id="hf-notes" placeholder="e.g. kid-friendly, pets, accessibility needs..."></textarea>
+          </div>
+        </div>
+        <button id="host-submit" onclick="submitHostInterest()">Submit Interest →</button>
       </div>
-      <button id="host-submit" onclick="submitHostInterest()">Submit Interest →</button>
     </div>
+
     <div id="host-success">
       <div class="check">✅</div>
       <h3>Thank You!</h3>
@@ -387,6 +433,17 @@
       </div>
     </div>
     <div id="admin-content">
+
+      <!-- Host mode toggle -->
+      <div id="host-mode-bar">
+        <div>
+          <strong id="host-mode-label">Hosting Button: Form Mode</strong>
+          <p id="host-mode-desc">Shows map + full form when visitor taps "Interested in Hosting?"</p>
+        </div>
+        <button class="toggle-btn" id="host-mode-btn" onclick="toggleHostMode()">Switch to QR Mode</button>
+      </div>
+
+      <!-- Data source toggle -->
       <div id="source-toggle">
         <div>
           <strong id="source-label">Data source: Loading…</strong>
@@ -395,63 +452,27 @@
         <button class="toggle-btn" id="override-btn" onclick="toggleOverride()">Use Local Overrides</button>
       </div>
       <div id="override-notice">
-        ⚠️ <strong>Local Override mode</strong> — changes are stored in this browser only.<br>
-        Fields marked 🔄 come from PC sync. Fields marked ✅ are local-only and always preserved.
+        ⚠️ <strong>Local Override mode</strong> — changes stored in this browser only.<br>
+        🔄 = overwritten by PC sync &nbsp;|&nbsp; ✅ = local only, never overwritten
       </div>
+
       <h3 style="color:var(--white);font-family:'Playfair Display',serif;font-size:1rem;margin-bottom:12px;">Current Groups</h3>
       <ul id="group-list"></ul>
       <button class="form-btn new" onclick="openNewForm()">+ Add New Group</button>
       <div id="group-form" style="display:none">
         <h3 id="form-title">New Group</h3>
         <div class="form-grid">
-          <div class="fg full">
-            <label>Group Name <span style="color:var(--gold);font-size:0.65rem;">🔄 synced</span></label>
-            <input id="f-name" placeholder="e.g. Home Fellowship Smith">
-            <span class="field-note sync-field">Overwritten on next PC sync</span>
-          </div>
-          <div class="fg">
-            <label>Leader Name <span style="color:var(--green);font-size:0.65rem;">✅ local</span></label>
-            <input id="f-leader" placeholder="e.g. John & Mary Smith">
-            <span class="field-note local-field">From group-leaders.json — never overwritten by sync</span>
-          </div>
-          <div class="fg">
-            <label>Initials (marker) <span style="color:var(--green);font-size:0.65rem;">✅ local</span></label>
-            <input id="f-initials" placeholder="e.g. JM" maxlength="3">
-            <span class="field-note local-field">2 chars shown on map marker</span>
-          </div>
-          <div class="fg">
-            <label>Schedule <span style="color:var(--gold);font-size:0.65rem;">🔄 synced</span></label>
-            <input id="f-schedule" placeholder="e.g. Tuesdays at 7:00 PM">
-          </div>
-          <div class="fg">
-            <label>Neighborhood <span style="color:var(--green);font-size:0.65rem;">✅ local</span></label>
-            <input id="f-neighborhood" placeholder="e.g. South Reno">
-          </div>
-          <div class="fg">
-            <label>Latitude <span style="color:var(--gold);font-size:0.65rem;">🔄 synced</span></label>
-            <input id="f-lat" type="number" step="0.001" placeholder="39.530">
-          </div>
-          <div class="fg">
-            <label>Longitude <span style="color:var(--gold);font-size:0.65rem;">🔄 synced</span></label>
-            <input id="f-lng" type="number" step="0.001" placeholder="-119.813">
-          </div>
-          <div class="fg full">
-            <label>Sign-Up URL <span style="color:var(--gold);font-size:0.65rem;">🔄 synced</span></label>
-            <input id="f-url" placeholder="https://...">
-          </div>
-          <div class="fg full">
-            <label>Photo URL <span style="color:var(--gold);font-size:0.65rem;">🔄 synced</span></label>
-            <input id="f-photo" placeholder="https://...image.jpg">
-          </div>
-          <div class="fg full">
-            <label>Video URL <span style="color:var(--green);font-size:0.65rem;">✅ local</span></label>
-            <input id="f-video" placeholder="https://...video.mp4 or YouTube">
-            <span class="field-note local-field">Never overwritten by sync</span>
-          </div>
-          <div class="fg full">
-            <label>Description <span style="color:var(--gold);font-size:0.65rem;">🔄 synced</span></label>
-            <textarea id="f-desc" placeholder="Brief description..."></textarea>
-          </div>
+          <div class="fg full"><label>Group Name <span style="color:var(--gold);font-size:0.65rem">🔄 synced</span></label><input id="f-name" placeholder="e.g. Home Fellowship Smith"><span class="field-note sync-field">Overwritten on PC sync</span></div>
+          <div class="fg"><label>Leader Name <span style="color:var(--green);font-size:0.65rem">✅ local</span></label><input id="f-leader" placeholder="e.g. John & Mary Smith"><span class="field-note local-field">From group-leaders.json</span></div>
+          <div class="fg"><label>Initials (marker) <span style="color:var(--green);font-size:0.65rem">✅ local</span></label><input id="f-initials" placeholder="e.g. JM" maxlength="3"><span class="field-note local-field">Shown on map marker</span></div>
+          <div class="fg"><label>Schedule <span style="color:var(--gold);font-size:0.65rem">🔄 synced</span></label><input id="f-schedule" placeholder="e.g. Meets weekly on Tuesdays from 7-8:30pm"></div>
+          <div class="fg"><label>Neighborhood <span style="color:var(--green);font-size:0.65rem">✅ local</span></label><input id="f-neighborhood" placeholder="e.g. South Reno"></div>
+          <div class="fg"><label>Latitude <span style="color:var(--gold);font-size:0.65rem">🔄 synced</span></label><input id="f-lat" type="number" step="0.001" placeholder="39.530"></div>
+          <div class="fg"><label>Longitude <span style="color:var(--gold);font-size:0.65rem">🔄 synced</span></label><input id="f-lng" type="number" step="0.001" placeholder="-119.813"></div>
+          <div class="fg full"><label>Sign-Up URL <span style="color:var(--gold);font-size:0.65rem">🔄 synced</span></label><input id="f-url" placeholder="https://..."></div>
+          <div class="fg full"><label>Photo URL <span style="color:var(--gold);font-size:0.65rem">🔄 synced</span></label><input id="f-photo" placeholder="https://...image.jpg"></div>
+          <div class="fg full"><label>Video URL <span style="color:var(--green);font-size:0.65rem">✅ local</span></label><input id="f-video" placeholder="https://...video.mp4 or YouTube"><span class="field-note local-field">Never overwritten by sync</span></div>
+          <div class="fg full"><label>Description <span style="color:var(--gold);font-size:0.65rem">🔄 synced</span></label><textarea id="f-desc" placeholder="Brief description..."></textarea></div>
         </div>
         <div id="form-actions">
           <button class="form-btn save" onclick="saveGroup()">Save Group</button>
@@ -462,21 +483,41 @@
   </div>
 </div>
 
-<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+<script>
 const ADMIN_PW    = "church2024";
-const STORE_KEY   = "ccrs_hfg_v4";
+const STORE_KEY   = "ccrs_hfg_v5";
 const IDLE_MS     = 120000;
 const GROUPS_JSON = "groups.json";
 
-// Enrollment marker colors
-const COLOR_OPEN    = '#2ecc71'; // green
-const COLOR_CLOSED  = '#e74c3c'; // red
-const COLOR_UNKNOWN = '#C9A84C'; // gold fallback
+// Day-of-week config: color and abbreviation shown on marker
+const DAY_CONFIG = {
+  sunday:    { color:'#e74c3c', abbr:'Su', label:'Sunday' },
+  monday:    { color:'#e67e22', abbr:'Mo', label:'Monday' },
+  tuesday:   { color:'#d4ac0d', abbr:'Tu', label:'Tuesday' },
+  wednesday: { color:'#27ae60', abbr:'We', label:'Wednesday' },
+  thursday:  { color:'#2980b9', abbr:'Th', label:'Thursday' },
+  friday:    { color:'#8e44ad', abbr:'Fr', label:'Friday' },
+  saturday:  { color:'#16a085', abbr:'Sa', label:'Saturday' },
+  unknown:   { color:'#666666', abbr:'HF', label:'Unknown' }
+};
 
-let groups = [], pcGroups = [], syncedAt = null, useOverride = false;
+function parseDayFromSchedule(schedule) {
+  if (!schedule) return 'unknown';
+  const s = schedule.toLowerCase();
+  if (s.includes('sunday'))    return 'sunday';
+  if (s.includes('monday'))    return 'monday';
+  if (s.includes('tuesday'))   return 'tuesday';
+  if (s.includes('wednesday')) return 'wednesday';
+  if (s.includes('thursday'))  return 'thursday';
+  if (s.includes('friday'))    return 'friday';
+  if (s.includes('saturday'))  return 'saturday';
+  return 'unknown';
+}
+
+let groups = [], pcGroups = [], syncedAt = null;
+let useOverride = false, hostQRMode = false;
 let editingId = null, markers = {}, idleTimer = null, idleBarTimer = null;
 let hostMap = null, hostMarker = null, hostLat = null, hostLng = null;
-const LOCAL_ONLY_FIELDS = ['video', 'neighborhood'];
 
 // MAP
 const DEFAULT_CENTER = [39.5296, -119.8138];
@@ -486,13 +527,12 @@ L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r
 L.control.zoom({ position:'topright' }).addTo(map);
 map.on('click move zoom', resetIdleTimer);
 
-// NORMALIZE PC GROUP
 function normalizePCGroup(g) {
   return {
     id:              g.id,
     name:            g.name || 'Unnamed Group',
     leader_name:     g.leader_name || '',
-    initials:        g.initials   || makeInitialsFromName(g.name || ''),
+    initials:        g.initials || 'HF',
     enrollment_open: (typeof g.enrollment_open === 'boolean') ? g.enrollment_open : null,
     tags:            Array.isArray(g.tags) ? g.tags : [],
     schedule:        g.schedule || '',
@@ -505,20 +545,6 @@ function normalizePCGroup(g) {
     lng:             g.lng,
     _fromPC:         true
   };
-}
-
-function makeInitialsFromName(groupName) {
-  const s = groupName.replace(/^Home Fellowship[-\s]*/i, '').trim();
-  const parts = s.replace(/&/g,' ').split(/\s+/).filter(p=>p.length>1);
-  if (parts.length >= 2) return (parts[0][0]+parts[1][0]).toUpperCase();
-  if (parts.length === 1) return (parts[0][0].toUpperCase()+(parts[0][1]||'').toLowerCase());
-  return 'HF';
-}
-
-function markerColor(g) {
-  if (g.enrollment_open === true)  return COLOR_OPEN;
-  if (g.enrollment_open === false) return COLOR_CLOSED;
-  return COLOR_UNKNOWN;
 }
 
 async function loadFromPlanningCenter() {
@@ -537,56 +563,72 @@ function setLocal(obj) { localStorage.setItem(STORE_KEY, JSON.stringify(obj)); }
 
 function mergeLocalOntoPC(list) {
   const overrides = getLocal();
-  return list.map(g => {
-    const local = overrides[String(g.id)] || {};
-    return { ...g, ...local };
-  });
+  return list.map(g => ({ ...g, ...(overrides[String(g.id)] || {}) }));
 }
 
 async function initData() {
   const pcOk = await loadFromPlanningCenter();
   const overrides = getLocal();
   const hasLocalGroups = overrides.__groups && overrides.__groups.length > 0;
-  useOverride = overrides.__useOverride === true;
+  useOverride  = overrides.__useOverride  === true;
+  hostQRMode   = overrides.__hostQRMode   === true;
 
   if (pcOk && pcGroups.length > 0 && !useOverride) {
     groups = mergeLocalOntoPC(pcGroups);
     updateSourceUI(true);
   } else if (hasLocalGroups) {
-    groups = overrides.__groups;
-    useOverride = true;
-    updateSourceUI(false);
+    groups = overrides.__groups; useOverride = true; updateSourceUI(false);
   } else if (pcOk && pcGroups.length > 0) {
-    useOverride = false;
-    groups = mergeLocalOntoPC(pcGroups);
-    updateSourceUI(true);
-  } else {
-    groups = [];
-    updateSourceUI(pcOk);
-  }
+    useOverride = false; groups = mergeLocalOntoPC(pcGroups); updateSourceUI(true);
+  } else { groups = []; updateSourceUI(pcOk); }
 
   document.getElementById('loading-overlay').classList.add('hidden');
+  updateHostModeUI();
   renderMarkers();
   renderSyncBadge();
   buildFacilitateQR();
+  buildHostQR();
+}
+
+// HOST MODE
+function toggleHostMode() {
+  hostQRMode = !hostQRMode;
+  const overrides = getLocal();
+  overrides.__hostQRMode = hostQRMode;
+  setLocal(overrides);
+  updateHostModeUI();
+}
+function updateHostModeUI() {
+  const lbl  = document.getElementById('host-mode-label');
+  const desc = document.getElementById('host-mode-desc');
+  const btn  = document.getElementById('host-mode-btn');
+  if (hostQRMode) {
+    lbl.textContent  = 'Hosting Button: QR Code Mode';
+    desc.textContent = 'Shows a scannable QR code email — ideal for lobby kiosk use.';
+    btn.textContent  = 'Switch to Form Mode';
+  } else {
+    lbl.textContent  = 'Hosting Button: Form Mode';
+    desc.textContent = 'Shows map + full form — ideal for desktop/phone browsing.';
+    btn.textContent  = 'Switch to QR Mode';
+  }
 }
 
 function updateSourceUI(isPC) {
-  const lbl = document.getElementById('source-label');
+  const lbl  = document.getElementById('source-label');
   const desc = document.getElementById('source-desc');
-  const btn = document.getElementById('override-btn');
-  const notice = document.getElementById('override-notice');
+  const btn  = document.getElementById('override-btn');
+  const note = document.getElementById('override-notice');
   if (isPC && !useOverride) {
-    lbl.textContent  = 'Data source: Planning Center (live sync)';
+    lbl.textContent = 'Data source: Planning Center (live sync)';
     desc.textContent = syncedAt ? `Last synced: ${new Date(syncedAt).toLocaleString()}` : '';
-    btn.textContent  = 'Switch to Local Overrides';
-    notice.classList.remove('visible');
+    btn.textContent = 'Switch to Local Overrides';
+    note.classList.remove('visible');
     document.getElementById('admin-sync-info').textContent = syncedAt ? `Synced: ${new Date(syncedAt).toLocaleString()}` : '';
   } else {
-    lbl.textContent  = 'Data source: Local Overrides';
+    lbl.textContent = 'Data source: Local Overrides';
     desc.textContent = 'Manual changes stored in this browser.';
-    btn.textContent  = 'Use Planning Center Data';
-    notice.classList.add('visible');
+    btn.textContent = 'Use Planning Center Data';
+    note.classList.add('visible');
     document.getElementById('admin-sync-info').textContent = '';
   }
 }
@@ -596,12 +638,9 @@ function toggleOverride() {
   const overrides = getLocal();
   if (useOverride) {
     const base = (overrides.__groups && overrides.__groups.length > 0) ? overrides.__groups : [...pcGroups];
-    groups = base;
-    overrides.__groups = groups;
-    overrides.__useOverride = true;
+    groups = base; overrides.__groups = groups; overrides.__useOverride = true;
   } else {
-    overrides.__useOverride = false;
-    groups = mergeLocalOntoPC(pcGroups);
+    overrides.__useOverride = false; groups = mergeLocalOntoPC(pcGroups);
   }
   setLocal(overrides);
   updateSourceUI(!useOverride);
@@ -614,14 +653,18 @@ function renderSyncBadge() {
   else { b.classList.remove('visible'); }
 }
 
-// MARKERS
+// MARKERS — day-colored, enrollment ring
 function markerIcon(g) {
-  const initials = g.initials || makeInitialsFromName(g.name);
-  const color = markerColor(g);
+  const day = parseDayFromSchedule(g.schedule);
+  const cfg = DAY_CONFIG[day] || DAY_CONFIG.unknown;
+  const abbr = cfg.abbr;
+  const col  = cfg.color;
+  const ringClass = g.enrollment_open === true ? 'open' : g.enrollment_open === false ? 'closed' : '';
+  const ringHtml = ringClass ? `<div class="enroll-ring ${ringClass}"></div>` : '';
   return L.divIcon({
-    className:'',
-    html:`<div class="hfg-marker" style="background:${color}">${initials}</div>`,
-    iconSize:[38,38], iconAnchor:[19,19]
+    className: '',
+    html: `<div class="hfg-marker-wrap">${ringHtml}<div class="hfg-marker" style="background:${col}">${abbr}</div></div>`,
+    iconSize: [42,42], iconAnchor: [21,21]
   });
 }
 
@@ -631,9 +674,7 @@ function renderMarkers() {
   groups.forEach(g => {
     if (!g.lat || !g.lng) return;
     const m = L.marker([g.lat, g.lng], { icon: markerIcon(g) }).addTo(map);
-    m.bindTooltip(g.name, {
-      className: 'group-tooltip', direction:'top', offset:[0,-22], permanent:false
-    });
+    m.bindTooltip(g.name, { className:'group-tooltip', direction:'top', offset:[0,-24], permanent:false });
     m.on('click', () => { resetIdleTimer(); openPopup(g); });
     markers[g.id] = m;
   });
@@ -655,7 +696,7 @@ function resetIdleTimer() {
     idleBarTimer = setInterval(() => {
       pct -= (100/60);
       document.getElementById('idle-bar-fill').style.width = Math.max(0,pct)+'%';
-      if (pct <= 0) clearInterval(idleBarTimer);
+      if (pct<=0) clearInterval(idleBarTimer);
     }, 500);
   }, IDLE_MS - 30000);
 }
@@ -664,30 +705,44 @@ function resetIdleTimer() {
 function openPopup(g) {
   document.getElementById('popup-name').textContent = g.name;
 
-  // Enrollment badge
-  const badge = document.getElementById('popup-enrollment-badge');
-  if (g.enrollment_open === true)       { badge.textContent = '● Open for Enrollment'; badge.className = 'badge-open'; }
-  else if (g.enrollment_open === false) { badge.textContent = '● Enrollment Closed';   badge.className = 'badge-closed'; }
-  else                                  { badge.textContent = 'Enrollment status unknown'; badge.className = 'badge-unknown'; }
+  // Day label with color
+  const day = parseDayFromSchedule(g.schedule);
+  const cfg = DAY_CONFIG[day] || DAY_CONFIG.unknown;
+  const dayEl = document.getElementById('popup-day-label');
+  dayEl.textContent = cfg.label + 's';
+  dayEl.style.color = cfg.color;
 
-  document.getElementById('popup-schedule').textContent = g.schedule || 'See sign-up page for schedule details';
+  // Color the header band subtly
+  document.getElementById('popup-header-band').style.background =
+    `linear-gradient(135deg, ${cfg.color}22 0%, transparent 60%)`;
+
+  // Enrollment banner
+  const banner = document.getElementById('popup-enrollment-banner');
+  if (g.enrollment_open === true) {
+    banner.innerHTML = '✅ Open for Enrollment — new members welcome!';
+    banner.className = 'banner-open';
+  } else if (g.enrollment_open === false) {
+    banner.innerHTML = '🔒 Enrollment Currently Closed';
+    banner.className = 'banner-closed';
+  } else {
+    banner.innerHTML = 'ℹ️ Contact us for enrollment information';
+    banner.className = 'banner-unknown';
+  }
+
+  document.getElementById('popup-schedule').textContent = g.schedule || 'See sign-up page for details';
 
   const ldrRow = document.getElementById('popup-leader-row');
   const ldrEl  = document.getElementById('popup-leader');
   if (g.leader_name) { ldrEl.textContent = 'Led by ' + g.leader_name; ldrRow.style.display = 'flex'; }
   else { ldrRow.style.display = 'none'; }
 
-  // Tags
   const tagsEl = document.getElementById('popup-tags');
   tagsEl.innerHTML = '';
-  if (g.tags && g.tags.length) {
-    g.tags.forEach(t => {
-      const chip = document.createElement('span');
-      chip.className = 'tag-chip';
-      chip.textContent = t;
-      tagsEl.appendChild(chip);
-    });
-  }
+  (g.tags || []).forEach(t => {
+    const chip = document.createElement('span');
+    chip.className = 'tag-chip'; chip.textContent = t;
+    tagsEl.appendChild(chip);
+  });
 
   document.getElementById('popup-description').textContent = g.desc || '';
 
@@ -700,18 +755,20 @@ function openPopup(g) {
   qrDiv.innerHTML = '';
   new QRCode(qrDiv, { text:g.url||location.href, width:120, height:120, colorDark:'#000', colorLight:'#fff', correctLevel:QRCode.CorrectLevel.H });
 
-  document.getElementById('popup-signup-btn').onclick = () => window.open(g.url, '_blank');
+  document.getElementById('popup-signup-btn').onclick = () => window.open(g.url,'_blank');
   document.getElementById('popup-overlay').classList.add('show');
 }
 
 function closePopup(e) {
-  if (!e || e.target===document.getElementById('popup-overlay') || e.currentTarget?.id==='popup-close')
+  if (!e || e.target===document.getElementById('popup-overlay'))
     document.getElementById('popup-overlay').classList.remove('show');
 }
 
 // FACILITATE
 function buildFacilitateQR() {
-  const mailto = 'mailto:josh@calvarychapelreno.org,dustin@calvarychapelreno.org?subject=Interested%20in%20Facilitating%20a%20Home%20Fellowship%20Group&body=Hi%20Josh%20and%20Dustin%2C%0A%0AI%20am%20interested%20in%20facilitating%20a%20Home%20Fellowship%20Group.%0A%0AName%3A%20%0APhone%3A%20%0A%0AThanks!';
+  const mailto = 'mailto:josh@calvarychapelreno.org,dustin@calvarychapelreno.org' +
+    '?subject=Interested%20in%20Facilitating%20a%20Home%20Fellowship%20Group' +
+    '&body=Hi%20Josh%20and%20Dustin%2C%0A%0AI%20am%20interested%20in%20facilitating%20a%20Home%20Fellowship%20Group.%0A%0AName%3A%20%0APhone%3A%20%0A%0AThanks!';
   const qrDiv = document.getElementById('facilitate-qr');
   qrDiv.innerHTML = '';
   new QRCode(qrDiv, { text:mailto, width:180, height:180, colorDark:'#000', colorLight:'#fff', correctLevel:QRCode.CorrectLevel.M });
@@ -720,25 +777,50 @@ function buildFacilitateQR() {
 function openFacilitateModal() { resetIdleTimer(); document.getElementById('facilitate-overlay').classList.add('show'); }
 function closeFacilitateModal() { document.getElementById('facilitate-overlay').classList.remove('show'); }
 
-// HOST
+// HOST QR
+function buildHostQR() {
+  const mailto = 'mailto:josh@calvarychapelreno.org,dustin@calvarychapelreno.org' +
+    '?subject=Interested%20in%20Hosting%20a%20Home%20Fellowship%20Group' +
+    '&body=Hi%20Josh%20and%20Dustin%2C%0A%0AI%20am%20interested%20in%20hosting%20a%20Home%20Fellowship%20Group.%20Here%20are%20my%20details%3A%0A%0AName%3A%20%0APhone%20%2F%20Email%3A%20%0ANeighborhood%20%2F%20Area%3A%20%0ABest%20Day%3A%20%0AApproximate%20Group%20Size%3A%20%0AType%20of%20Study%3A%20%0A%0AAnything%20else%3A%20%0A%0AThanks!';
+  const qrDiv = document.getElementById('host-qr-wrap');
+  qrDiv.innerHTML = '';
+  new QRCode(qrDiv, { text:mailto, width:180, height:180, colorDark:'#000', colorLight:'#fff', correctLevel:QRCode.CorrectLevel.M });
+}
+
 function openHostModal() {
   resetIdleTimer();
-  document.getElementById('host-overlay').classList.add('show');
+  const overlay = document.getElementById('host-overlay');
+  const qrMode  = document.getElementById('host-qr-mode');
+  const formMode = document.getElementById('host-form-mode');
+  const subtext  = document.getElementById('host-modal-subtext');
+
   document.getElementById('host-success').style.display = 'none';
-  document.getElementById('host-form').style.display = 'block';
-  setTimeout(() => {
-    if (!hostMap) {
-      hostMap = L.map('host-map', { center:DEFAULT_CENTER, zoom:11, zoomControl:true, attributionControl:false });
-      L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png',{maxZoom:18}).addTo(hostMap);
-      hostMap.on('click', e => {
-        hostLat = e.latlng.lat.toFixed(5); hostLng = e.latlng.lng.toFixed(5);
-        if (hostMarker) hostMap.removeLayer(hostMarker);
-        hostMarker = L.marker([hostLat,hostLng],{icon:L.divIcon({className:'',html:'<div class="host-interest-marker">📍</div>',iconSize:[32,32],iconAnchor:[16,16]})}).addTo(hostMap);
-        document.getElementById('host-coords-display').innerHTML = `📍 Selected: <span>Lat ${hostLat}, Lng ${hostLng}</span>`;
-        document.getElementById('host-map-hint').textContent = '✅ Location pinned! Move it anytime.';
-      });
-    } else { hostMap.invalidateSize(); }
-  }, 100);
+
+  if (hostQRMode) {
+    qrMode.style.display   = 'block';
+    formMode.style.display = 'none';
+    subtext.textContent    = 'Scan the QR code below to send us an email — we'd love to connect!';
+  } else {
+    qrMode.style.display   = 'none';
+    formMode.style.display = 'block';
+    subtext.textContent    = 'Tap your approximate neighborhood on the map, then fill out the form.';
+    setTimeout(() => {
+      if (!hostMap) {
+        hostMap = L.map('host-map', { center:DEFAULT_CENTER, zoom:11, zoomControl:true, attributionControl:false });
+        L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png',{maxZoom:18}).addTo(hostMap);
+        hostMap.on('click', e => {
+          hostLat = e.latlng.lat.toFixed(5); hostLng = e.latlng.lng.toFixed(5);
+          if (hostMarker) hostMap.removeLayer(hostMarker);
+          hostMarker = L.marker([hostLat,hostLng],{
+            icon:L.divIcon({className:'',html:'<div class="host-interest-marker">📍</div>',iconSize:[32,32],iconAnchor:[16,16]})
+          }).addTo(hostMap);
+          document.getElementById('host-coords-display').innerHTML = `📍 Selected: <span>Lat ${hostLat}, Lng ${hostLng}</span>`;
+          document.getElementById('host-map-hint').textContent = '✅ Location pinned! Move it anytime.';
+        });
+      } else { hostMap.invalidateSize(); }
+    }, 100);
+  }
+  overlay.classList.add('show');
 }
 
 function closeHostModal() {
@@ -749,39 +831,45 @@ function closeHostModal() {
   document.getElementById('host-map-hint').textContent='👆 Tap your neighborhood to pin your area';
   ['hf-name','hf-contact','hf-area','hf-notes'].forEach(id=>document.getElementById(id).value='');
   document.getElementById('hf-day').value='';
+  document.getElementById('hf-size').value='';
+  document.getElementById('hf-study').value='';
 }
 
 function submitHostInterest() {
   if (!document.getElementById('hf-name').value.trim()) { alert('Please enter your name.'); return; }
-  document.getElementById('host-form').style.display='none';
+  document.getElementById('host-form-mode').style.display='none';
   document.getElementById('host-success').style.display='block';
   setTimeout(()=>closeHostModal(),4000);
 }
 
 // ADMIN AUTH
-function openPW() { document.getElementById('pw-input').value=''; document.getElementById('pw-error').style.display='none'; document.getElementById('pw-overlay').classList.add('show'); setTimeout(()=>document.getElementById('pw-input').focus(),100); }
+function openPW() { document.getElementById('pw-input').value='';document.getElementById('pw-error').style.display='none';document.getElementById('pw-overlay').classList.add('show');setTimeout(()=>document.getElementById('pw-input').focus(),100);}
 function closePW() { document.getElementById('pw-overlay').classList.remove('show'); }
 function checkPW() {
-  if (document.getElementById('pw-input').value===ADMIN_PW) { closePW(); openAdmin(); }
-  else { document.getElementById('pw-error').style.display='block'; document.getElementById('pw-input').value=''; }
+  if(document.getElementById('pw-input').value===ADMIN_PW){closePW();openAdmin();}
+  else{document.getElementById('pw-error').style.display='block';document.getElementById('pw-input').value='';}
 }
 
 // ADMIN
-function openAdmin() { renderGroupList(); document.getElementById('admin-overlay').classList.add('show'); }
-function closeAdmin() { document.getElementById('admin-overlay').classList.remove('show'); cancelForm(); }
+function openAdmin() { renderGroupList();document.getElementById('admin-overlay').classList.add('show'); }
+function closeAdmin() { document.getElementById('admin-overlay').classList.remove('show');cancelForm(); }
 
 function renderGroupList() {
   const ul = document.getElementById('group-list'); ul.innerHTML='';
-  if (!groups.length) { ul.innerHTML='<li style="color:var(--muted);padding:10px 0;font-size:0.88rem">No groups loaded.</li>'; return; }
+  if (!groups.length) { ul.innerHTML='<li style="color:var(--muted);padding:10px 0;font-size:0.88rem">No groups loaded.</li>';return;}
   groups.forEach(g => {
     const li = document.createElement('li'); li.className='gli';
+    const day = parseDayFromSchedule(g.schedule);
+    const cfg = DAY_CONFIG[day] || DAY_CONFIG.unknown;
     const enrollHtml = g.enrollment_open===true ? '<span class="gli-enrollment gli-open">Open</span>'
       : g.enrollment_open===false ? '<span class="gli-enrollment gli-closed">Closed</span>' : '';
-    const tagHtml = g.tags && g.tags.length ? ` · ${g.tags.join(', ')}` : '';
     li.innerHTML = `
       <div class="gli-info">
         <strong>${g.name}</strong>
-        <span>${g.leader_name ? 'Led by ' + g.leader_name + ' · ' : ''}${g.schedule||''}${g.neighborhood?' · '+g.neighborhood:''}</span>
+        <span style="display:flex;align-items:center;gap:6px">
+          <span style="display:inline-block;width:8px;height:8px;border-radius:50%;background:${cfg.color}"></span>
+          ${g.leader_name ? 'Led by '+g.leader_name+' · ':''} ${g.schedule||''} ${g.neighborhood?' · '+g.neighborhood:''}
+        </span>
         ${enrollHtml}
       </div>
       <div class="gli-btns">
@@ -792,7 +880,7 @@ function renderGroupList() {
   });
 }
 
-function openNewForm() { editingId=null; document.getElementById('form-title').textContent='Add New Group'; clearForm(); document.getElementById('group-form').style.display='block'; }
+function openNewForm() { editingId=null;document.getElementById('form-title').textContent='Add New Group';clearForm();document.getElementById('group-form').style.display='block'; }
 
 function openEditForm(id) {
   const g = groups.find(x=>String(x.id)===String(id)); if(!g)return;
@@ -813,17 +901,17 @@ function openEditForm(id) {
 }
 
 function clearForm() { ['f-name','f-leader','f-initials','f-schedule','f-neighborhood','f-lat','f-lng','f-url','f-photo','f-video','f-desc'].forEach(id=>document.getElementById(id).value=''); }
-function cancelForm() { document.getElementById('group-form').style.display='none'; editingId=null; }
+function cancelForm() { document.getElementById('group-form').style.display='none';editingId=null; }
 
 function saveGroup() {
   const name=document.getElementById('f-name').value.trim();
   const lat=parseFloat(document.getElementById('f-lat').value);
   const lng=parseFloat(document.getElementById('f-lng').value);
   if(!name||isNaN(lat)||isNaN(lng)){alert('Name, Latitude, and Longitude are required.');return;}
-  const data = {
-    name, lat, lng,
+  const data={
+    name,lat,lng,
     leader_name:  document.getElementById('f-leader').value,
-    initials:     document.getElementById('f-initials').value || makeInitialsFromName(name),
+    initials:     document.getElementById('f-initials').value||'HF',
     schedule:     document.getElementById('f-schedule').value,
     neighborhood: document.getElementById('f-neighborhood').value,
     url:          document.getElementById('f-url').value||'#',
@@ -831,26 +919,19 @@ function saveGroup() {
     video:        document.getElementById('f-video').value,
     desc:         document.getElementById('f-desc').value
   };
-
   if (!useOverride && editingId) {
-    // PC mode: save local-only fields as field-level overrides
-    const overrides = getLocal();
-    overrides[String(editingId)] = { video:data.video, neighborhood:data.neighborhood, leader_name:data.leader_name, initials:data.initials };
+    const overrides=getLocal();
+    overrides[String(editingId)]={video:data.video,neighborhood:data.neighborhood,leader_name:data.leader_name,initials:data.initials};
     setLocal(overrides);
-    const idx = groups.findIndex(x=>String(x.id)===String(editingId));
-    if (idx!==-1) groups[idx] = {...groups[idx],...data};
+    const idx=groups.findIndex(x=>String(x.id)===String(editingId));
+    if(idx!==-1) groups[idx]={...groups[idx],...data};
   } else {
-    const overrides = getLocal();
-    if (editingId!==null) {
-      const i=groups.findIndex(x=>String(x.id)===String(editingId));
-      if(i!==-1) groups[i]={...groups[i],...data};
-    } else {
-      const newId=groups.length?Math.max(...groups.map(g=>Number(g.id)||0))+1:1;
-      groups.push({id:newId,...data});
-    }
-    overrides.__groups=groups; setLocal(overrides);
+    const overrides=getLocal();
+    if(editingId!==null){const i=groups.findIndex(x=>String(x.id)===String(editingId));if(i!==-1)groups[i]={...groups[i],...data};}
+    else{const newId=groups.length?Math.max(...groups.map(g=>Number(g.id)||0))+1:1;groups.push({id:newId,...data});}
+    overrides.__groups=groups;setLocal(overrides);
   }
-  renderMarkers(); renderGroupList(); cancelForm();
+  renderMarkers();renderGroupList();cancelForm();
 }
 
 function deleteGroup(id) {
@@ -858,5 +939,18 @@ function deleteGroup(id) {
   if(!useOverride){
     if(!confirm('Deleting will switch you to Local Override mode. Continue?'))return;
     useOverride=true;
-    const overrides=getLocal(); overrides.__useOverride=true;
-    groups=gro
+    const overrides=getLocal();overrides.__useOverride=true;
+    groups=groups.filter(g=>String(g.id)!==String(id));
+    overrides.__groups=groups;setLocal(overrides);updateSourceUI(false);
+  } else {
+    groups=groups.filter(g=>String(g.id)!==String(id));
+    const overrides=getLocal();overrides.__groups=groups;setLocal(overrides);
+  }
+  renderMarkers();renderGroupList();
+}
+
+initData();
+resetIdleTimer();
+</script>
+</body>
+</html>
