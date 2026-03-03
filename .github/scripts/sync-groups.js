@@ -61,8 +61,9 @@ async function fetchEnrollment(groupId) {
   try {
     const res = await get(`/groups/v2/groups/${groupId}/enrollment`);
     if (res.data && res.data.attributes) {
-      const val = res.data.attributes.enrollment_open;
-      return typeof val === 'boolean' ? val : null;
+      const status = res.data.attributes.status;
+      if (status === 'open')   return true;
+      if (status === 'closed') return false;
     }
     return null;
   } catch (e) {
