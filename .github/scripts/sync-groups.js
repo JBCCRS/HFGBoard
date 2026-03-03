@@ -52,12 +52,31 @@ async function fetchLocation(locationId) {
   }
 }
 
+// Fetch the leader(s) of a group via the memberships endpoint
+async function fetchLeader(groupId) {
+  try {
+    const res = await get(`/groups/v2/groups/${groupId}/memberships?filter=leader&per_page=5`);
+    if (!res.data || res.data.length === 0) return '';
+    const leaders = res.data
+      .filter(m => m.attributes && m.attributes.first_name)
+      .map(m => `${m.attributes.first_name} ${m.attributes.last_name || ''}`.trim());
+    return leaders.join(' & ');
+  } catch (e) {
+    return '';
+  }
+}
+
+// Extract leader surname(s) from group name as fallback
+// e.g. "Home Fellowship Baker & Stewart" -> "Baker & Stewart"
+function extractLeaderFromName(groupName) {
+  return groupName.replace(/^Home Fellowship[-\s]*/i, '').trim();
+}
+
 async function main() {
   console.log('Fetching groups from Planning Center...');
   const allGroups = await fetchAllGroups();
   console.log(`Total groups: ${allGroups.length}`);
 
-  // Only show listed Home Fellowship Groups
   const hfgGroups = allGroups.filter(g =>
     g.attributes.listed === true &&
     g.relationships &&
@@ -83,18 +102,25 @@ async function main() {
       if (loc && loc.latitude && loc.longitude) {
         lat = offsetCoord(loc.latitude);
         lng = offsetCoord(loc.longitude);
-        console.log(`  ${attr.name}: offset applied`);
+        console.log(`  ${attr.name}: location offset applied`);
       }
     }
 
-    // Fall back to Reno city center with offset if no location set
     if (!lat || !lng) {
       lat = offsetCoord(39.5296);
       lng = offsetCoord(-119.8138);
       console.log(`  ${attr.name}: no location, using Reno center`);
     }
 
-    // Build sign-up URL — prefer Church Center public URL
+    // Try memberships endpoint first, fall back to extracting from group name
+    let leader = await fetchLeader(g.id);
+    if (!leader) {
+      leader = extractLeaderFromName(attr.name);
+      console.log(`  ${attr.name}: using name-extracted leader "${leader}"`);
+    } else {
+      console.log(`  ${attr.name}: leader "${leader}"`);
+    }
+
     let url = `https://groups.planningcenteronline.com/groups/${g.id}`;
     if (attr.public_church_center_web_url) {
       url = attr.public_church_center_web_url;
@@ -105,6 +131,7 @@ async function main() {
     output.push({
       id:          g.id,
       name:        attr.name,
+      leader,
       description: attr.description_as_plain_text || '',
       schedule:    attr.schedule || '',
       photo:       attr.header_image && attr.header_image.medium ? attr.header_image.medium : '',
