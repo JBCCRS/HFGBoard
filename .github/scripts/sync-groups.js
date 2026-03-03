@@ -28,7 +28,7 @@ function get(path) {
       res.on('data', chunk => data += chunk);
       res.on('end', () => {
         try { resolve(JSON.parse(data)); }
-        catch(e) { reject(new Error('JSON parse error: ' + data.substring(0,200))); }
+        catch(e) { reject(new Error('JSON parse error: ' + data.substring(0, 200))); }
       });
     }).on('error', reject);
   });
@@ -36,8 +36,7 @@ function get(path) {
 
 async function fetchAllGroups() {
   let allGroups = [];
-  // Include enrollment so we get enrollment_open field
-  let path = '/groups/v2/groups?per_page=100&include=enrollment';
+  let path = '/groups/v2/groups?per_page=100';
   while (path) {
     const res = await get(path);
     allGroups = allGroups.concat(res.data);
@@ -57,7 +56,21 @@ async function fetchLocation(locationId) {
   }
 }
 
-// Fetch tags for a group — returns array of tag name strings
+// Fetch enrollment status for a group
+async function fetchEnrollment(groupId) {
+  try {
+    const res = await get(`/groups/v2/groups/${groupId}/enrollment`);
+    if (res.data && res.data.attributes) {
+      const val = res.data.attributes.enrollment_open;
+      return typeof val === 'boolean' ? val : null;
+    }
+    return null;
+  } catch (e) {
+    return null;
+  }
+}
+
+// Fetch tags for a group (e.g. "Sermon Discussion", "Bible Study", "Book Study")
 async function fetchTags(groupId) {
   try {
     const res = await get(`/groups/v2/groups/${groupId}/tags?per_page=25`);
@@ -70,9 +83,9 @@ async function fetchTags(groupId) {
   }
 }
 
-// Load the manually-maintained group-leaders.json file
+// Load group-leaders.json from repo root (two levels up from .github/scripts/)
 function loadLeaders() {
-  const leadersPath = path.join(__dirname, 'group-leaders.json');
+  const leadersPath = path.join(__dirname, '..', '..', 'group-leaders.json');
   try {
     const raw = fs.readFileSync(leadersPath, 'utf8');
     return JSON.parse(raw);
@@ -124,23 +137,20 @@ async function main() {
       console.log(`  ${attr.name}: no location, using Reno center`);
     }
 
-    // Fetch tags (teaching style: sermon discussion, bible study, book study, etc.)
-    const tags = await fetchTags(g.id);
-    if (tags.length) console.log(`  ${attr.name}: tags = [${tags.join(', ')}]`);
+    // Fetch enrollment status and tags in parallel to save time
+    const [enrollmentOpen, tags] = await Promise.all([
+      fetchEnrollment(g.id),
+      fetchTags(g.id)
+    ]);
 
-    // Enrollment open/closed — populated when ?include=enrollment is used
-    let enrollmentOpen = null;
-    if (typeof attr.enrollment_open === 'boolean') {
-      enrollmentOpen = attr.enrollment_open;
-    }
-    console.log(`  ${attr.name}: enrollment_open = ${enrollmentOpen}`);
+    console.log(`  ${attr.name}: enrollment_open=${enrollmentOpen} tags=[${tags.join(', ') || 'none'}]`);
 
     // Build sign-up URL
     let url = `https://groups.planningcenteronline.com/groups/${g.id}`;
     if (attr.public_church_center_web_url) url = attr.public_church_center_web_url;
     else if (attr.contact_email) url = `mailto:${attr.contact_email}`;
 
-    // Leader from group-leaders.json only — never from PC API
+    // Leader from group-leaders.json only — never pulled from PC API
     const leaderRecord = leaders[String(g.id)] || null;
 
     output.push({
@@ -161,10 +171,14 @@ async function main() {
   }
 
   const result = { groups: output, synced_at: new Date().toISOString() };
-  fs.writeFileSync('groups.json', JSON.stringify(result, null, 2));
-  console.log(`\nWrote ${output.length} groups to groups.json`);
+
+  // Write groups.json to repo root (two levels up from .github/scripts/)
+  const outputPath = path.join(__dirname, '..', '..', 'groups.json');
+  fs.writeFileSync(outputPath, JSON.stringify(result, null, 2));
+  console.log(`\nWrote ${output.length} groups to ${outputPath}`);
   output.forEach(g => {
-    console.log(`  ${g.name}: leader="${g.leader_name}" initials="${g.initials}" open=${g.enrollment_open} tags=[${g.tags.join(', ')}]`);
+    const status = g.enrollment_open === true ? 'OPEN' : g.enrollment_open === false ? 'CLOSED' : 'unknown';
+    console.log(`  ${g.name}: leader="${g.leader_name}" initials="${g.initials}" enrollment=${status} tags=[${g.tags.join(', ')}]`);
   });
 }
 
