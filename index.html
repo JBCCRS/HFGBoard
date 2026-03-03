@@ -253,11 +253,8 @@
     #group-count{display:none;}
     #sync-badge{display:none;}
 
-    /* Legend: collapsed to just day dots, no text labels */
-    #legend{bottom:auto;top:66px;left:10px;padding:8px 10px;}
-    #legend-title{display:none;}
-    .legend-row span:last-child{display:none;}
-    .legend-row{gap:4px;}
+    /* Legend: hidden on mobile */
+    #legend{display:none;}
 
     /* Buttons: full width at bottom, stacked */
     #bottom-right{
@@ -481,7 +478,7 @@ let hostMap = null, hostMarker = null, hostLat = null, hostLng = null;
 
 // MAP
 const DEFAULT_CENTER = [39.5296, -119.8138];
-const DEFAULT_ZOOM   = 12;
+const DEFAULT_ZOOM   = 11;
 const map = L.map('map', { center:DEFAULT_CENTER, zoom:DEFAULT_ZOOM, zoomControl:false, attributionControl:false });
 L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png', { maxZoom:18 }).addTo(map);
 L.control.zoom({ position:'topright' }).addTo(map);
