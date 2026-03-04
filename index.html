@@ -52,7 +52,7 @@
   .legend-divider{height:1px;background:var(--border);margin:8px 0;}
   .legend-enrollment{display:flex;align-items:center;gap:7px;margin-bottom:5px;}
   .legend-enrollment:last-child{margin-bottom:0;}
-  .enroll-dot{width:10px;height:10px;border-radius:50%;flex-shrink:0;}
+  .enroll-dot{width:18px;height:18px;border-radius:50%;flex-shrink:0;border:3px solid transparent;background:transparent;box-shadow:inset 0 0 0 1px transparent;}
 
   /* LOADING */
   #loading-overlay{position:fixed;top:70px;left:0;right:0;bottom:0;background:rgba(255,255,255,0.55);z-index:500;display:flex;align-items:center;justify-content:center;}
@@ -67,9 +67,9 @@
 
   /* Enrollment ring on marker */
   .hfg-marker-wrap{position:relative;width:42px;height:42px;display:flex;align-items:center;justify-content:center;}
-  .enroll-ring{position:absolute;top:0;left:0;width:42px;height:42px;border-radius:50%;border:3px solid transparent;pointer-events:none;}
-  .enroll-ring.open{border-color:var(--green);}
-  .enroll-ring.closed{border-color:var(--red);}
+  .enroll-ring{position:absolute;top:-3px;left:-3px;width:48px;height:48px;border-radius:50%;border:4px solid transparent;pointer-events:none;}
+  .enroll-ring.open{border-color:var(--green);box-shadow:0 0 0 1.5px var(--green);}
+  .enroll-ring.closed{border-color:var(--red);box-shadow:0 0 0 1.5px var(--red);}
 
   /* Tooltip */
   .leaflet-tooltip.group-tooltip{background:var(--dark);border:1px solid var(--border);color:var(--white);font-family:'DM Sans',sans-serif;font-size:0.82rem;font-weight:600;padding:6px 12px;border-radius:8px;box-shadow:0 4px 16px rgba(0,0,0,0.4);white-space:nowrap;pointer-events:none;}
@@ -117,8 +117,8 @@
   /* BOTTOM BUTTONS */
   #bottom-right{position:fixed;bottom:20px;right:20px;z-index:1000;display:flex;flex-direction:column;gap:10px;align-items:stretch;width:260px;}
   .float-btn{border:none;border-radius:12px;padding:15px 20px;font-family:'DM Sans',sans-serif;font-size:0.88rem;font-weight:700;cursor:pointer;transition:all 0.2s;box-shadow:0 4px 20px rgba(0,0,0,0.3);display:flex;align-items:center;justify-content:center;gap:9px;width:100%;}
-  #facilitate-btn{background:var(--gold);color:var(--black);}
-  #facilitate-btn:hover{background:var(--gold-lt);transform:translateY(-2px);}
+  #facilitate-btn{background:var(--black);color:var(--white);border:2px solid var(--gold);}
+  #facilitate-btn:hover{background:var(--dark2);border-color:var(--gold-lt);transform:translateY(-2px);}
   #host-btn{background:var(--white);color:var(--black);}
   #host-btn:hover{background:var(--light);transform:translateY(-2px);}
 
@@ -294,8 +294,8 @@
   <div class="legend-row"><div class="legend-dot" style="background:var(--fri)">Fr</div><span class="legend-label">Friday</span></div>
   <div class="legend-row"><div class="legend-dot" style="background:var(--sat)">Sa</div><span class="legend-label">Saturday</span></div>
   <div class="legend-divider"></div>
-  <div class="legend-enrollment"><div class="enroll-dot" style="background:var(--green)"></div><span class="legend-label" style="font-size:0.75rem">Open enrollment</span></div>
-  <div class="legend-enrollment"><div class="enroll-dot" style="background:var(--red)"></div><span class="legend-label" style="font-size:0.75rem">Closed enrollment</span></div>
+  <div class="legend-enrollment"><div class="enroll-dot" style="border-color:var(--green);box-shadow:0 0 0 1px var(--green)"></div><span class="legend-label" style="font-size:0.75rem">Open enrollment</span></div>
+  <div class="legend-enrollment"><div class="enroll-dot" style="border-color:var(--red);box-shadow:0 0 0 1px var(--red)"></div><span class="legend-label" style="font-size:0.75rem">Closed enrollment</span></div>
 </div>
 
 <!-- BOTTOM BUTTONS -->
