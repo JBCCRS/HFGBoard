@@ -45,8 +45,10 @@
   /* LEGEND */
   #legend{position:fixed;bottom:20px;left:20px;z-index:1000;background:rgba(0,0,0,0.82);border:1px solid var(--border);border-radius:12px;padding:14px 18px;backdrop-filter:blur(8px);}
   #legend h4{font-size:0.68rem;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--muted);margin-bottom:10px;}
-  .legend-row{display:flex;align-items:center;gap:9px;margin-bottom:7px;}
+  .legend-row{display:flex;align-items:center;gap:9px;margin-bottom:7px;cursor:pointer;border-radius:8px;padding:3px 6px;margin-left:-6px;transition:background 0.15s;}
   .legend-row:last-child{margin-bottom:0;}
+  .legend-row:hover{background:rgba(255,255,255,0.07);}
+  .legend-row.day-inactive{opacity:0.28;}
   .legend-dot{width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:9px;font-weight:700;color:white;flex-shrink:0;border:2px solid rgba(255,255,255,0.3);}
   .legend-label{font-size:0.8rem;color:var(--light);}
   .legend-divider{height:1px;background:var(--border);margin:8px 0;}
@@ -286,13 +288,13 @@
 <!-- LEGEND -->
 <div id="legend">
   <h4>Day of Week</h4>
-  <div class="legend-row"><div class="legend-dot" style="background:var(--sun)">Su</div><span class="legend-label">Sunday</span></div>
-  <div class="legend-row"><div class="legend-dot" style="background:var(--mon)">Mo</div><span class="legend-label">Monday</span></div>
-  <div class="legend-row"><div class="legend-dot" style="background:var(--tue)">Tu</div><span class="legend-label">Tuesday</span></div>
-  <div class="legend-row"><div class="legend-dot" style="background:var(--wed)">We</div><span class="legend-label">Wednesday</span></div>
-  <div class="legend-row"><div class="legend-dot" style="background:var(--thu)">Th</div><span class="legend-label">Thursday</span></div>
-  <div class="legend-row"><div class="legend-dot" style="background:var(--fri)">Fr</div><span class="legend-label">Friday</span></div>
-  <div class="legend-row"><div class="legend-dot" style="background:var(--sat)">Sa</div><span class="legend-label">Saturday</span></div>
+  <div class="legend-row" id="leg-sunday"    onclick="toggleDayFilter('sunday')"><div class="legend-dot" style="background:var(--sun)">Su</div><span class="legend-label">Sunday</span></div>
+  <div class="legend-row" id="leg-monday"    onclick="toggleDayFilter('monday')"><div class="legend-dot" style="background:var(--mon)">Mo</div><span class="legend-label">Monday</span></div>
+  <div class="legend-row" id="leg-tuesday"   onclick="toggleDayFilter('tuesday')"><div class="legend-dot" style="background:var(--tue)">Tu</div><span class="legend-label">Tuesday</span></div>
+  <div class="legend-row" id="leg-wednesday" onclick="toggleDayFilter('wednesday')"><div class="legend-dot" style="background:var(--wed)">We</div><span class="legend-label">Wednesday</span></div>
+  <div class="legend-row" id="leg-thursday"  onclick="toggleDayFilter('thursday')"><div class="legend-dot" style="background:var(--thu)">Th</div><span class="legend-label">Thursday</span></div>
+  <div class="legend-row" id="leg-friday"    onclick="toggleDayFilter('friday')"><div class="legend-dot" style="background:var(--fri)">Fr</div><span class="legend-label">Friday</span></div>
+  <div class="legend-row" id="leg-saturday"  onclick="toggleDayFilter('saturday')"><div class="legend-dot" style="background:var(--sat)">Sa</div><span class="legend-label">Saturday</span></div>
   <div class="legend-divider"></div>
   <div class="legend-enrollment"><div class="enroll-dot" style="border-color:var(--green);box-shadow:0 0 0 1px var(--green)"></div><span class="legend-label" style="font-size:0.75rem">Open enrollment</span></div>
   <div class="legend-enrollment"><div class="enroll-dot" style="border-color:var(--red);box-shadow:0 0 0 1px var(--red)"></div><span class="legend-label" style="font-size:0.75rem">Closed enrollment</span></div>
@@ -474,6 +476,7 @@ function parseDayFromSchedule(schedule) {
 let groups = [], pcGroups = [], syncedAt = null;
 let useOverride = false;
 let editingId = null, markers = {}, idleTimer = null, idleBarTimer = null;
+let activeDayFilters = new Set(); // days currently selected for filter
 let hostMap = null, hostMarker = null, hostLat = null, hostLng = null;
 
 // MAP
@@ -620,6 +623,45 @@ function renderMarkers() {
     markers[g.id] = m;
   });
   document.getElementById('group-count').textContent = `${groups.length} Group${groups.length!==1?'s':''}`;
+  applyDayFilter();
+}
+
+// DAY FILTER
+function toggleDayFilter(day) {
+  resetIdleTimer();
+  if (activeDayFilters.has(day)) {
+    activeDayFilters.delete(day);
+  } else {
+    activeDayFilters.add(day);
+  }
+  // Update legend row appearance
+  ['sunday','monday','tuesday','wednesday','thursday','friday','saturday'].forEach(d => {
+    const row = document.getElementById('leg-' + d);
+    if (!row) return;
+    if (activeDayFilters.size === 0 || activeDayFilters.has(d)) {
+      row.classList.remove('day-inactive');
+    } else {
+      row.classList.add('day-inactive');
+    }
+  });
+  applyDayFilter();
+}
+
+function applyDayFilter() {
+  groups.forEach(g => {
+    const m = markers[g.id];
+    if (!m) return;
+    if (activeDayFilters.size === 0) {
+      map.addLayer(m);
+    } else {
+      const day = parseDayFromSchedule(g.schedule);
+      if (activeDayFilters.has(day)) {
+        map.addLayer(m);
+      } else {
+        map.removeLayer(m);
+      }
+    }
+  });
 }
 
 // IDLE
@@ -630,6 +672,7 @@ function resetIdleTimer() {
   idleTimer = setTimeout(() => {
     closePopup(); closeHostModal(); closeFacilitateModal();
     map.flyTo(DEFAULT_CENTER, DEFAULT_ZOOM, { duration:1.5 });
+    setTimeout(() => location.reload(), 1600); // reload after fly animation completes
   }, IDLE_MS);
   setTimeout(() => {
     document.getElementById('idle-bar').style.display = 'block';
