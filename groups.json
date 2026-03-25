@@ -11,9 +11,9 @@
       "schedule": "Meets weekly on Sundays from 7-8:30pm",
       "photo": "https://groups-production.s3.amazonaws.com/uploads/group/header_image/1822131/medium_HFG(2).jpg",
       "url": "https://ccrs.churchcenter.com/groups/small-groups/home-fellowship-baker-stewart",
-      "lat": 39.52096,
-      "lng": -119.808344,
-      "synced_at": "2026-03-25T18:37:51.813Z"
+      "lat": 39.535397,
+      "lng": -119.802461,
+      "synced_at": "2026-03-25T20:57:14.553Z"
     },
     {
       "id": "1822148",
@@ -26,9 +26,9 @@
       "schedule": "Meets weekly on Fridays from 6:30-8:30pm",
       "photo": "https://groups-production.s3.amazonaws.com/uploads/group/header_image/1822148/medium_2025-08-14_08-31-34.png",
       "url": "https://ccrs.churchcenter.com/groups/small-groups/home-fellowship-ortiz",
-      "lat": 39.540406,
-      "lng": -119.823394,
-      "synced_at": "2026-03-25T18:37:51.903Z"
+      "lat": 39.537386,
+      "lng": -119.818936,
+      "synced_at": "2026-03-25T20:57:14.722Z"
     },
     {
       "id": "1837775",
@@ -41,9 +41,9 @@
       "schedule": "Meets weekly on Thursdays from 7-8:30pm",
       "photo": "https://groups-production.s3.amazonaws.com/uploads/group/header_image/1837775/medium_2025-08-14_08-31-34.png",
       "url": "https://ccrs.churchcenter.com/groups/small-groups/home-fellowship-volpp-baker",
-      "lat": 39.405287,
-      "lng": -119.792593,
-      "synced_at": "2026-03-25T18:37:52.038Z"
+      "lat": 39.403539,
+      "lng": -119.77573,
+      "synced_at": "2026-03-25T20:57:14.907Z"
     },
     {
       "id": "1854037",
@@ -56,9 +56,9 @@
       "schedule": "Meets weekly on Mondays from 6:30-8:30pm",
       "photo": "https://groups-production.s3.amazonaws.com/uploads/group/header_image/1854037/medium_IMG_9731(2).jpeg",
       "url": "https://ccrs.churchcenter.com/groups/small-groups/home-fellowship-stieg",
-      "lat": 39.562008,
-      "lng": -119.731462,
-      "synced_at": "2026-03-25T18:37:52.175Z"
+      "lat": 39.578022,
+      "lng": -119.732425,
+      "synced_at": "2026-03-25T20:57:15.093Z"
     },
     {
       "id": "2124228",
@@ -73,9 +73,9 @@
       "schedule": "Meets weekly on Mondays from 6:15-8:15pm",
       "photo": "https://groups-production.s3.amazonaws.com/uploads/group/header_image/2124228/medium_image.png",
       "url": "https://ccrs.churchcenter.com/groups/small-groups/home-fellowship-latimer-and-ballew",
-      "lat": 39.400817,
-      "lng": -119.803317,
-      "synced_at": "2026-03-25T18:37:52.315Z"
+      "lat": 39.400504,
+      "lng": -119.80727,
+      "synced_at": "2026-03-25T20:57:15.395Z"
     },
     {
       "id": "2470054",
@@ -88,9 +88,9 @@
       "schedule": "Meets weekly on Sundays from 3-5pm",
       "photo": "https://groups-production.s3.amazonaws.com/uploads/group/header_image/2470054/medium_Pixtom(2).jpeg",
       "url": "https://ccrs.churchcenter.com/groups/small-groups/home-fellowship-pixton-and-luitwieler",
-      "lat": 39.430924,
-      "lng": -119.732884,
-      "synced_at": "2026-03-25T18:37:52.453Z"
+      "lat": 39.44515,
+      "lng": -119.730595,
+      "synced_at": "2026-03-25T20:57:15.590Z"
     },
     {
       "id": "2470127",
@@ -103,9 +103,9 @@
       "schedule": "Meets weekly on Thursdays from 7-8:30pm",
       "photo": "https://groups-production.s3.amazonaws.com/uploads/group/header_image/2470127/medium_2025-08-14_08-31-34.png",
       "url": "https://ccrs.churchcenter.com/groups/small-groups/home-fellowship-chimits",
-      "lat": 39.437789,
-      "lng": -119.789771,
-      "synced_at": "2026-03-25T18:37:52.594Z"
+      "lat": 39.421301,
+      "lng": -119.773166,
+      "synced_at": "2026-03-25T20:57:15.777Z"
     },
     {
       "id": "2470164",
@@ -114,13 +114,13 @@
       "initials": "HF",
       "enrollment_open": true,
       "tags": [],
-      "description": "",
+      "description": "Home Fellowship Group with Pastor Dustin Holman as our leader and our host home is at the Majalca home located in the Spanish Springs area in Sparks. We meet Sunday afternoons at 4 PM. We are blessed to be able to spend time after the lesson to fellowship with a nice snack or pot luck. In this session, we have studied 1 Timothy, 2 Timothy and Titus. We will be studying Philemon starting in April. We will break after our study of Philemon and will meet back in September.",
       "schedule": "Meets weekly on Sundays from 4-6pm",
-      "photo": "https://groups-production.s3.amazonaws.com/uploads/group/header_image/2470164/medium_2025-08-14_08-31-34.png",
+      "photo": "https://groups-production.s3.amazonaws.com/uploads/group/header_image/2470164/medium_HFG_Rhonda(2).jpeg",
       "url": "https://ccrs.churchcenter.com/groups/small-groups/home-fellowship-majalca-homen",
-      "lat": 39.589588,
-      "lng": -119.731648,
-      "synced_at": "2026-03-25T18:37:52.735Z"
+      "lat": 39.585097,
+      "lng": -119.7474,
+      "synced_at": "2026-03-25T20:57:16.073Z"
     },
     {
       "id": "2470416",
@@ -133,9 +133,9 @@
       "schedule": "Meets weekly on Fridays from 6-9pm",
       "photo": "https://groups-production.s3.amazonaws.com/uploads/group/header_image/2470416/medium_2025-08-14_08-31-34.png",
       "url": "https://ccrs.churchcenter.com/groups/small-groups/home-fellowship-eisenbarth-woods-greene",
-      "lat": 39.68389,
-      "lng": -119.957988,
-      "synced_at": "2026-03-25T18:37:52.869Z"
+      "lat": 39.686751,
+      "lng": -119.956627,
+      "synced_at": "2026-03-25T20:57:16.376Z"
     },
     {
       "id": "2493243",
@@ -148,9 +148,9 @@
       "schedule": "",
       "photo": "https://groups-production.s3.amazonaws.com/uploads/group/header_image/2493243/medium_2025-08-14_08-31-34.png",
       "url": "https://ccrs.churchcenter.com/groups/small-groups/home-fellowship-mitchell",
-      "lat": 39.53894,
-      "lng": -119.806184,
-      "synced_at": "2026-03-25T18:37:52.952Z"
+      "lat": 39.522994,
+      "lng": -119.823127,
+      "synced_at": "2026-03-25T20:57:16.583Z"
     },
     {
       "id": "2562756",
@@ -163,9 +163,9 @@
       "schedule": "",
       "photo": "https://groups-production.s3.amazonaws.com/uploads/group/header_image/2562756/medium_2025-08-14_08-31-34.png",
       "url": "https://ccrs.churchcenter.com/groups/small-groups/home-fellowship-abraham",
-      "lat": 39.521538,
-      "lng": -119.819522,
-      "synced_at": "2026-03-25T18:37:53.062Z"
+      "lat": 39.539228,
+      "lng": -119.802729,
+      "synced_at": "2026-03-25T20:57:16.704Z"
     },
     {
       "id": "2766592",
@@ -178,9 +178,9 @@
       "schedule": "Meets weekly on Sundays from 4-6pm",
       "photo": "https://groups-production.s3.amazonaws.com/uploads/group/header_image/2766592/medium_2025-08-14_08-31-34.png",
       "url": "https://ccrs.churchcenter.com/groups/small-groups/home-fellowship-alvarez-and-greene",
-      "lat": 39.594632,
-      "lng": -119.71538,
-      "synced_at": "2026-03-25T18:37:53.240Z"
+      "lat": 39.595845,
+      "lng": -119.71575,
+      "synced_at": "2026-03-25T20:57:17.002Z"
     },
     {
       "id": "2774789",
@@ -193,9 +193,9 @@
       "schedule": "Meets weekly on Sundays from 5-7pm",
       "photo": "https://groups-production.s3.amazonaws.com/uploads/group/header_image/2774789/medium_2025-08-14_08-31-34.png",
       "url": "https://ccrs.churchcenter.com/groups/small-groups/home-fellowship-hall-and-ruvalcaba",
-      "lat": 39.499441,
-      "lng": -119.746691,
-      "synced_at": "2026-03-25T18:37:53.398Z"
+      "lat": 39.48314,
+      "lng": -119.762126,
+      "synced_at": "2026-03-25T20:57:17.205Z"
     },
     {
       "id": "2774820",
@@ -208,9 +208,9 @@
       "schedule": "Meets weekly on Sundays from 4-5:30pm",
       "photo": "https://groups-production.s3.amazonaws.com/uploads/group/header_image/2774820/medium_2025-08-14_08-31-34.png",
       "url": "https://ccrs.churchcenter.com/groups/small-groups/home-fellowship-cummings",
-      "lat": 39.399661,
-      "lng": -119.745781,
-      "synced_at": "2026-03-25T18:37:53.588Z"
+      "lat": 39.397747,
+      "lng": -119.725086,
+      "synced_at": "2026-03-25T20:57:17.541Z"
     },
     {
       "id": "2774845",
@@ -223,9 +223,9 @@
       "schedule": "Meets weekly on Thursdays from 6-8pm",
       "photo": "https://groups-production.s3.amazonaws.com/uploads/group/header_image/2774845/medium_2025-08-14_08-31-34.png",
       "url": "https://ccrs.churchcenter.com/groups/small-groups/home-fellowship-henry",
-      "lat": 39.311446,
-      "lng": -119.785829,
-      "synced_at": "2026-03-25T18:37:53.729Z"
+      "lat": 39.297473,
+      "lng": -119.781788,
+      "synced_at": "2026-03-25T20:57:17.741Z"
     },
     {
       "id": "2774871",
@@ -238,9 +238,9 @@
       "schedule": "Meets weekly on Tuesdays from 7-8:30pm",
       "photo": "https://groups-production.s3.amazonaws.com/uploads/group/header_image/2774871/medium_Baker(2).2.jpeg",
       "url": "https://ccrs.churchcenter.com/groups/small-groups/home-fellowship-mendoza-hart",
-      "lat": 39.611742,
-      "lng": -119.735103,
-      "synced_at": "2026-03-25T18:37:53.879Z"
+      "lat": 39.606628,
+      "lng": -119.731457,
+      "synced_at": "2026-03-25T20:57:18.046Z"
     },
     {
       "id": "2776693",
@@ -253,9 +253,9 @@
       "schedule": "",
       "photo": "https://groups-production.s3.amazonaws.com/uploads/group/header_image/2776693/medium_2025-08-14_08-31-34.png",
       "url": "https://ccrs.churchcenter.com/groups/small-groups/home-fellowship-guerra",
-      "lat": 39.522298,
-      "lng": -119.823453,
-      "synced_at": "2026-03-25T18:37:53.946Z"
+      "lat": 39.536901,
+      "lng": -119.802312,
+      "synced_at": "2026-03-25T20:57:18.286Z"
     },
     {
       "id": "2776702",
@@ -268,10 +268,10 @@
       "schedule": "Meets weekly on Sundays from 4:30-6:30pm",
       "photo": "https://groups-production.s3.amazonaws.com/uploads/group/header_image/2776702/medium_2025-08-14_08-31-34.png",
       "url": "https://ccrs.churchcenter.com/groups/small-groups/home-fellowship-woods-rodriguez",
-      "lat": 39.566713,
-      "lng": -119.764023,
-      "synced_at": "2026-03-25T18:37:54.081Z"
+      "lat": 39.567455,
+      "lng": -119.76171,
+      "synced_at": "2026-03-25T20:57:18.479Z"
     }
   ],
-  "synced_at": "2026-03-25T18:37:54.081Z"
+  "synced_at": "2026-03-25T20:57:18.479Z"
 }
