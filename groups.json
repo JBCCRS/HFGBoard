@@ -11,9 +11,9 @@
       "schedule": "Meets weekly on Sundays from 7-8:30pm",
       "photo": "https://groups-production.s3.amazonaws.com/uploads/group/header_image/1822131/medium_HFG(2).jpg",
       "url": "https://ccrs.churchcenter.com/groups/small-groups/home-fellowship-baker-stewart",
-      "lat": 39.520068,
-      "lng": -119.803774,
-      "synced_at": "2026-06-23T00:08:15.424Z"
+      "lat": 39.524123,
+      "lng": -119.819564,
+      "synced_at": "2026-06-23T05:02:57.483Z"
     },
     {
       "id": "1822148",
@@ -26,9 +26,9 @@
       "schedule": "Meets weekly on Fridays from 6:30-8:30pm",
       "photo": "https://groups-production.s3.amazonaws.com/uploads/group/header_image/1822148/medium_2025-08-14_08-31-34.png",
       "url": "https://ccrs.churchcenter.com/groups/small-groups/home-fellowship-ortiz",
-      "lat": 39.521784,
-      "lng": -119.804644,
-      "synced_at": "2026-06-23T00:08:15.469Z"
+      "lat": 39.519177,
+      "lng": -119.823191,
+      "synced_at": "2026-06-23T05:02:57.587Z"
     },
     {
       "id": "1837775",
@@ -41,9 +41,9 @@
       "schedule": "Meets weekly on Thursdays from 7-8:30pm",
       "photo": "https://groups-production.s3.amazonaws.com/uploads/group/header_image/1837775/medium_2025-08-14_08-31-34.png",
       "url": "https://ccrs.churchcenter.com/groups/small-groups/home-fellowship-volpp-baker",
-      "lat": 39.424427,
-      "lng": -119.77102,
-      "synced_at": "2026-06-23T00:08:15.569Z"
+      "lat": 39.426314,
+      "lng": -119.792996,
+      "synced_at": "2026-06-23T05:02:57.662Z"
     },
     {
       "id": "1854037",
@@ -56,16 +56,16 @@
       "schedule": "Meets weekly on Mondays from 6:30-8:30pm",
       "photo": "https://groups-production.s3.amazonaws.com/uploads/group/header_image/1854037/medium_IMG_9731(2).jpeg",
       "url": "https://ccrs.churchcenter.com/groups/small-groups/home-fellowship-stieg",
-      "lat": 39.5664,
-      "lng": -119.728919,
-      "synced_at": "2026-06-23T00:08:15.659Z"
+      "lat": 39.562203,
+      "lng": -119.734807,
+      "synced_at": "2026-06-23T05:02:57.737Z"
     },
     {
       "id": "2124228",
       "name": "Home Fellowship Latimer and Ballew",
       "leader_name": "",
       "initials": "HF",
-      "enrollment_open": true,
+      "enrollment_open": false,
       "tags": [
         "Bible Study"
       ],
@@ -73,9 +73,9 @@
       "schedule": "Meets weekly on Mondays from 6:15-8:15pm",
       "photo": "https://groups-production.s3.amazonaws.com/uploads/group/header_image/2124228/medium_image.png",
       "url": "https://ccrs.churchcenter.com/groups/small-groups/home-fellowship-latimer-and-ballew",
-      "lat": 39.400288,
-      "lng": -119.819228,
-      "synced_at": "2026-06-23T00:08:15.779Z"
+      "lat": 39.416059,
+      "lng": -119.807471,
+      "synced_at": "2026-06-23T05:02:57.809Z"
     },
     {
       "id": "2470054",
@@ -88,9 +88,9 @@
       "schedule": "Meets weekly on Sundays from 3-5pm",
       "photo": "https://groups-production.s3.amazonaws.com/uploads/group/header_image/2470054/medium_Pixtom(2).jpeg",
       "url": "https://ccrs.churchcenter.com/groups/small-groups/home-fellowship-pixton-and-luitwieler",
-      "lat": 39.427354,
-      "lng": -119.743365,
-      "synced_at": "2026-06-23T00:08:15.893Z"
+      "lat": 39.428493,
+      "lng": -119.744295,
+      "synced_at": "2026-06-23T05:02:57.882Z"
     },
     {
       "id": "2470127",
@@ -103,9 +103,9 @@
       "schedule": "Meets weekly on Thursdays from 7-8:30pm",
       "photo": "https://groups-production.s3.amazonaws.com/uploads/group/header_image/2470127/medium_2025-08-14_08-31-34.png",
       "url": "https://ccrs.churchcenter.com/groups/small-groups/home-fellowship-chimits",
-      "lat": 39.421973,
-      "lng": -119.794418,
-      "synced_at": "2026-06-23T00:08:15.968Z"
+      "lat": 39.422119,
+      "lng": -119.772605,
+      "synced_at": "2026-06-23T05:02:57.962Z"
     },
     {
       "id": "2470164",
@@ -118,9 +118,9 @@
       "schedule": "Meets weekly on Sundays from 4-6pm",
       "photo": "https://groups-production.s3.amazonaws.com/uploads/group/header_image/2470164/medium_HFG_Rhonda(2).jpeg",
       "url": "https://ccrs.churchcenter.com/groups/small-groups/home-fellowship-majalca-homen",
-      "lat": 39.589431,
-      "lng": -119.742645,
-      "synced_at": "2026-06-23T00:08:16.059Z"
+      "lat": 39.587978,
+      "lng": -119.731256,
+      "synced_at": "2026-06-23T05:02:58.035Z"
     },
     {
       "id": "2470416",
@@ -133,9 +133,9 @@
       "schedule": "Meets weekly on Fridays from 6-9pm",
       "photo": "https://groups-production.s3.amazonaws.com/uploads/group/header_image/2470416/medium_2025-08-14_08-31-34.png",
       "url": "https://ccrs.churchcenter.com/groups/small-groups/home-fellowship-eisenbarth-woods-greene",
-      "lat": 39.699686,
-      "lng": -119.976883,
-      "synced_at": "2026-06-23T00:08:16.128Z"
+      "lat": 39.684351,
+      "lng": -119.977424,
+      "synced_at": "2026-06-23T05:02:58.109Z"
     },
     {
       "id": "2493243",
@@ -148,9 +148,9 @@
       "schedule": "",
       "photo": "https://groups-production.s3.amazonaws.com/uploads/group/header_image/2493243/medium_2025-08-14_08-31-34.png",
       "url": "https://ccrs.churchcenter.com/groups/small-groups/home-fellowship-mitchell",
-      "lat": 39.540377,
-      "lng": -119.807052,
-      "synced_at": "2026-06-23T00:08:16.188Z"
+      "lat": 39.51998,
+      "lng": -119.804754,
+      "synced_at": "2026-06-23T05:02:58.157Z"
     },
     {
       "id": "2562756",
@@ -163,9 +163,9 @@
       "schedule": "",
       "photo": "https://groups-production.s3.amazonaws.com/uploads/group/header_image/2562756/medium_2025-08-14_08-31-34.png",
       "url": "https://ccrs.churchcenter.com/groups/small-groups/home-fellowship-abraham",
-      "lat": 39.539339,
-      "lng": -119.806662,
-      "synced_at": "2026-06-23T00:08:16.244Z"
+      "lat": 39.535572,
+      "lng": -119.807862,
+      "synced_at": "2026-06-23T05:02:58.198Z"
     },
     {
       "id": "2766592",
@@ -178,9 +178,9 @@
       "schedule": "Meets weekly on Sundays from 4-6pm",
       "photo": "https://groups-production.s3.amazonaws.com/uploads/group/header_image/2766592/medium_2025-08-14_08-31-34.png",
       "url": "https://ccrs.churchcenter.com/groups/small-groups/home-fellowship-alvarez-and-greene",
-      "lat": 39.609303,
-      "lng": -119.735042,
-      "synced_at": "2026-06-23T00:08:16.325Z"
+      "lat": 39.611259,
+      "lng": -119.721549,
+      "synced_at": "2026-06-23T05:02:58.273Z"
     },
     {
       "id": "2774789",
@@ -193,9 +193,9 @@
       "schedule": "Meets weekly on Sundays from 5-7pm",
       "photo": "https://groups-production.s3.amazonaws.com/uploads/group/header_image/2774789/medium_2025-08-14_08-31-34.png",
       "url": "https://ccrs.churchcenter.com/groups/small-groups/home-fellowship-hall-and-ruvalcaba",
-      "lat": 39.480921,
-      "lng": -119.746048,
-      "synced_at": "2026-06-23T00:08:16.493Z"
+      "lat": 39.500332,
+      "lng": -119.763254,
+      "synced_at": "2026-06-23T05:02:58.352Z"
     },
     {
       "id": "2774820",
@@ -208,9 +208,9 @@
       "schedule": "Meets weekly on Sundays from 4-5:30pm",
       "photo": "https://groups-production.s3.amazonaws.com/uploads/group/header_image/2774820/medium_2025-08-14_08-31-34.png",
       "url": "https://ccrs.churchcenter.com/groups/small-groups/home-fellowship-cummings",
-      "lat": 39.419688,
-      "lng": -119.746252,
-      "synced_at": "2026-06-23T00:08:16.583Z"
+      "lat": 39.413615,
+      "lng": -119.740727,
+      "synced_at": "2026-06-23T05:02:58.433Z"
     },
     {
       "id": "2774871",
@@ -223,9 +223,9 @@
       "schedule": "Meets weekly on Tuesdays from 7-8:30pm",
       "photo": "https://groups-production.s3.amazonaws.com/uploads/group/header_image/2774871/medium_Baker(2).2.jpeg",
       "url": "https://ccrs.churchcenter.com/groups/small-groups/home-fellowship-mendoza-hart",
-      "lat": 39.605272,
-      "lng": -119.747801,
-      "synced_at": "2026-06-23T00:08:16.673Z"
+      "lat": 39.60652,
+      "lng": -119.748515,
+      "synced_at": "2026-06-23T05:02:58.515Z"
     },
     {
       "id": "2776693",
@@ -238,9 +238,9 @@
       "schedule": "",
       "photo": "https://groups-production.s3.amazonaws.com/uploads/group/header_image/2776693/medium_2025-08-14_08-31-34.png",
       "url": "https://ccrs.churchcenter.com/groups/small-groups/home-fellowship-guerra",
-      "lat": 39.523944,
-      "lng": -119.80871,
-      "synced_at": "2026-06-23T00:08:16.713Z"
+      "lat": 39.541427,
+      "lng": -119.804056,
+      "synced_at": "2026-06-23T05:02:58.559Z"
     },
     {
       "id": "2776702",
@@ -253,10 +253,10 @@
       "schedule": "Meets weekly on Sundays from 4:30-6:30pm",
       "photo": "https://groups-production.s3.amazonaws.com/uploads/group/header_image/2776702/medium_2025-08-14_08-31-34.png",
       "url": "https://ccrs.churchcenter.com/groups/small-groups/home-fellowship-woods-rodriguez",
-      "lat": 39.569331,
-      "lng": -119.76438,
-      "synced_at": "2026-06-23T00:08:16.797Z"
+      "lat": 39.588661,
+      "lng": -119.781253,
+      "synced_at": "2026-06-23T05:02:58.634Z"
     }
   ],
-  "synced_at": "2026-06-23T00:08:16.797Z"
+  "synced_at": "2026-06-23T05:02:58.634Z"
 }
